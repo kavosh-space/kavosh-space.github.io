@@ -1,15 +1,15 @@
 :root{
-  --night-900:#080b18;
-  --night-800:#0d1226;
-  --night-700:#141c3a;
-  --night-600:#202a52;
-  --night-500:#37417a;
-  --star-100:#f4f1ea;
-  --star-300:#b9bfdc;
-  --star-500:#7c84ab;
-  --ember-500:#c1443c;
-  --ember-400:#d96157;
-  --ember-300:#e88c81;
+  --night-900:#070b14;
+  --night-800:#0d1524;
+  --night-700:#152036;
+  --night-600:#212f52;
+  --night-500:#3a4a7d;
+  --star-100:#f5f2ea;
+  --star-300:#b7bed8;
+  --star-500:#7c86ab;
+  --ember-500:#d59b3c;
+  --ember-400:#e6b563;
+  --ember-300:#f0cf94;
   --font-display:'Vazirmatn', sans-serif;
   --font-data:'JetBrains Mono', monospace;
 }
@@ -98,17 +98,14 @@ a{color:inherit; text-decoration:none;}
   flex-direction:column;
   justify-content:center;
   overflow:hidden;
-  background:radial-gradient(ellipse at 50% -10%, var(--night-700) 0%, var(--night-900) 60%);
+  background:linear-gradient(180deg, var(--night-900) 0%, var(--night-800) 32%, #17393f 54%, #5c5a3c 74%, #b9832f 90%, #d59b3c 100%);
 }
-.hero.hero-lite{min-height:46vh;}
+.hero.hero-lite{min-height:46vh; background:radial-gradient(ellipse at 50% -10%, var(--night-700) 0%, var(--night-900) 60%);}
 
 .stars{position:absolute; inset:0; z-index:1;}
-.mountain{position:absolute; inset:0; z-index:0; line-height:0;}
 
-.hero-emblem{
-  position:absolute; z-index:1; top:58%; left:50%; transform:translate(-50%,-50%);
-  width:130px; height:130px; opacity:.3; mix-blend-mode:screen; pointer-events:none;
-}
+.mountain{position:absolute; left:0; right:0; bottom:0; height:34vh; min-height:180px; max-height:320px; z-index:0; line-height:0;}
+.mountain svg{display:block; width:100%; height:100%;}
 
 .hero-content{position:relative; z-index:2; text-align:center; padding-bottom:10vh;}
 
@@ -141,7 +138,7 @@ h1{
 
 .btn{display:inline-block; padding:14px 30px; border-radius:6px; font-weight:700; font-size:15px; transition:transform .25s ease, box-shadow .25s ease;}
 .btn-primary{background:var(--ember-500); color:var(--star-100);}
-.btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(193,68,60,.35);}
+.btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(213,155,60,.35);}
 .btn-ghost{border:1px solid var(--night-500); color:var(--star-300);}
 .btn-ghost:hover{border-color:var(--star-300); transform:translateY(-2px);}
 
@@ -160,24 +157,18 @@ h2{font-size:clamp(28px, 4vw, 44px); font-weight:700; color:var(--star-100); mar
 .lede{color:var(--star-300); font-size:17px; max-width:620px; margin-bottom:56px;}
 
 /* ---------- About ---------- */
-.about-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:60px; align-items:center;}
+.about-grid{display:grid; grid-template-columns:1fr; gap:60px; align-items:start; max-width:720px;}
 .about-facts{display:grid; gap:22px;}
 .fact{border-right:2px solid var(--ember-500); padding-right:18px;}
 .fact b{display:block; font-size:15px; color:var(--star-100); margin-bottom:4px;}
 .fact span{font-size:14px; color:var(--star-300);}
 
-.dial-wrap{position:relative; aspect-ratio:1/1; max-width:360px; margin:0 auto;}
-.dial{width:100%; height:100%; animation:spin 90s linear infinite;}
-@keyframes spin{ to{ transform:rotate(360deg);} }
-.dial-center{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; font-family:var(--font-data); color:var(--star-300); font-size:11px; text-align:center; pointer-events:none;}
-.dial-center b{font-size:13px; color:var(--star-100); font-weight:500; margin-top:4px;}
-
-/* ---------- Equipment ---------- */
-.equip-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:2px; background:var(--night-700); border:1px solid var(--night-700);}
-.equip-card{background:var(--night-800); padding:38px;}
-.equip-size{font-family:var(--font-data); font-size:44px; font-weight:500; color:var(--ember-400); line-height:1; margin-bottom:14px;}
-.equip-card h3{font-size:19px; margin-bottom:10px; color:var(--star-100);}
-.equip-card p{color:var(--star-300); font-size:14.5px;}
+/* ---------- Tours ---------- */
+.tours-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:2px; background:var(--night-700); border:1px solid var(--night-700); margin-top:44px;}
+.tour-card{background:var(--night-800); padding:38px;}
+.tour-mark{font-family:var(--font-data); font-size:28px; font-weight:500; color:var(--ember-400); line-height:1; margin-bottom:18px;}
+.tour-card h3{font-size:19px; margin-bottom:10px; color:var(--star-100);}
+.tour-card p{color:var(--star-300); font-size:14.5px;}
 
 /* ---------- Activities ---------- */
 .activity-list{display:grid; gap:1px; background:var(--night-700); border-top:1px solid var(--night-700); border-bottom:1px solid var(--night-700);}
@@ -221,15 +212,14 @@ h2{font-size:clamp(28px, 4vw, 44px); font-weight:700; color:var(--star-100); mar
 footer{padding:40px 0 60px; text-align:center; color:var(--star-500); font-size:13px; font-family:var(--font-data);}
 
 @media (max-width:760px){
-  .about-grid, .contact-grid, .member-grid{grid-template-columns:1fr;}
-  .equip-grid{grid-template-columns:1fr;}
+  .contact-grid, .member-grid{grid-template-columns:1fr;}
+  .tours-grid{grid-template-columns:1fr;}
   .gallery-grid{grid-template-columns:repeat(2,1fr);}
   .activity-row{grid-template-columns:40px 1fr;}
   .activity-status{justify-self:start;}
 }
 
 @media (prefers-reduced-motion: reduce){
-  .dial{animation:none;}
   .scroll-hint .line{animation:none;}
   html{scroll-behavior:auto;}
 }
