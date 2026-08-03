@@ -156,6 +156,14 @@ section{padding:120px 0; position:relative; border-top:1px solid var(--night-700
 h2{font-size:clamp(28px, 4vw, 44px); font-weight:700; color:var(--star-100); margin-bottom:24px; max-width:640px;}
 .lede{color:var(--star-300); font-size:17px; max-width:620px; margin-bottom:56px;}
 
+/* ---------- Highlights strip ---------- */
+#highlights{padding:64px 0; border-top:none;}
+.highlights-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+.highlight-card{position:relative; margin:0; border-radius:8px; overflow:hidden; aspect-ratio:4/5; border:1px solid var(--night-600); background:var(--night-800);}
+.highlight-card img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.9) brightness(.85); transition:transform .5s ease, filter .5s ease;}
+.highlight-card:hover img{transform:scale(1.04); filter:saturate(1) brightness(.95);}
+.highlight-card figcaption{position:absolute; left:0; right:0; bottom:0; padding:20px 16px; background:linear-gradient(0deg, rgba(7,11,20,.92), transparent 70%); font-weight:700; font-size:15px; color:var(--star-100); text-align:center;}
+
 /* ---------- About ---------- */
 .about-grid{display:grid; grid-template-columns:1fr; gap:60px; align-items:start; max-width:720px;}
 .about-facts{display:grid; gap:22px;}
@@ -214,6 +222,7 @@ footer{padding:40px 0 60px; text-align:center; color:var(--star-500); font-size:
 @media (max-width:760px){
   .contact-grid, .member-grid{grid-template-columns:1fr;}
   .tours-grid{grid-template-columns:1fr;}
+  .highlights-grid{grid-template-columns:1fr;}
   .gallery-grid{grid-template-columns:repeat(2,1fr);}
   .activity-row{grid-template-columns:40px 1fr;}
   .activity-status{justify-self:start;}
