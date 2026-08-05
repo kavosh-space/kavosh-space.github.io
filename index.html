@@ -19,6 +19,7 @@
   </a>
   <nav class="nav-links">
     <a href="index.html" class="active">خانه</a>
+    <a href="news.html">اخبار</a>
     <a href="team.html">اعضا</a>
     <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
     <button class="nv-toggle" id="nvToggle" aria-pressed="false">
@@ -71,8 +72,12 @@
     <h1>گروه نجوم کاوش</h1>
     <p class="hero-tag">رصد آسمان شب، عکاسی نجومی و ساخت ابزار آماتوری برای کاوش آسمان.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="#activities">فعالیت‌های گروه</a>
-      <a class="btn btn-ghost" href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام ما</a>
+      <a class="btn btn-primary" href="#offerings">کلاس‌ها و محصولات</a>
+      <a class="btn btn-ghost" href="#tours">رزرو رصد</a>
+    </div>
+    <div class="moon-badge">
+      <span class="moon-icon" id="moonIcon">🌙</span>
+      <span id="moonText">در حال محاسبه فاز ماه…</span>
     </div>
   </div>
 
@@ -99,15 +104,29 @@
   </div>
 </section>
 
+<section id="news">
+  <div class="wrap">
+    <div class="kicker">اخبار و رویدادهای آسمان</div>
+    <h2>چه خبر از آسمان؟</h2>
+    <p class="lede">رویدادهای نجومی نزدیک — بارش‌های شهابی، ماه‌گرفتگی‌ها — و گزارش‌های تازه‌ی گروه.</p>
+  </div>
+  <div class="wrap news-grid" id="newsTeaser">
+    <p class="news-empty">در حال بارگذاری اخبار…</p>
+  </div>
+  <div class="wrap news-more">
+    <a class="btn btn-ghost" href="news.html">همه‌ی اخبار ↗</a>
+  </div>
+</section>
+
 <section id="about">
   <div class="wrap about-grid">
     <div>
       <div class="kicker">درباره گروه</div>
       <h2>یک گروه، دو نقطه‌ی رصد، آسمانی مشترک</h2>
       <p class="lede">
-        کاوش توسط تو منجم آماتور و رصدگر آسمان شب برقرار شده است.
-        هدف این گروه ترویج دانش نجوم و به اشتراک گذاشتن 
-        زیبای های آسمان و پژوهش های علمی است.
+        کاوش توسط دو منجم آماتور و رصدگر آسمان شب بنیان‌گذاری شده است.
+        هدف این گروه ترویج دانش نجوم و به اشتراک گذاشتن
+        زیبایی‌های آسمان و پژوهش‌های علمی است.
       </p>
       <div class="about-facts">
         <div class="fact">
@@ -149,37 +168,43 @@
       <p>بارش‌های شهابی، ماه‌گرفتگی و دیگر رویدادهای نجومی فصلی، برنامه‌ریزی‌شده پیش از هر رویداد.</p>
     </div>
   </div>
+  <div class="wrap" style="margin-top:36px; text-align:center;">
+    <a class="btn btn-primary" href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">برای رزرو، پیام بده ↗</a>
+  </div>
 </section>
 
-<section id="activities">
+<section id="offerings">
   <div class="wrap">
-    <div class="kicker">فعالیت‌ها</div>
-    <h2>آنچه با کاوش می‌شه انجام داد</h2>
+    <div class="kicker">محصولات و کلاس‌ها</div>
+    <h2>چیزهایی که می‌شه از کاوش گرفت</h2>
   </div>
-  <div class="activity-list wrap" style="padding:0 28px;">
-    <div class="activity-row">
-      <span class="activity-num">۰۱</span>
+  <div class="offering-list wrap" style="padding:0 28px;">
+    <div class="offering-row">
+      <span class="offering-num">۰۱</span>
       <div>
-        <h4>شب‌های رصد در دماوند</h4>
-        <p>رصد گروهی زیر آسمان تاریک، با تلسکوپ‌های ۴ و ۸ اینچی گروه</p>
+        <h4>چرخ آسمان کاوش</h4>
+        <p>پلانی‌اسفر فارسی برای شناخت صورت‌های فلکی در هر شب از سال، بدون نیاز به تلسکوپ</p>
       </div>
-      <span class="activity-status">درحال برنامه‌ریزی</span>
+      <span class="offering-status">موجود</span>
+      <a class="btn btn-primary btn-sm" href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">خرید ↗</a>
     </div>
-    <div class="activity-row">
-      <span class="activity-num">۰۲</span>
+    <div class="offering-row">
+      <span class="offering-num">۰۲</span>
+      <div>
+        <h4>کلاس آنلاین آشنایی با آسمان</h4>
+        <p>مبانی نجوم آماتوری و رصد، به‌صورت آنلاین و بدون نیاز به حضور در تهران یا دماوند</p>
+      </div>
+      <span class="offering-status soon">درحال برنامه‌ریزی</span>
+      <a class="btn btn-ghost btn-sm" href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اطلاع از شروع</a>
+    </div>
+    <div class="offering-row">
+      <span class="offering-num">۰۳</span>
       <div>
         <h4>کارگاه عکاسی نجومی</h4>
         <p>مبانی عکاسی از آسمان شب، از تنظیمات دوربین تا فریم‌بندی</p>
       </div>
-      <span class="activity-status">درحال برنامه‌ریزی</span>
-    </div>
-    <div class="activity-row">
-      <span class="activity-num">۰۳</span>
-      <div>
-        <h4>پلانی‌اسفر کاوش</h4>
-        <p>چرخ آسمان فارسی برای شناخت صورت‌های فلکی در هر شب از سال</p>
-      </div>
-      <span class="activity-status">موجود</span>
+      <span class="offering-status soon">درحال برنامه‌ریزی</span>
+      <a class="btn btn-ghost btn-sm" href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اطلاع از شروع</a>
     </div>
   </div>
 </section>
@@ -222,16 +247,7 @@
   گروه نجوم کاوش &nbsp;·&nbsp; تهران و دماوند
 </footer>
 
-<script>
-  const toggle = document.getElementById('nvToggle');
-  const label = document.getElementById('nvLabel');
-  toggle.addEventListener('click', () => {
-    const on = document.body.classList.toggle('night-vision');
-    toggle.classList.toggle('on', on);
-    toggle.setAttribute('aria-pressed', on);
-    label.textContent = on ? 'خروج' : 'حالت شب';
-  });
-</script>
+<script src="kavosh.js"></script>
 
 </body>
 </html>
