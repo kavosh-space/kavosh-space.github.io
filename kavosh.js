@@ -52,6 +52,7 @@ function formatFaDate(iso){
 }
 
 function newsCardHtml(item){
+  const href = `news/${item.id}.html`;
   return `
     <article class="news-card">
       <div class="news-meta">
@@ -60,7 +61,7 @@ function newsCardHtml(item){
       </div>
       <h3>${item.title}</h3>
       <p>${item.excerpt}</p>
-      <a class="news-link" href="${item.link}" target="_blank" rel="noopener">جزئیات بیشتر ↗</a>
+      <a class="news-link" href="${href}">جزئیات بیشتر ↗</a>
     </article>
   `;
 }
