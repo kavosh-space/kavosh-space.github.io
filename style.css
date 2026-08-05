@@ -141,6 +141,13 @@ h1{
 .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(213,155,60,.35);}
 .btn-ghost{border:1px solid var(--night-500); color:var(--star-300);}
 .btn-ghost:hover{border-color:var(--star-300); transform:translateY(-2px);}
+.btn-sm{padding:9px 18px; font-size:13px; border-radius:5px;}
+
+.moon-badge{
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  margin-top:26px; font-family:var(--font-data); font-size:12.5px; color:var(--star-300);
+}
+.moon-badge .moon-icon{font-size:15px; filter:drop-shadow(0 0 6px rgba(230,181,99,.4));}
 
 .scroll-hint{
   position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
@@ -170,6 +177,48 @@ h2{font-size:clamp(28px, 4vw, 44px); font-weight:700; color:var(--star-100); mar
 .fact{border-right:2px solid var(--ember-500); padding-right:18px;}
 .fact b{display:block; font-size:15px; color:var(--star-100); margin-bottom:4px;}
 .fact span{font-size:14px; color:var(--star-300);}
+
+/* ---------- News ---------- */
+.news-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; margin-top:8px;}
+.news-card{
+  background:var(--night-800); border:1px solid var(--night-700); border-radius:8px;
+  padding:26px; display:flex; flex-direction:column; gap:14px;
+  transition:border-color .25s ease, transform .25s ease;
+}
+.news-card:hover{border-color:var(--ember-500); transform:translateY(-3px);}
+.news-meta{display:flex; justify-content:space-between; align-items:center; gap:10px; font-family:var(--font-data); font-size:11px; color:var(--star-500);}
+.news-tag{color:var(--ember-400); border:1px solid var(--ember-500); padding:3px 10px; border-radius:999px; white-space:nowrap;}
+.news-card h3{font-size:17px; color:var(--star-100); line-height:1.5;}
+.news-card p{font-size:14px; color:var(--star-300); flex:1;}
+.news-card a.news-link{font-family:var(--font-data); font-size:12.5px; color:var(--star-300); border-bottom:1px solid var(--night-500); align-self:flex-start; padding-bottom:2px;}
+.news-card a.news-link:hover{color:var(--star-100); border-color:var(--ember-500);}
+.news-more{margin-top:40px; text-align:center;}
+.news-empty{color:var(--star-300); font-size:14.5px;}
+
+.filter-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:40px;}
+.filter-chip{
+  font-family:var(--font-data); font-size:12px; color:var(--star-300);
+  background:transparent; border:1px solid var(--night-500); border-radius:999px;
+  padding:8px 16px; cursor:pointer; transition:border-color .25s ease, color .25s ease;
+}
+.filter-chip:hover{color:var(--star-100); border-color:var(--star-300);}
+.filter-chip.active{color:var(--night-900); background:var(--ember-500); border-color:var(--ember-500); font-weight:700;}
+
+.news-full-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;}
+
+/* ---------- Offerings (products & classes) ---------- */
+.offering-list{display:grid; gap:1px; background:var(--night-700); border-top:1px solid var(--night-700); border-bottom:1px solid var(--night-700);}
+.offering-row{
+  background:var(--night-900); padding:30px 0; display:grid;
+  grid-template-columns:56px 1fr auto auto; align-items:center; gap:24px;
+  transition:background .25s ease;
+}
+.offering-row:hover{background:var(--night-800);}
+.offering-num{font-family:var(--font-data); color:var(--star-500); font-size:13px;}
+.offering-row h4{font-size:17px; color:var(--star-100); margin-bottom:6px;}
+.offering-row p{font-size:14px; color:var(--star-300);}
+.offering-status{font-family:var(--font-data); font-size:11px; color:var(--ember-400); border:1px solid var(--ember-500); padding:5px 12px; border-radius:999px; white-space:nowrap;}
+.offering-status.soon{color:var(--star-500); border-color:var(--night-500);}
 
 /* ---------- Tours ---------- */
 .tours-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:2px; background:var(--night-700); border:1px solid var(--night-700); margin-top:44px;}
@@ -224,8 +273,11 @@ footer{padding:40px 0 60px; text-align:center; color:var(--star-500); font-size:
   .tours-grid{grid-template-columns:1fr;}
   .highlights-grid{grid-template-columns:1fr;}
   .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  .news-grid, .news-full-grid{grid-template-columns:1fr;}
   .activity-row{grid-template-columns:40px 1fr;}
   .activity-status{justify-self:start;}
+  .offering-row{grid-template-columns:40px 1fr; row-gap:12px;}
+  .offering-status, .offering-row .btn{justify-self:start;}
 }
 
 @media (prefers-reduced-motion: reduce){
