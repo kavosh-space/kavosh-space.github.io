@@ -19,6 +19,7 @@
   </a>
   <nav class="nav-links">
     <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
     <a href="team.html" class="active">اعضا</a>
     <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
     <button class="nv-toggle" id="nvToggle" aria-pressed="false">
@@ -87,16 +88,7 @@
   گروه نجوم کاوش &nbsp;·&nbsp; تهران و دماوند
 </footer>
 
-<script>
-  const toggle = document.getElementById('nvToggle');
-  const label = document.getElementById('nvLabel');
-  toggle.addEventListener('click', () => {
-    const on = document.body.classList.toggle('night-vision');
-    toggle.classList.toggle('on', on);
-    toggle.setAttribute('aria-pressed', on);
-    label.textContent = on ? 'خروج' : 'حالت شب';
-  });
-</script>
+<script src="kavosh.js"></script>
 
 </body>
 </html>
