@@ -11,6 +11,32 @@ function initNightVision(){
   });
 }
 
+/* ---------- Mobile hamburger menu ---------- */
+function initNavBurger(){
+  const burger = document.getElementById('navBurger');
+  const navLinks = document.getElementById('navLinks');
+  if(!burger || !navLinks) return;
+
+  burger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  // Close menu when a link is clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
 /* ---------- Moon phase (pure client-side, no API) ---------- */
 function getMoonPhase(date){
   const synodic = 29.53058867;
@@ -116,6 +142,7 @@ async function initNewsFull(){
 document.addEventListener('DOMContentLoaded', () => {
   initNightVision();
   initMoonBadge();
+  initNavBurger();
   initNewsTeaser(3);
   initNewsFull();
 });
