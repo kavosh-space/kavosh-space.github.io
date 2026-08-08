@@ -4,278 +4,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>درباره ما | گروه نجوم کاوش</title>
-    <style>
-        /* Reset & Base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Vazir', 'Tahoma', 'Arial', sans-serif;
-            line-height: 1.9;
-            color: #000;
-            background-color: #ffffff;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* Header */
-        header {
-            text-align: center;
-            padding: 40px 0 30px;
-            margin-bottom: 30px;
-        }
-        
-        .logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-        
-        .site-title {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            font-weight: normal;
-        }
-        
-        .tagline {
-            color: #666;
-            font-size: 1rem;
-        }
-        
-        /* Navigation - matching main page style */
-        nav {
-            text-align: center;
-            padding: 20px 0;
-            margin-bottom: 40px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            gap: 50px;
-            flex-wrap: wrap;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: #000;
-            font-size: 0.95rem;
-            transition: opacity 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            opacity: 0.7;
-        }
-        
-        .nav-links a.active {
-            border-bottom: 2px solid #000;
-            padding-bottom: 5px;
-        }
-        
-        /* Main Content */
-        main {
-            padding: 20px 0;
-        }
-        
-        .page-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
-        .page-header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            font-weight: normal;
-        }
-        
-        section {
-            margin-bottom: 50px;
-        }
-        
-        section h2 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            font-weight: normal;
-        }
-        
-        section p {
-            margin-bottom: 15px;
-            text-align: justify;
-            font-size: 0.95rem;
-            line-height: 2;
-        }
-        
-        .highlight {
-            background: #f5f5f5;
-            padding: 20px;
-            margin: 25px 0;
-            border-left: 3px solid #000;
-        }
-        
-        .values-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .values-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            font-size: 0.95rem;
-        }
-        
-        .values-list li:before {
-            content: "✦ ";
-            margin-left: 8px;
-        }
-        
-        /* Three columns like main page */
-        .three-cols {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin: 30px 0;
-        }
-        
-        .col-item {
-            background: #fafafa;
-            padding: 25px;
-            border-radius: 5px;
-        }
-        
-        .col-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-        
-        .col-item p {
-            font-size: 0.9rem;
-            margin-bottom: 0;
-        }
-        
-        @media (max-width: 768px) {
-            .three-cols {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-links {
-                gap: 25px;
-            }
-            
-            body {
-                padding: 15px;
-            }
-        }
-        
-        /* Footer - Only website address */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 50px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        footer a {
-            color: #666;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <img src="logo.png" alt="لوگو گروه نجوم کاوش" class="logo">
-        <h1 class="site-title">گروه نجوم کاوش</h1>
-        <p class="tagline">کاوشی در آسمان شب و طبیعتِ گیتی</p>
-    </header>
-
-    <nav>
+    <!-- Navigation -->
+    <nav class="site-nav">
+        <div class="nav-brand">
+            <img src="logo.png" alt="لوگو" class="nav-logo">
+            <span>گروه نجوم کاوش</span>
+        </div>
         <ul class="nav-links">
             <li><a href="index.html">صفحه اصلی</a></li>
-            <li><a href="#" class="active">درباره ما</a></li>
+            <li><a href="about.html" class="active">درباره ما</a></li>
             <li><a href="#">گزارش‌ها</a></li>
             <li><a href="#">تماس</a></li>
         </ul>
+        <button class="nav-burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </nav>
 
-    <main>
-        <div class="page-header">
-            <h1>درباره گروه کاوش</h1>
+    <!-- Hero -->
+    <header class="hero hero-lite">
+        <div class="hero-content">
+            <p class="eyebrow">گروه نجوم کاوش</p>
+            <h1>درباره ما</h1>
+            <p class="hero-tag">کاوشی در آسمان شب و طبیعتِ گیتی</p>
         </div>
+    </header>
 
+    <!-- Main Content -->
+    <main>
         <section>
-            <h2>داستان شروع</h2>
-            <p>
-                گروه نجوم کاوش توسط دو منجم آماتور و رصدگر passionate آسمان شب تاسیس شد. 
-                از همان ابتدا، هدف ما فراتر از یک گروه رصدی ساده بود - ما می‌خواستیم پلی باشیم 
-                بین علم نجوم و عموم مردم، و زیبایی‌های کائنات را برای همه قابل دسترس کنیم.
-            </p>
-            <p>
-                با شروع فعالیت در تهران و دماوند، توانستیم فضایی ایجاد کنیم هم علاقه‌مندان تازه‌کار و هم 
-                رصدگران باتجربه بتوانند در کنار هم یاد بگیرند، تجربه به اشتراک بگذارند و لحظات 
-                شگفت‌انگیزی زیر آسمان ستاره‌باران سپری کنند.
-            </p>
-        </section>
-
-        <section>
-            <h2>ماموریت ما</h2>
-            <div class="highlight">
-                <p>
-                    ترویج دانش نجوم و به اشتراک گذاشتن زیبایی‌های آسمان و پژوهش‌های علمی 
-                    با رویکردی مدرن و قابل فهم برای همه سنین و سطوح دانش.
+            <div class="wrap">
+                <p class="kicker">داستان شروع</p>
+                <h2>چگونه شروع کردیم</h2>
+                <p class="lede">
+                    گروه نجوم کاوش توسط دو منجم آماتور و رصدگر پرشور آسمان شب تاسیس شد.
+                    از همان ابتدا، هدف ما فراتر از یک گروه رصدی ساده بود.
                 </p>
+                
+                <div class="about-grid">
+                    <div>
+                        <p>
+                            ما می‌خواستیم پلی باشیم بین علم نجوم و عموم مردم، و زیبایی‌های کائنات را برای همه قابل دسترس کنیم.
+                            با شروع فعالیت در تهران و دماوند، توانستیم فضایی ایجاد کنیم هم علاقه‌مندان تازه‌کار و هم
+                            رصدگران باتجربه بتوانند در کنار هم یاد بگیرند، تجربه به اشتراک بگذارند و لحظات
+                            شگفت‌انگیزی زیر آسمان ستاره‌باران سپری کنند.
+                        </p>
+                    </div>
+                    
+                    <div class="about-facts">
+                        <div class="fact">
+                            <b>ماموریت ما</b>
+                            <span>ترویج دانش نجوم و به اشتراک گذاشتن زیبایی‌های آسمان و پژوهش‌های علمی با رویکردی مدرن و قابل فهم برای همه سنین و سطوح دانش.</span>
+                        </div>
+                        <div class="fact">
+                            <b>دو نقطه رصد</b>
+                            <span>تهران (شهری) و دماوند (آسمان تاریک)</span>
+                        </div>
+                        <div class="fact">
+                            <b>سه نوع گشت</b>
+                            <span>گشت شهری، گشت آسمان تاریک، و رویدادهای ویژه</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="highlights">
+            <div class="wrap">
+                <p class="kicker">گشت‌های رصدی</p>
+                <h2>سه برنامه رصدی</h2>
+                <div class="tours-grid">
+                    <div class="tour-card">
+                        <div class="tour-mark">۰۱</div>
+                        <h3>گشت شهری تهران</h3>
+                        <p>رصد سریع ماه و سیارات برای تازه‌واردها، همراه با معرفی صورت‌های فلکی با پلانی‌اسفر کاوش.</p>
+                    </div>
+                    <div class="tour-card">
+                        <div class="tour-mark">۰۲</div>
+                        <h3>آسمان تاریک دماوند</h3>
+                        <p>رصد عمقی کهکشان‌ها و خوشه‌های ستاره‌ای دور از آلودگی نوری شهر، با تلسکوپ‌های گروه.</p>
+                    </div>
+                    <div class="tour-card">
+                        <div class="tour-mark">۰۳</div>
+                        <h3>رویدادهای ویژه</h3>
+                        <p>بارش‌های شهابی، ماه‌گرفتگی و دیگر رویدادهای نجومی فصلی، برنامه‌ریزی‌شده پیش از هر رویداد.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section>
-            <h2>سه گشت رصدی</h2>
-            <div class="three-cols">
-                <div class="col-item">
-                    <h3>گشت شهری تهران</h3>
-                    <p>رصد سریع ماه و سیارات برای تازه‌واردها، همراه با معرفی صورت‌های فلکی</p>
-                </div>
-                <div class="col-item">
-                    <h3>آسمان تاریک دماوند</h3>
-                    <p>رصد عمقی کهکشان‌ها و خوشه‌های ستاره‌ای دور از آلودگی نوری شهر</p>
-                </div>
-                <div class="col-item">
-                    <h3>رویدادهای ویژه</h3>
-                    <p>بارش‌های شهابی، ماه‌گرفتگی و دیگر رویدادهای نجومی فصلی</p>
+            <div class="wrap">
+                <p class="kicker">مزایای ما</p>
+                <h2>چرا گروه کاوش؟</h2>
+                <div class="offering-list">
+                    <div class="offering-row">
+                        <span class="offering-num">۰۱</span>
+                        <div>
+                            <h4>تخصص بنیان‌گذاران</h4>
+                            <p>تخصص دو بنیان‌گذار در نجوم آماتوری و رصد آسمان شب</p>
+                        </div>
+                    </div>
+                    <div class="offering-row">
+                        <span class="offering-num">۰۲</span>
+                        <div>
+                            <h4>دو نقطه رصد</h4>
+                            <p>دسترسی به دو نقطه رصد مختلف: شهری و تاریک</p>
+                        </div>
+                    </div>
+                    <div class="offering-row">
+                        <span class="offering-num">۰۳</span>
+                        <div>
+                            <h4>برنامه‌ریزی دقیق</h4>
+                            <p>برنامه‌ریزی دقیق متناسب با فاز ماه و اهداف رصدی</p>
+                        </div>
+                    </div>
+                    <div class="offering-row">
+                        <span class="offering-num">۰۴</span>
+                        <div>
+                            <h4>منابع اختصاصی</h4>
+                            <p>ابزارها و منابع اختصاصی مثل پلانی‌اسفر فارسی کاوش</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2>چرا گروه کاوش؟</h2>
-            <ul class="values-list">
-                <li>تخصص دو بنیان‌گذار در نجوم آماتوری و رصد آسمان شب</li>
-                <li>دسترسی به دو نقطه رصد مختلف: شهری و تاریک</li>
-                <li>برنامه‌ریزی دقیق متناسب با فاز ماه و اهداف رصدی</li>
-                <li>ابزارها و منابع اختصاصی مثل پلانی‌اسفر فارسی کاوش</li>
-                <li>آموزش آنلاین و حضوری بدون نیاز به تخصص قبلی</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>به جمع ما بپیوندید</h2>
-            <p>
-                چه تجربه‌ای در نجوم داشته باشید و چه کاملاً تازه‌کار باشید، گروه کاوش مکانی 
-                است برای یادگیری، مشاهده و لذت بردن از آسمان شب. جزئیات هر رصد را پیش از 
-                برگزاری در اینستاگرام اعلام می‌کنیم.
-            </p>
+            <div class="wrap">
+                <p class="kicker">پیشنهاد ویژه</p>
+                <h2>به جمع ما بپیوندید</h2>
+                <p class="lede">
+                    چه تجربه‌ای در نجوم داشته باشید و چه کاملاً تازه‌کار باشید، گروه کاوش مکانی
+                    است برای یادگیری، مشاهده و لذت بردن از آسمان شب.
+                </p>
+                <p>جزئیات هر رصد را پیش از برگزاری در اینستاگرام اعلام می‌کنیم.</p>
+            </div>
         </section>
     </main>
 
+    <!-- Footer -->
     <footer>
-        <a href="https://kavosh-space.github.io">kavosh-space.github.io</a>
+        <p>kavosh-space.github.io</p>
     </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const burger = document.querySelector('.nav-burger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!burger.contains(e.target) && !navLinks.contains(e.target)) {
+                burger.classList.remove('open');
+                navLinks.classList.remove('open');
+            }
+        });
+    </script>
 </body>
 </html>
