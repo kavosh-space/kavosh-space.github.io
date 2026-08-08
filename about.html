@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>درباره ما | گروه نجوم کاوش</title>
     <style>
+        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
@@ -12,11 +13,11 @@
         }
         
         body {
-            font-family: Tahoma, Arial, sans-serif;
+            font-family: 'Vazir', 'Tahoma', 'Arial', sans-serif;
             line-height: 1.9;
-            color: #333;
-            background-color: #fafafa;
-            max-width: 900px;
+            color: #000;
+            background-color: #ffffff;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -25,142 +26,98 @@
         header {
             text-align: center;
             padding: 40px 0 30px;
-            border-bottom: 2px solid #eee;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
         
         .logo {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .site-title {
-            font-size: 2rem;
-            color: #6d4aff;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: normal;
         }
         
         .tagline {
             color: #666;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
-        /* Navigation */
+        /* Navigation - matching main page style */
         nav {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
+            text-align: center;
+            padding: 20px 0;
             margin-bottom: 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-bottom: 1px solid #e0e0e0;
         }
         
         .nav-links {
             display: flex;
             justify-content: center;
             list-style: none;
-            gap: 40px;
+            gap: 50px;
             flex-wrap: wrap;
         }
         
         .nav-links a {
             text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 5px;
+            color: #000;
+            font-size: 0.95rem;
+            transition: opacity 0.3s ease;
         }
         
         .nav-links a:hover {
-            color: #6d4aff;
-            background: #f5f5f5;
+            opacity: 0.7;
         }
         
         .nav-links a.active {
-            color: #6d4aff;
-            background: #f0ebff;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
         }
         
         /* Main Content */
         main {
-            background: #fff;
-            padding: 50px;
-            border-radius: 10px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            padding: 20px 0;
         }
         
         .page-header {
             text-align: center;
             margin-bottom: 50px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid #eee;
         }
         
         .page-header h1 {
-            font-size: 2.2rem;
-            color: #6d4aff;
+            font-size: 1.8rem;
             margin-bottom: 10px;
-        }
-        
-        .page-header p {
-            color: #777;
-            font-size: 1.1rem;
+            font-weight: normal;
         }
         
         section {
-            margin-bottom: 45px;
+            margin-bottom: 50px;
         }
         
         section h2 {
-            font-size: 1.6rem;
-            color: #444;
+            font-size: 1.3rem;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #6d4aff;
-            display: inline-block;
+            font-weight: normal;
         }
         
         section p {
             margin-bottom: 15px;
             text-align: justify;
-            color: #555;
+            font-size: 0.95rem;
+            line-height: 2;
         }
         
         .highlight {
-            background: #f8f5ff;
-            padding: 25px;
-            border-radius: 8px;
-            border-right: 4px solid #6d4aff;
+            background: #f5f5f5;
+            padding: 20px;
             margin: 25px 0;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .stat-card {
-            background: #fafafa;
-            padding: 25px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            color: #6d4aff;
-            font-weight: bold;
-            display: block;
-        }
-        
-        .stat-label {
-            color: #777;
-            margin-top: 8px;
+            border-left: 3px solid #000;
         }
         
         .values-list {
@@ -169,54 +126,66 @@
         }
         
         .values-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-            color: #555;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
         }
         
         .values-list li:before {
             content: "✦ ";
-            color: #6d4aff;
-            margin-left: 10px;
+            margin-left: 8px;
         }
         
-        .team-section {
+        /* Three columns like main page */
+        .three-cols {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
             margin: 30px 0;
         }
         
-        @media (max-width: 600px) {
-            .team-section {
+        .col-item {
+            background: #fafafa;
+            padding: 25px;
+            border-radius: 5px;
+        }
+        
+        .col-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .col-item p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .three-cols {
                 grid-template-columns: 1fr;
             }
             
-            main {
-                padding: 30px 20px;
-            }
-            
             .nav-links {
-                gap: 15px;
+                gap: 25px;
             }
             
-            .nav-links a {
-                padding: 6px 12px;
-                font-size: 0.9rem;
+            body {
+                padding: 15px;
             }
         }
         
+        /* Footer - Only website address */
         footer {
             text-align: center;
-            padding: 30px;
+            padding: 40px 0;
             margin-top: 50px;
-            color: #888;
+            border-top: 1px solid #e0e0e0;
             font-size: 0.9rem;
-            border-top: 1px solid #eee;
+            color: #666;
         }
         
         footer a {
-            color: #6d4aff;
+            color: #666;
             text-decoration: none;
         }
     </style>
@@ -240,7 +209,6 @@
     <main>
         <div class="page-header">
             <h1>درباره گروه کاوش</h1>
-            <p>معرفی تاریخچه، ماموریت و ارزش‌های ما</p>
         </div>
 
         <section>
@@ -251,7 +219,7 @@
                 بین علم نجوم و عموم مردم، و زیبایی‌های کائنات را برای همه قابل دسترس کنیم.
             </p>
             <p>
-                با شروع فعالیت در تهران و دماوند، توانستیم فضایی ایجاد کنیم هم爱好者ان تازه‌کار و هم 
+                با شروع فعالیت در تهران و دماوند، توانستیم فضایی ایجاد کنیم هم علاقه‌مندان تازه‌کار و هم 
                 رصدگران باتجربه بتوانند در کنار هم یاد بگیرند، تجربه به اشتراک بگذارند و لحظات 
                 شگفت‌انگیزی زیر آسمان ستاره‌باران سپری کنند.
             </p>
@@ -261,53 +229,39 @@
             <h2>ماموریت ما</h2>
             <div class="highlight">
                 <p>
-                    <strong>ترویج دانش نجوم</strong> و به اشتراک گذاشتن زیبایی‌های آسمان و پژوهش‌های علمی 
+                    ترویج دانش نجوم و به اشتراک گذاشتن زیبایی‌های آسمان و پژوهش‌های علمی 
                     با رویکردی مدرن و قابل فهم برای همه سنین و سطوح دانش.
                 </p>
             </div>
         </section>
 
         <section>
+            <h2>سه گشت رصدی</h2>
+            <div class="three-cols">
+                <div class="col-item">
+                    <h3>گشت شهری تهران</h3>
+                    <p>رصد سریع ماه و سیارات برای تازه‌واردها، همراه با معرفی صورت‌های فلکی</p>
+                </div>
+                <div class="col-item">
+                    <h3>آسمان تاریک دماوند</h3>
+                    <p>رصد عمقی کهکشان‌ها و خوشه‌های ستاره‌ای دور از آلودگی نوری شهر</p>
+                </div>
+                <div class="col-item">
+                    <h3>رویدادهای ویژه</h3>
+                    <p>بارش‌های شهابی، ماه‌گرفتگی و دیگر رویدادهای نجومی فصلی</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
             <h2>چرا گروه کاوش؟</h2>
             <ul class="values-list">
-                <li>تخصص و تجربه دو بنیان‌گذار در نجوم آماتوری و رصد آسمان شب</li>
-                <li>دسترسی به دو نقطه رصد مختلف: شهری (تهران) و تاریک (دماوند)</li>
-                <li>برنامه‌ریزی دقیق برای انواع گشت‌های رصدی متناسب با فاز ماه و اهداف</li>
+                <li>تخصص دو بنیان‌گذار در نجوم آماتوری و رصد آسمان شب</li>
+                <li>دسترسی به دو نقطه رصد مختلف: شهری و تاریک</li>
+                <li>برنامه‌ریزی دقیق متناسب با فاز ماه و اهداف رصدی</li>
                 <li>ابزارها و منابع اختصاصی مثل پلانی‌اسفر فارسی کاوش</li>
                 <li>آموزش آنلاین و حضوری بدون نیاز به تخصص قبلی</li>
-                <li>جامعه‌ای صمیمی از علاقه‌مندان به نجوم</li>
             </ul>
-        </section>
-
-        <section>
-            <h2>فعالیت‌های ما</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="stat-number">۳</span>
-                    <span class="stat-label">نوع گشت رصدی</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">۲</span>
-                    <span class="stat-label">محل رصد فعال</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">۵+</span>
-                    <span class="stat-label">برنامه آموزشی</span>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2>سه گشت اصلی</h2>
-            <div class="highlight">
-                <p><strong>گشت شهری تهران:</strong> رصد سریع ماه و سیارات برای تازه‌واردان</p>
-            </div>
-            <div class="highlight">
-                <p><strong>گشت آسمان تاریک دماوند:</strong> رصد عمقی کهکشان‌ها و خوشه‌های ستاره‌ای</p>
-            </div>
-            <div class="highlight">
-                <p><strong>گشت رویدادهای ویژه:</strong> بارش‌های شهابی، ماه‌گرفتگی و رویدادهای فصلی</p>
-            </div>
         </section>
 
         <section>
@@ -315,13 +269,13 @@
             <p>
                 چه تجربه‌ای در نجوم داشته باشید و چه کاملاً تازه‌کار باشید، گروه کاوش مکانی 
                 است برای یادگیری، مشاهده و لذت بردن از آسمان شب. جزئیات هر رصد را پیش از 
-                برگزاری در <a href="https://instagram.com" target="_blank">اینستاگرام</a> اعلام می‌کنیم.
+                برگزاری در اینستاگرام اعلام می‌کنیم.
             </p>
         </section>
     </main>
 
     <footer>
-        <p>© ۱۴۰۳ گروه نجوم کاوش | <a href="#">Instagram</a> | تهران و دماوند</p>
+        <a href="https://kavosh-space.github.io">kavosh-space.github.io</a>
     </footer>
 </body>
 </html>
