@@ -50,12 +50,13 @@ a{color:inherit; text-decoration:none;}
 .nav-brand{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
   font-weight:700;
-  font-size:15px;
+  font-size:18px;
   color:var(--star-100);
 }
-.nav-logo{width:30px; height:30px; border-radius:50%;}
+.nav-logo{width:38px; height:38px; border-radius:50%;}
+
 .nav-links{
   display:flex;
   align-items:center;
@@ -85,9 +86,98 @@ a{color:inherit; text-decoration:none;}
 .nv-dot{width:7px; height:7px; border-radius:50%; background:var(--star-500); transition:background .3s ease, box-shadow .3s ease;}
 .nv-toggle.on .nv-dot{background:var(--ember-500); box-shadow:0 0 8px var(--ember-500);}
 
+/* Hamburger button */
+.nav-burger{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  width:42px;
+  height:42px;
+  padding:8px;
+  background:transparent;
+  border:1px solid var(--night-500);
+  border-radius:8px;
+  cursor:pointer;
+  z-index:100;
+}
+.nav-burger span{
+  display:block;
+  width:26px;
+  height:2.5px;
+  border-radius:2px;
+  background-color:var(--star-100);
+  transition:transform .3s ease, opacity .3s ease;
+}
+
+/* Hamburger → X animation */
+.nav-burger.open span:nth-child(1){
+  transform:translateY(6.5px) rotate(45deg);
+}
+.nav-burger.open span:nth-child(2){
+  opacity:0;
+}
+.nav-burger.open span:nth-child(3){
+  transform:translateY(-6.5px) rotate(-45deg);
+}
+
 @media (max-width:760px){
   .nav-links{gap:14px; font-size:12.5px;}
-  .nav-brand span{display:none;}
+
+  .nav-burger{
+    display:flex;
+  }
+}
+
+/* ========== Mobile Drawer Menu ========== */
+@media (max-width:760px){
+  .nav-links{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:75%;
+    max-width:300px;
+    height:100vh;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:0;
+    padding:70px 24px 24px;
+    background:var(--night-900);
+    border-left:1px solid var(--night-700);
+    box-shadow:-4px 0 24px rgba(0,0,0,0.4);
+    transition:right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index:99;
+    overflow-y:auto;
+  }
+  
+  .nav-links.open{
+    right:0;
+  }
+  
+  .nav-links a{
+    display:block;
+    width:100%;
+    padding:16px 0;
+    border-bottom:1px solid var(--night-700);
+    font-size:1rem;
+    color:var(--star-300);
+  }
+  
+  .nav-links a:hover,
+  .nav-links a.active{
+    color:var(--star-100);
+    background:var(--night-800);
+  }
+  
+  .nav-links a.active{
+    border-bottom:1px solid var(--ember-500);
+  }
+  
+  .nav-links .nv-toggle{
+    margin-top:20px;
+    margin-bottom:10px;
+    align-self:flex-start;
+  }
 }
 
 /* ---------- Hero ---------- */
