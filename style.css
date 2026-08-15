@@ -55,7 +55,7 @@ a{color:inherit; text-decoration:none;}
   font-size:18px;
   color:var(--star-100);
 }
-.nav-logo{width:38px; height:38px; border-radius:50%;}
+.nav-logo{width:46px; height:46px; border-radius:50%; object-fit:cover; flex-shrink:0;}
 
 .nav-links{
   display:flex;
