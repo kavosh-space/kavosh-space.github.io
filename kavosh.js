@@ -77,18 +77,41 @@ function formatFaDate(iso){
   }
 }
 
+const NEWS_DEFAULT_IMG = 'nightphotography.jpg';
+
 function newsCardHtml(item){
-  const href = `news/${item.id}.html`;
+  const href = `${item.id}.html`;
   return `
     <article class="news-card">
-      <div class="news-meta">
-        <span class="news-tag">${item.category}</span>
-        <span>${formatFaDate(item.date)}</span>
+      <img src="${item.image || NEWS_DEFAULT_IMG}" alt="" class="news-card-img" loading="lazy">
+      <div class="news-card-body">
+        <div class="news-meta">
+          <span class="news-tag">${item.category}</span>
+          <span>${formatFaDate(item.date)}</span>
+        </div>
+        <h3>${item.title}</h3>
+        <p>${item.excerpt}</p>
+        <a class="news-link" href="${href}">جزئیات بیشتر ↗</a>
       </div>
-      <h3>${item.title}</h3>
-      <p>${item.excerpt}</p>
-      <a class="news-link" href="${href}">جزئیات بیشتر ↗</a>
     </article>
+  `;
+}
+
+function newsFeaturedHtml(item){
+  const href = `${item.id}.html`;
+  return `
+    <a class="news-featured" href="${href}">
+      <img src="${item.image || NEWS_DEFAULT_IMG}" alt="" class="news-featured-img" loading="lazy">
+      <div class="news-featured-body">
+        <div class="news-meta">
+          <span class="news-tag">${item.category}</span>
+          <span>${formatFaDate(item.date)}</span>
+        </div>
+        <h3>${item.title}</h3>
+        <p>${item.excerpt}</p>
+        <span class="news-link">بیشتر بخوانید ↗</span>
+      </div>
+    </a>
   `;
 }
 
@@ -99,12 +122,15 @@ async function loadNews(){
   return items.sort((a,b) => new Date(b.date) - new Date(a.date));
 }
 
-async function initNewsTeaser(limit = 3){
+async function initNewsTeaser(limit = 4){
   const mount = document.getElementById('newsTeaser');
   if(!mount) return;
   try{
     const items = await loadNews();
-    mount.innerHTML = items.slice(0, limit).map(newsCardHtml).join('');
+    const shown = items.slice(0, limit);
+    if(shown.length === 0) throw new Error('no items');
+    const [latest, ...rest] = shown;
+    mount.innerHTML = newsFeaturedHtml(latest) + `<div class="news-grid">${rest.map(newsCardHtml).join('')}</div>`;
   }catch(e){
     mount.innerHTML = `<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>`;
   }
@@ -143,6 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNightVision();
   initMoonBadge();
   initNavBurger();
-  initNewsTeaser(3);
+  initNewsTeaser(4);
   initNewsFull();
 });
