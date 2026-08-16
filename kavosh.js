@@ -77,7 +77,7 @@ function formatFaDate(iso){
   }
 }
 
-const NEWS_DEFAULT_IMG = 'nightphotography.jpg';
+const NEWS_DEFAULT_IMG = 'perseids.jpg';
 
 function newsCardHtml(item){
   const href = `${item.id}.html`;
