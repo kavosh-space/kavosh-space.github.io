@@ -1,103 +1,181 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>درباره ما | گروه نجوم کاوش</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preload" as="image" href="logo.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>درباره ما | گروه نجوم کاوش</title>
+<meta name="description" content="گروه نجوم کاوش را دو منجم آماتور و رصدگر آسمان شب بنیان‌گذاری کرده‌اند؛ فعال در تهران و دماوند.">
+<link rel="canonical" href="https://kavosh-space.github.io/about.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="درباره ما | گروه نجوم کاوش">
+<meta property="og:description" content="گروه نجوم کاوش را دو منجم آماتور و رصدگر آسمان شب بنیان‌گذاری کرده‌اند؛ فعال در تهران و دماوند.">
+<meta property="og:url" content="https://kavosh-space.github.io/about.html">
+<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:image" content="https://kavosh-space.github.io/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav class="site-nav">
-        <div class="nav-brand">
-            <img src="logo.png" alt="لوگو" class="nav-logo" style="width:52px;height:52px;border-radius:50%;object-fit:cover;display:block;" fetchpriority="high">
-            <span>گروه نجوم کاوش</span>
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
+
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
+    <a href="team.html">اعضا</a>
+    <a href="about.html" class="active">درباره</a>
+    <a href="tours.html">گشت رصدی</a>
+    <a href="offerings.html">کارگاه‌ها</a>
+    <a href="contact.html">تماس با ما</a>
+    <a href="gear.html">ابزار</a>
+    <a href="observatory.html">رصدگاه</a>
+    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
+      <span class="nv-dot"></span>
+      <span id="nvLabel">حالت شب</span>
+    </button>
+  </nav>
+</header>
+
+<header class="hero hero-lite">
+  <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#f4f1ea">
+      <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
+      <circle cx="180" cy="150" r="1" opacity="0.5"/>
+      <circle cx="280" cy="50" r="1.6" opacity="0.9"/>
+      <circle cx="380" cy="120" r="1" opacity="0.4"/>
+      <circle cx="480" cy="40" r="1.2" opacity="0.7"/>
+      <circle cx="560" cy="100" r="1.8" opacity="1"/>
+      <circle cx="640" cy="60" r="1" opacity="0.5"/>
+      <circle cx="740" cy="140" r="1.3" opacity="0.8"/>
+      <circle cx="840" cy="50" r="1" opacity="0.4"/>
+      <circle cx="940" cy="120" r="1.5" opacity="0.9"/>
+      <circle cx="1000" cy="60" r="1" opacity="0.5"/>
+      <circle cx="150" cy="230" r="1" opacity="0.4"/>
+      <circle cx="450" cy="220" r="1.5" opacity="0.8"/>
+      <circle cx="750" cy="230" r="1.2" opacity="0.6"/>
+    </g>
+  </svg>
+  <div class="hero-content wrap">
+    <div class="eyebrow">درباره کاوش</div>
+    <h1>کاوشی در آسمان شب و طبیعتِ گیتی</h1>
+    <p class="hero-tag">بگذار آسمان سخن بگوید تا آوای دور ستارگان بی‌نام شنیده شود…</p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <div class="kicker">قصه‌ی شکل‌گیری</div>
+      <h2>دو رصدگر، یک قصه‌ی مشترک</h2>
+      <p class="lede">کاوش را دو ستاره‌شناس آماتور و علاقه‌مند به رصد و عکاسی آسمان شب برای پاسداشت روزهای طلایی دهه هشتاد خورشیدی که نجوم آماتوری در ایران از آن به شکل امروزی‌اش پا گرفت بنا کردند. هدف این گروه به اشتراک گذاشتن دانش، زیبایی‌های گیتی و بسط نگاه علمی در میان عموم است.</p>
+      <p style="color:var(--star-300); font-size:17px; max-width:620px;">از دید کاوش تماشای آسمان شب و زیبایی‌های طبیعتِ روبه فراموشیِ شب تنها یک بهانه است، یک محمل برای بازگشت به ریشه‌های خود، ریشه‌های انسانی که هر روز بیش از پیش از آن دور می‌شویم یا رانده می‌شویم. اتکا به علم و فرهنگ و گسترش توان پرسشگری و نگاهی همواره انتقادی به جهانِ طبیعت و حفظ روحیه جستجوگری و کنجکاوی که جملگی با دانش نجوم امکان‌پذیر است می‌تواند راهی باشد برای بازگشت به طبیعت خودمان و طبیعتی که خود بخشی جدایی‌ناپذیر از آن هستیم.</p>
+      <p class="lede">گروه نجوم کاوش یک گروه علمی و آموزشی مستقل است که به‌صورت محلی در تهران و همچنین شهر دماوند فعالیت می‌کند و با برگزاری کارگاه‌های آموزشی و رصدی برای کودکان و بزرگسالان و برگزاری برنامه‌های عمومی نظیر روز جهانی نجوم، فعالیت‌های خود را ادامه می‌دهد. اعضای کاوش خود در گذشته از فعالان عرصه نجوم آماتوری بوده‌اند که اکنون به‌طور جدی‌تر در این گروه فعالیت‌های خود را ادامه می‌دهند.</p>
+      <p class="lede">کاوش به هیچ نهاد، سازمان، گروه یا دانشگاهی وابسته نیست و به‌طور خودجوش فعالیت خود را در زمینه آموزش و پژوهش‌های علمی تداوم می‌بخشد، اما از همکاری با سایر گروه‌های نجومی در ایران استقبال می‌کند.</p>
+      <p style="color:var(--star-300); font-size:17px; max-width:620px;">در صورت هرگونه سوال و درخواست همکاری با کاوشِ تهران و دماوند می‌توانید از طریق صفحه‌ی <a href="contact.html" style="color:var(--star-100); border-bottom:1px solid var(--ember-500);">تماس با ما</a> با ما در ارتباط باشید.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="kicker">در یک نگاه</div>
+      <h2>کاوش در یک نگاه</h2>
+      <div class="about-facts" style="max-width:720px;">
+        <div class="fact">
+          <b>محدوده‌ی فعالیت</b>
+          <span>تهران برای گردهمایی و آموزش، دماوند برای رصدهای اصلی با آسمان تاریک</span>
         </div>
-        <ul class="nav-links">
-            <li><a href="index.html">صفحه اصلی</a></li>
-            <li><a href="about.html" class="active">درباره ما</a></li>
-            <li><a href="#">گزارش‌ها</a></li>
-            <li><a href="#">تماس</a></li>
-        </ul>
-        <button class="nav-burger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </nav>
-
-    <header class="hero hero-lite">
-        <div class="hero-content">
-            <img src="logo.png" alt="لوگو گروه نجوم کاوش" style="width:88px;height:88px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 22px;" fetchpriority="high">
-            <p class="eyebrow">درباره کاوش</p>
-            <h1></h1>
-            <p class="hero-tag">کاوشی در آسمان شب و طبیعتِ گیتی</p>
+        <div class="fact">
+          <b>محصول گروه</b>
+          <span>چرخ آسمان (پلانی‌اسفر) طراحی‌شده به فارسی، برای شناخت صورت‌های فلکی بدون نیاز به تلسکوپ</span>
         </div>
-    </header>
+        <div class="fact">
+          <b>اعضای گروه</b>
+          <span>دو منجم آماتور و رصدگر قدیمی — <a href="team.html" style="color:var(--star-100); border-bottom:1px solid var(--ember-500);">معرفی کامل</a></span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <main>
-        <section>
-            <div class="wrap">
-                <p class="kicker">بگذار آسمان سخن بگوید تا آوای دور ستارگان بی‌نام شنیده شود… </p>
-                <h2></h2>
-                <p class="lede">کاوش را دو ستاره‌شناس آماتور و علاقه‌مند به رصد و عکاسی آسمان شب برای پاسداشت روزهای طلایی دهه هشتاد خورشیدی که نجوم آماتوری در ایران از آن به شکل امروزی‌اش پا گرفت بنا کردند.هدف این گروه به اشتراک گذاشتن دانش، زیبایی‌های گیتی و بسط نگاه علمی در میان عموم است.</p>
-                <p style="color:var(--star-300);font-size:17px;max-width:620px;">از دید کاوش تماشای آسمان شب و زیبایی‌های طبیعتِ روبه فراموشیِ شب تنها یک بهانه است،  یک محمل برای بازگشت به ریشه‌های خود ریشه‌های انسانی که هر روز بیش از پیش از آن دور می‌شویم یا رانده می‌شویم. اتکا به علم و فرهنگ و گسترش توان پرسشگری و نگاهی همواره انتقادی به جهانِ طبیعت و حفظ روحیه جستجوگری و کنجکاوی که جملگی با دانش نجوم امکان پذیر است می‌تواند راهی باشد برای بازگشت به طبیعت خودمان و طبیعتی که خود بخشی جدایی‌ناپذیر از آن هستیم. </p>
-                <p class="lede">گروه نجوم کاوش یک گروه علمی و آموزشی مستقل است که به صورت محلی در تهران و همچنین شهر دماوند فعالیت می‌کند و با برگزاری کارگاه‌های آموزشی و رصدی برای کودکان و بزرگسالان و برگزاری برنامه‌های عمومی نظیر روز جهانی نجوم فعالیت‌های خود را ادامه می‌دهد . اعضای کاوش خود در گذشته از فعالان عرصه نجوم آماتوری بوده‌اند که اکنون به طور جدی تر در این گروه فعالیت های خود را ادامه می‌دهند. </p>
-                <p class="lede">کاوش به هیچ نهاد و سازمان و گروه و یا دانشگاهی وابسته نیست و به طور خودجوش فعالیت خود را در زمینه آموزش و پژوهش های علمی تداوم می بخشد اما از همکاری با سایر گروه های نجومی در ایران استقبال می کند </p>
-                <p style="color:var(--star-300);font-size:17px;max-width:620px;">گروه نجوم کاوش</p>
-                <p style="color:var(--star-300);font-size:17px;max-width:620px;">در صورت هرگونه سوال و درخواست همکاری با کاوشِ تهران و دماوند می‌توانید از طریق زیر با ما در تماس باشید.</p>
-                
-            </div>
-        </section>
+  <section>
+    <div class="wrap">
+      <div class="kicker">برنامه‌های رصدی</div>
+      <h2>سه گشت، سه‌جور رصد آسمان</h2>
+      <div class="tours-grid">
+        <div class="tour-card">
+          <div class="tour-mark">۰۱</div>
+          <h3>گشت شهری تهران</h3>
+          <p>رصد سریع ماه و سیارات برای تازه‌واردها، همراه با معرفی صورت‌های فلکی با پلانی‌اسفر کاوش.</p>
+        </div>
+        <div class="tour-card">
+          <div class="tour-mark">۰۲</div>
+          <h3>گشت آسمان تاریک دماوند</h3>
+          <p>رصد عمقی کهکشان‌ها و خوشه‌های ستاره‌ای دور از آلودگی نوری شهر، با تلسکوپ‌های گروه.</p>
+        </div>
+        <div class="tour-card">
+          <div class="tour-mark">۰۳</div>
+          <h3>گشت رویدادهای ویژه</h3>
+          <p>بارش‌های شهابی، ماه‌گرفتگی و دیگر رویدادهای نجومی فصلی، برنامه‌ریزی‌شده پیش از هر رویداد.</p>
+        </div>
+      </div>
+      <div class="wrap" style="margin-top:36px; text-align:center; padding:0;">
+        <a class="btn btn-ghost" href="tours.html">جزئیات گشت‌های رصدی</a>
+      </div>
+    </div>
+  </section>
 
-        <section>
-            <div class="wrap">
-                <p class="kicker"></p>
-                <h2></h2>
-                <div class="about-facts" style="max-width:720px;">
-                    
-                </div>
-            </div>
-        </section>
+  <section>
+    <div class="wrap">
+      <div class="kicker">چرا کاوش؟</div>
+      <h2>مزایای همکاری با ما</h2>
+      <div class="offering-list" style="max-width:720px;">
+        <div class="offering-row"><span class="offering-num">۰۱</span><div><h4>تخصص بنیان‌گذاران</h4><p>دانش و تجربه عمیق در نجوم آماتوری و رصد آسمان شب</p></div></div>
+        <div class="offering-row"><span class="offering-num">۰۲</span><div><h4>دو نقطه رصد</h4><p>هم آسمان شهری تهران، هم آسمان تاریک دماوند</p></div></div>
+        <div class="offering-row"><span class="offering-num">۰۳</span><div><h4>برنامه‌ریزی دقیق</h4><p>تناسب با فاز ماه و اهداف رصدی هر شب</p></div></div>
+        <div class="offering-row"><span class="offering-num">۰۴</span><div><h4>منابع اختصاصی</h4><p>پلانی‌اسفر فارسی، کلاس آنلاین و کارگاه عملی</p></div></div>
+      </div>
+    </div>
+  </section>
 
-        <section>
-            <div class="wrap">
-                <p class="kicker">برنامه‌های رصدی</p>
-                <h2>سه گشت، سه‌جور رصد آسمان</h2>
-                <div class="tours-grid">
-                   
-            </div>
-        </section>
+  <section>
+    <div class="wrap" style="text-align:center;">
+      <div class="kicker">همکاری</div>
+      <h2>به جمع ما بپیوندید</h2>
+      <p class="lede" style="margin-left:auto; margin-right:auto;">چه تازه‌کار باشید چه باتجربه، کاوش جایی است برای یادگیری و لذت بردن از آسمان شب. جزئیات هر رصد پیش از برگزاری در اینستاگرام اعلام می‌شود.</p>
+      <a class="btn btn-primary" href="contact.html">تماس با ما</a>
+    </div>
+  </section>
+</main>
 
-        <section>
-            <div class="wrap">
-                <p class="kicker">چرا کاوش؟</p>
-                <h2>مزایای همکاری با ما</h2>
-                <div class="offering-list" style="max-width:720px;">
-                    <div class="offering-row"><span class="offering-num">۰۱</span><div><h4>تخصص بنیان‌گذاران</h4><p>دانش و تجربه عمیق در نجوم آماتوری و رصد آسمان شب</p></div></div>
-                    <div class="offering-row"><span class="offering-num">۰۲</span><div><h4>دو نقطه رصد</h4><p>هم آسمان شهری تهران، هم آسمان تاریک دماوند</p></div></div>
-                    <div class="offering-row"><span class="offering-num">۰۳</span><div><h4>برنامه‌ریزی دقیق</h4><p>تناسب با فاز ماه و اهداف رصدی هر شب</p></div></div>
-                    <div class="offering-row"><span class="offering-num">۰۴</span><div><h4>منابع اختصاصی</h4><p>پلانی‌اسفر فارسی، کلاس آنلاین و کارگاه عملی</p></div></div>
-                </div>
-            </div>
-        </section>
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
+  </div>
+</footer>
 
-        <section>
-            <div class="wrap">
-                <p class="kicker">همکاری</p>
-                <h2>به جمع ما بپیوندید</h2>
-                <p class="lede">چه تازه‌کار باشید چه باتجربه، کاوش جایی است برای یادگیری و لذت بردن از آسمان شب. جزئیات هر رصد پیش از برگزاری در اینستاگرام اعلام می‌شود.</p>
-            </div>
-        </section>
-    </main>
+<script src="kavosh.js"></script>
 
-    <footer><p>kavosh-space.github.io</p></footer>
-
-    <script>
-    var b=document.querySelector('.nav-burger'),n=document.querySelector('.nav-links');
-    b.onclick=function(){b.classList.toggle('open');n.classList.toggle('open');};
-    document.addEventListener('click',function(e){if(!b.contains(e.target)&&!n.contains(e.target)){b.classList.remove('open');n.classList.remove('open');}});
-    </script>
 </body>
 </html>
