@@ -27,11 +27,23 @@
     <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
     <span>گروه نجوم کاوش</span>
   </a>
-  <nav class="nav-links">
+
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-links" id="navLinks">
     <a href="index.html">خانه</a>
     <a href="news.html">اخبار</a>
     <a href="team.html" class="active">اعضا</a>
-    <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    <a href="about.html">درباره</a>
+    <a href="tours.html">گشت رصدی</a>
+    <a href="offerings.html">کارگاه‌ها</a>
+    <a href="contact.html">تماس با ما</a>
+    <a href="gear.html">ابزار</a>
+    <a href="observatory.html">رصدگاه</a>
     <button class="nv-toggle" id="nvToggle" aria-pressed="false">
       <span class="nv-dot"></span>
       <span id="nvLabel">حالت شب</span>
@@ -95,7 +107,17 @@
 </section>
 
 <footer>
-  گروه نجوم کاوش &nbsp;·&nbsp; تهران و دماوند
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
+  </div>
 </footer>
 
 <script src="kavosh.js"></script>
