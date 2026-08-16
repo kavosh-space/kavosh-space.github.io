@@ -314,8 +314,9 @@ h2{font-size:clamp(28px, 4vw, 44px); font-weight:700; color:var(--star-100); mar
 .news-full-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;}
 
 /* ---------- Observation guide ---------- */
-.guide-columns{display:grid; grid-template-columns:1fr 1fr; gap:60px; margin-top:36px;}
-.guide-col{display:flex; flex-direction:column; gap:40px;}
+.guide-columns{display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:36px;}
+.guide-col{display:flex; flex-direction:column; gap:40px; padding:0 32px;}
+.guide-col:first-child{border-left:1px solid #988dff;}
 .guide-item{display:flex; flex-direction:column; gap:12px;}
 .guide-head{display:flex; align-items:center; gap:14px;}
 .guide-thumb{width:52px; height:52px; border-radius:8px; object-fit:cover; flex-shrink:0; filter:saturate(.9) brightness(.85);}
@@ -323,6 +324,21 @@ h2{font-size:clamp(28px, 4vw, 44px); font-weight:700; color:var(--star-100); mar
 .guide-item p{font-size:14.5px; color:var(--star-300); line-height:1.85;}
 .guide-item a.guide-link{font-family:var(--font-data); font-size:12.5px; color:var(--star-300); border-bottom:1px solid var(--night-500); align-self:flex-start; padding-bottom:2px; transition:color .25s ease, border-color .25s ease;}
 .guide-item a.guide-link:hover{color:var(--star-100); border-color:var(--ember-500);}
+
+/* ---------- About teaser (black) ---------- */
+.about-teaser{background:#000;}
+.about-teaser-inner{max-width:620px; text-align:center;}
+.about-teaser p{color:var(--star-100); font-size:16.5px; line-height:2;}
+.btn-white{background:#fff; color:#050608;}
+.btn-white:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(255,255,255,.15);}
+
+/* ---------- Programs (circular) ---------- */
+#programs{padding:100px 0;}
+.programs-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:36px; text-align:center;}
+.program-circle{width:100%; max-width:220px; aspect-ratio:1/1; margin:0 auto; border-radius:50%; overflow:hidden; border:1px solid var(--night-600); background:var(--night-800);}
+.program-circle img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.9) brightness(.85); transition:transform .5s ease, filter .5s ease;}
+.program-card:hover .program-circle img{transform:scale(1.05); filter:saturate(1) brightness(.95);}
+.program-label{margin-top:18px; font-weight:700; font-size:15px; color:var(--star-100);}
 
 /* ---------- Offerings (products & classes) ---------- */
 .offering-list{display:grid; gap:1px; background:var(--night-700); border-top:1px solid var(--night-700); border-bottom:1px solid var(--night-700);}
@@ -384,7 +400,12 @@ h2{font-size:clamp(28px, 4vw, 44px); font-weight:700; color:var(--star-100); mar
 .contact-card a.handle{font-family:var(--font-data); font-size:18px; color:var(--star-100); display:inline-flex; align-items:center; gap:8px; margin-top:8px; border-bottom:1px solid var(--ember-500); padding-bottom:2px;}
 .contact-card a.handle:hover{color:var(--ember-300);}
 
-footer{padding:40px 0 60px; text-align:center; color:var(--star-500); font-size:13px; font-family:var(--font-data);}
+footer{padding:56px 0 44px; text-align:center; border-top:1px solid var(--night-700);}
+.footer-links{display:flex; justify-content:center; flex-wrap:wrap; gap:22px; margin-bottom:22px; font-family:var(--font-data); font-size:13px;}
+.footer-links a{color:var(--star-300); transition:color .25s ease;}
+.footer-links a:hover{color:var(--star-100);}
+.footer-copyright{color:var(--star-500); font-size:13px; font-family:var(--font-data);}
+.footer-credit{color:var(--star-500); font-size:12px; font-family:var(--font-data); margin-top:6px;}
 
 @media (max-width:760px){
   .contact-grid, .member-grid{grid-template-columns:1fr;}
@@ -393,6 +414,9 @@ footer{padding:40px 0 60px; text-align:center; color:var(--star-500); font-size:
   .gallery-grid{grid-template-columns:repeat(2,1fr);}
   .news-grid, .news-full-grid{grid-template-columns:1fr;}
   .guide-columns{grid-template-columns:1fr; gap:40px;}
+  .guide-col{padding:0;}
+  .guide-col:first-child{border-left:none; padding-bottom:8px; border-bottom:1px solid #988dff;}
+  .programs-grid{grid-template-columns:1fr; gap:32px;}
   .news-featured-body{padding:24px 22px 28px;}
   .news-card-body{padding:0 20px 22px;}
   .activity-row{grid-template-columns:40px 1fr;}
