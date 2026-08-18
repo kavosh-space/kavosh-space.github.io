@@ -80,7 +80,7 @@ function formatFaDate(iso){
 const NEWS_DEFAULT_IMG = 'perseids.jpg';
 
 function newsCardHtml(item){
-  const href = `${item.id}.html`;
+  const href = `news/${item.id}.html`;
   return `
     <article class="news-card">
       <img src="${item.image || NEWS_DEFAULT_IMG}" alt="" class="news-card-img" loading="lazy">
@@ -98,7 +98,7 @@ function newsCardHtml(item){
 }
 
 function newsFeaturedHtml(item){
-  const href = `${item.id}.html`;
+  const href = `news/${item.id}.html`;
   return `
     <a class="news-featured" href="${href}">
       <img src="${item.image || NEWS_DEFAULT_IMG}" alt="" class="news-featured-img" loading="lazy">
