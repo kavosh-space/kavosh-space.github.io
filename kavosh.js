@@ -50,9 +50,9 @@ function getMoonPhase(date){
   if (t < 0.02 || t > 0.98)      { name = 'ماه نو';                  icon = '🌑'; }
   else if (t < 0.24)             { name = 'هلال رو به افزایش';        icon = '🌒'; }
   else if (t < 0.27)             { name = 'تربیع اول';                icon = '🌓'; }
-  else if (t < 0.48)             { name = 'بیش از نیمه، رو به افزایش'; icon = '🌔'; }
+  else if (t < 0.48)             { name = 'کوژماه افزاینده'; icon = '🌔'; }
   else if (t < 0.52)             { name = 'ماه کامل';                 icon = '🌕'; }
-  else if (t < 0.73)             { name = 'بیش از نیمه، رو به کاهش';   icon = '🌖'; }
+  else if (t < 0.73)             { name = 'کوژماه کاهنده';   icon = '🌖'; }
   else if (t < 0.76)             { name = 'تربیع آخر';                icon = '🌗'; }
   else                            { name = 'هلال رو به کاهش';          icon = '🌘'; }
 
