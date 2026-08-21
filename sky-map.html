@@ -24,7 +24,9 @@
   /* ---------- Sky-map hero: horizon + rising Orion & Sirius ---------- */
   .hero.hero-skymap{
     min-height:56vh;
-    background:linear-gradient(180deg, #060b13 0%, #0a1626 38%, #12374a 68%, #1c5468 88%, #2a6f7c 100%);
+    background:
+      radial-gradient(ellipse 75% 42% at 50% 100%, rgba(88,158,168,.38), transparent 62%),
+      linear-gradient(180deg, #060b13 0%, #0a1626 34%, #12374a 62%, #1c5468 82%, #2a6f7c 100%);
     grid-template-rows:1fr;
     overflow:hidden;
   }
@@ -35,25 +37,39 @@
   .skymap-rising{z-index:3;}
   .skymap-foreground{z-index:4;}
 
-  .skymap-bg-stars circle{animation:skymapTwinkle 5s ease-in-out infinite;}
-  @keyframes skymapTwinkle{0%,100%{opacity:.25;} 50%{opacity:.9;}}
-
-  .skymap-rising-group{
-    animation:skymapRise 26s ease-in-out infinite;
-    transform-origin:560px 260px;
-  }
-  .skymap-rising-group .rise-label{
-    font-family:var(--font-data); font-size:11px; fill:var(--star-300); opacity:.85;
+  /* Every star in the scene — background field and the Orion/Sirius
+     asterism alike — shares this one animation, so they move together
+     as a single, coordinated field (exactly how the real sky rotates
+     as one rigid whole). Motion is diagonal, not vertical: at this
+     latitude (~35.7°N) stars cross the horizon on a slant tilted from
+     vertical by an angle equal to the latitude, curving up and to the
+     south as they climb, with a slight rotation of the whole field to
+     read as one rotation rather than a straight lift. The mountains
+     were raised to sit closer to mid-frame (closing the empty gap
+     between the sky and the ridge), and the starting offset is large
+     enough that every star — not just Orion and Sirius — begins below
+     the tallest peak in the silhouette, so the whole field genuinely
+     rises out from behind the horizon rather than fading in mid-air. */
+  .sky-rotate{
+    animation:skymapRise 42s cubic-bezier(.32,.06,.56,.96) infinite;
+    transform-box:view-box;
+    transform-origin:540px 190px;
   }
   @keyframes skymapRise{
-    0%   { transform:translateY(110px); opacity:0; }
-    14%  { opacity:1; }
-    78%  { opacity:1; }
-    100% { transform:translateY(-90px); opacity:0; }
+    0%   { transform:translate(-52px,234px) rotate(-9deg); opacity:0; }
+    9%   { opacity:1; }
+    38%  { transform:translate(-10px,88px) rotate(-3deg); }
+    68%  { transform:translate(28px,-38px) rotate(4deg); }
+    90%  { opacity:1; }
+    100% { transform:translate(64px,-138px) rotate(11deg); opacity:0; }
   }
+
+  .twinkle{animation:skymapTwinkle 4.5s ease-in-out infinite;}
+  @keyframes skymapTwinkle{0%,100%{opacity:.3;} 50%{opacity:1;}}
+
   @media (prefers-reduced-motion: reduce){
-    .skymap-rising-group{animation:none; transform:translateY(-20px); opacity:1;}
-    .skymap-bg-stars circle{animation:none; opacity:.6;}
+    .sky-rotate{animation:none; transform:translate(24px,-70px) rotate(5deg); opacity:1;}
+    .twinkle{animation:none; opacity:.7;}
   }
 
   .hero-skymap .hero-content{padding:36px 0;}
@@ -110,41 +126,42 @@
 <header class="hero hero-skymap">
   <div class="skymap-scene">
     <svg class="skymap-bg-stars" viewBox="0 0 1080 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <g fill="#f4f1ea">
-        <circle cx="50" cy="60" r="1.3" style="animation-delay:.2s"/>
-        <circle cx="120" cy="130" r="1" style="animation-delay:1.1s"/>
-        <circle cx="200" cy="50" r="1.5" style="animation-delay:.6s"/>
-        <circle cx="270" cy="110" r="1" style="animation-delay:2s"/>
-        <circle cx="340" cy="40" r="1.2" style="animation-delay:1.4s"/>
-        <circle cx="410" cy="90" r="1" style="animation-delay:.3s"/>
-        <circle cx="470" cy="45" r="1.6" style="animation-delay:1.8s"/>
-        <circle cx="150" cy="200" r="1" style="animation-delay:.9s"/>
-        <circle cx="320" cy="180" r="1.2" style="animation-delay:2.3s"/>
-        <circle cx="750" cy="60" r="1.4" style="animation-delay:.5s"/>
-        <circle cx="820" cy="130" r="1" style="animation-delay:1.6s"/>
-        <circle cx="880" cy="50" r="1.5" style="animation-delay:.8s"/>
-        <circle cx="950" cy="100" r="1" style="animation-delay:2.1s"/>
-        <circle cx="1010" cy="40" r="1.3" style="animation-delay:1.2s"/>
-        <circle cx="700" cy="190" r="1" style="animation-delay:.4s"/>
-        <circle cx="960" cy="200" r="1.2" style="animation-delay:1.9s"/>
-        <circle cx="600" cy="70" r="1" style="animation-delay:1s"/>
-        <circle cx="30" cy="150" r="1" style="animation-delay:2.4s"/>
+      <g class="sky-rotate" fill="#f4f1ea">
+        <circle class="twinkle" cx="50" cy="60" r="1.3" style="animation-delay:.2s"/>
+        <circle class="twinkle" cx="120" cy="130" r="1" style="animation-delay:1.1s"/>
+        <circle class="twinkle" cx="200" cy="50" r="1.5" style="animation-delay:.6s"/>
+        <circle class="twinkle" cx="270" cy="110" r="1" style="animation-delay:2s"/>
+        <circle class="twinkle" cx="340" cy="40" r="1.2" style="animation-delay:1.4s"/>
+        <circle class="twinkle" cx="410" cy="90" r="1" style="animation-delay:.3s"/>
+        <circle class="twinkle" cx="470" cy="45" r="1.6" style="animation-delay:1.8s"/>
+        <circle class="twinkle" cx="150" cy="200" r="1" style="animation-delay:.9s"/>
+        <circle class="twinkle" cx="320" cy="180" r="1.2" style="animation-delay:2.3s"/>
+        <circle class="twinkle" cx="750" cy="60" r="1.4" style="animation-delay:.5s"/>
+        <circle class="twinkle" cx="820" cy="130" r="1" style="animation-delay:1.6s"/>
+        <circle class="twinkle" cx="880" cy="50" r="1.5" style="animation-delay:.8s"/>
+        <circle class="twinkle" cx="950" cy="100" r="1" style="animation-delay:2.1s"/>
+        <circle class="twinkle" cx="1010" cy="40" r="1.3" style="animation-delay:1.2s"/>
+        <circle class="twinkle" cx="700" cy="190" r="1" style="animation-delay:.4s"/>
+        <circle class="twinkle" cx="960" cy="200" r="1.2" style="animation-delay:1.9s"/>
+        <circle class="twinkle" cx="600" cy="70" r="1" style="animation-delay:1s"/>
+        <circle class="twinkle" cx="30" cy="150" r="1" style="animation-delay:2.4s"/>
       </g>
     </svg>
 
     <svg class="skymap-far-hills" viewBox="0 0 1080 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,330 C80,312 160,322 240,310 C340,296 400,316 480,306 C580,292 640,314 720,302 C820,288 900,312 980,302 C1030,296 1060,306 1080,302 L1080,420 L0,420 Z" fill="#173f52"/>
-      <path d="M0,352 C60,342 120,347 190,340 C260,332 300,300 360,288 C410,278 432,264 460,244 C490,224 520,222 546,240 C572,258 592,280 622,302 C662,328 702,338 762,332 C832,326 882,342 942,336 C992,330 1042,340 1080,336 L1080,420 L0,420 Z" fill="#0c283a"/>
+      <path d="M0,280 C80,262 160,272 240,260 C340,246 400,266 480,256 C580,242 640,264 720,252 C820,238 900,262 980,252 C1030,246 1060,256 1080,252 L1080,420 L0,420 Z" fill="#173f52"/>
+      <path d="M0,302 C60,292 120,297 190,290 C260,282 300,250 360,238 C410,228 432,214 460,194 C490,174 520,172 546,190 C572,208 592,230 622,252 C662,278 702,288 762,282 C832,276 882,292 942,286 C992,280 1042,290 1080,286 L1080,420 L0,420 Z" fill="#0c283a"/>
     </svg>
 
+    <!-- جبار و شباهنگ روی همان مسیرِ حرکتِ میدان ستاره‌ای پس‌زمینه و هم‌زمان با آن جابه‌جا می‌شوند؛
+         نقطه‌ی شروع‌شان زیر خطِ الحاق کوهستانِ جلویی است تا واقعاً از پشت آن طلوع کنند. -->
     <svg class="skymap-rising" viewBox="0 0 1080 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <g class="skymap-rising-group">
-        <!-- Sirius -->
-        <circle cx="430" cy="228" r="3.4" fill="#eaf3ff"/>
+      <g class="sky-rotate">
+        <!-- Sirius (شباهنگ) -->
+        <circle class="twinkle" cx="430" cy="228" r="3.4" fill="#eaf3ff" style="animation-delay:.7s"/>
         <circle cx="430" cy="228" r="7.5" fill="#eaf3ff" opacity=".18"/>
-        <text x="443" y="233" class="rise-label">شباهنگ</text>
 
-        <!-- Orion (جبار): shoulders, belt, feet -->
+        <!-- Orion (جبار): شانه‌ها، کمربند، پاها -->
         <g stroke="#9fb0c9" stroke-width="1" opacity=".7">
           <line x1="520" y1="100" x2="606" y2="112"/>
           <line x1="520" y1="100" x2="548" y2="158"/>
@@ -154,19 +171,18 @@
           <line x1="548" y1="158" x2="534" y2="222"/>
           <line x1="588" y1="160" x2="612" y2="226"/>
         </g>
-        <circle cx="520" cy="100" r="2.6" fill="#ffcf9e"/>
-        <circle cx="606" cy="112" r="2.2" fill="#eaf3ff"/>
-        <circle cx="548" cy="158" r="1.8" fill="#f4f1ea"/>
-        <circle cx="566" cy="163" r="1.8" fill="#f4f1ea"/>
-        <circle cx="588" cy="160" r="1.8" fill="#f4f1ea"/>
-        <circle cx="534" cy="222" r="2" fill="#dfe8ff"/>
-        <circle cx="612" cy="226" r="2.6" fill="#bfe3ff"/>
-        <text x="606" y="90" class="rise-label">جبار</text>
+        <circle class="twinkle" cx="520" cy="100" r="2.6" fill="#ffcf9e" style="animation-delay:.1s"/>
+        <circle class="twinkle" cx="606" cy="112" r="2.2" fill="#eaf3ff" style="animation-delay:1.3s"/>
+        <circle class="twinkle" cx="548" cy="158" r="1.8" fill="#f4f1ea" style="animation-delay:2.1s"/>
+        <circle class="twinkle" cx="566" cy="163" r="1.8" fill="#f4f1ea" style="animation-delay:.9s"/>
+        <circle class="twinkle" cx="588" cy="160" r="1.8" fill="#f4f1ea" style="animation-delay:1.7s"/>
+        <circle class="twinkle" cx="534" cy="222" r="2" fill="#dfe8ff" style="animation-delay:.4s"/>
+        <circle class="twinkle" cx="612" cy="226" r="2.6" fill="#bfe3ff" style="animation-delay:2.4s"/>
       </g>
     </svg>
 
     <svg class="skymap-foreground" viewBox="0 0 1080 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,378 C70,364 140,371 210,360 C300,348 350,368 420,356 C480,347 500,328 530,313 C560,298 580,296 605,310 C630,324 650,344 690,351 C760,362 820,349 880,359 C940,367 1000,357 1080,363 L1080,420 L0,420 Z" fill="#050810"/>
+      <path d="M0,328 C70,314 140,321 210,310 C300,298 350,318 420,306 C480,297 500,278 530,263 C560,248 580,246 605,260 C630,274 650,294 690,301 C760,312 820,299 880,309 C940,317 1000,307 1080,313 L1080,420 L0,420 Z" fill="#050810"/>
     </svg>
   </div>
 
