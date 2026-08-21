@@ -37,6 +37,19 @@
   .skymap-rising{z-index:3;}
   .skymap-foreground{z-index:4;}
 
+  /* Every star in the scene — background field and the Orion/Sirius
+     asterism alike — shares this one animation, so they move together
+     as a single, coordinated field (exactly how the real sky rotates
+     as one rigid whole). Motion is diagonal, not vertical: at this
+     latitude (~35.7°N) stars cross the horizon on a slant tilted from
+     vertical by an angle equal to the latitude, curving up and to the
+     south as they climb, with a slight rotation of the whole field to
+     read as one rotation rather than a straight lift. The mountains
+     were raised to sit closer to mid-frame (closing the empty gap
+     between the sky and the ridge), and the starting offset is large
+     enough that every star — not just Orion and Sirius — begins below
+     the tallest peak in the silhouette, so the whole field genuinely
+     rises out from behind the horizon rather than fading in mid-air. */
   .sky-rotate{
     animation:skymapRise 42s cubic-bezier(.32,.06,.56,.96) infinite;
     transform-box:view-box;
@@ -76,157 +89,6 @@
   .skymap-info ul{color:var(--star-300); font-size:14.5px; margin:0 0 26px; padding-inline-start:20px; line-height:2;}
   @media (max-width:760px){
     .skymap-panel{grid-template-columns:1fr;}
-  }
-
-  /* ========== Interactive Sky Map Styles ========== */
-  .interactive-map-section {
-    margin: 60px 0;
-    padding: 40px 20px;
-    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0d0d2b 100%);
-    border-radius: 15px;
-  }
-
-  .interactive-controls {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-  }
-
-  .control-btn {
-    background: linear-gradient(135deg, #6d4aff, #4a30b8);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-family: 'Vazirmatn', sans-serif;
-    transition: all 0.3s ease;
-    font-weight: bold;
-  }
-
-  .control-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(109, 76, 255, 0.4);
-  }
-
-  .control-btn.active {
-    background: linear-gradient(135deg, #ff6b35, #e85030);
-  }
-
-  .map-container {
-    max-width: 700px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-  }
-
-  #starMapCanvas {
-    background: radial-gradient(circle, #1a1a40 0%, #0a0a1a 100%);
-    border-radius: 50%;
-    border: 3px solid rgba(109, 76, 255, 0.5);
-    box-shadow: 0 0 40px rgba(109, 76, 255, 0.3);
-  }
-
-  .map-tooltip {
-    position: fixed;
-    background: rgba(10, 10, 30, 0.95);
-    border: 1px solid #6d4aff;
-    border-radius: 10px;
-    padding: 12px 18px;
-    pointer-events: none;
-    z-index: 1000;
-    display: none;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-  }
-
-  .map-tooltip h3 {
-    color: #6d4aff;
-    margin-bottom: 5px;
-    font-size: 1.1rem;
-    font-family: 'Vazirmatn', sans-serif;
-  }
-
-  .map-tooltip p {
-    color: #bbb;
-    font-size: 0.9rem;
-    margin: 0;
-    font-family: 'Vazirmatn', sans-serif;
-  }
-
-  .map-info-panel {
-    background: rgba(11, 11, 35, 0.9);
-    border-radius: 15px;
-    padding: 25px;
-    margin: 30px auto;
-    max-width: 650px;
-    border: 1px solid rgba(109, 76, 255, 0.3);
-  }
-
-  .map-info-panel h2 {
-    color: #6d4aff;
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-    font-family: 'Vazirmatn', sans-serif;
-  }
-
-  .map-info-panel p {
-    line-height: 1.8;
-    color: #ccc;
-    margin-bottom: 10px;
-    font-family: 'Vazirmatn', sans-serif;
-  }
-
-  .map-instructions {
-    max-width: 650px;
-    margin: 20px auto;
-    padding: 25px;
-    background: rgba(11, 11, 35, 0.7);
-    border-radius: 15px;
-    border-right: 4px solid #6d4aff;
-  }
-
-  .map-instructions h3 {
-    color: #6d4aff;
-    margin-bottom: 15px;
-    font-family: 'Vazirmatn', sans-serif;
-  }
-
-  .map-instructions ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .map-instructions li {
-    padding: 10px 0;
-    color: #ccc;
-    display: flex;
-    align-items: start;
-    font-family: 'Vazirmatn', sans-serif;
-  }
-
-  .map-instructions li::before {
-    content: "🔭";
-    margin-left: 10px;
-  }
-
-  @media (max-width: 760px) {
-    #starMapCanvas {
-      width: 100%;
-      max-width: 350px;
-      height: 350px;
-    }
-    
-    .interactive-controls {
-      gap: 10px;
-    }
-    
-    .control-btn {
-      padding: 10px 18px;
-      font-size: 0.9rem;
-    }
   }
 </style>
 </head>
@@ -291,10 +153,15 @@
       <path d="M0,302 C60,292 120,297 190,290 C260,282 300,250 360,238 C410,228 432,214 460,194 C490,174 520,172 546,190 C572,208 592,230 622,252 C662,278 702,288 762,282 C832,276 882,292 942,286 C992,280 1042,290 1080,286 L1080,420 L0,420 Z" fill="#0c283a"/>
     </svg>
 
+    <!-- جبار و شباهنگ روی همان مسیرِ حرکتِ میدان ستاره‌ای پس‌زمینه و هم‌زمان با آن جابه‌جا می‌شوند؛
+         نقطه‌ی شروع‌شان زیر خطِ الحاق کوهستانِ جلویی است تا واقعاً از پشت آن طلوع کنند. -->
     <svg class="skymap-rising" viewBox="0 0 1080 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <g class="sky-rotate">
+        <!-- Sirius (شباهنگ) -->
         <circle class="twinkle" cx="430" cy="228" r="3.4" fill="#eaf3ff" style="animation-delay:.7s"/>
         <circle cx="430" cy="228" r="7.5" fill="#eaf3ff" opacity=".18"/>
+
+        <!-- Orion (جبار): شانه‌ها، کمربند، پاها -->
         <g stroke="#9fb0c9" stroke-width="1" opacity=".7">
           <line x1="520" y1="100" x2="606" y2="112"/>
           <line x1="520" y1="100" x2="548" y2="158"/>
@@ -326,47 +193,6 @@
   </div>
 </header>
 
-<!-- Interactive Star Map Section -->
-<section id="interactive-sky-map" class="interactive-map-section">
-  <div class="wrap">
-    <h2 style="text-align: center; color: var(--star-100); margin-bottom: 30px; font-family: 'Vazirmatn';">🌌 نقشه آسمان تعاملی</h2>
-    
-    <div class="interactive-controls">
-      <button class="control-btn active" onclick="setSeason('summer')">تابستان</button>
-      <button class="control-btn" onclick="setSeason('autumn')">پاییز</button>
-      <button class="control-btn" onclick="setSeason('winter')">زمستان</button>
-      <button class="control-btn" onclick="setSeason('spring')">بهار</button>
-      <button class="control-btn" onclick="toggleAnimation()">🎬 انیمیشن</button>
-    </div>
-
-    <div class="map-container">
-      <canvas id="starMapCanvas" width="600" height="600"></canvas>
-    </div>
-
-    <div class="map-tooltip" id="mapTooltip">
-      <h3 id="starName"></h3>
-      <p id="starInfo"></p>
-    </div>
-
-    <div class="map-info-panel">
-      <h2>📖 درباره این نقشه</h2>
-      <p>این نقشه آسمان، ستاره‌ها و صورت‌های فلکی قابل مشاهده در آسمان ایران را نشان می‌دهد. با حرکت موس روی هر ستاره، اطلاعات بیشتری دریافت خواهید کرد.</p>
-      <p>با انتخاب فصل‌های مختلف، ستاره‌هایی که در آن فصل بهترین دید را دارند نمایش داده می‌شوند.</p>
-    </div>
-
-    <div class="map-instructions">
-      <h3>🔭 چگونه از این نقشه استفاده کنیم؟</h3>
-      <ul>
-        <li>موس را روی ستاره‌ها ببرید تا نام و اطلاعات آنها را ببینید</li>
-        <li>فصل مورد نظر خود را از منوی بالا انتخاب کنید</li>
-        <li>برای نمایش حرکت روزانه آسمان، دکمه انیمیشن را فعال کنید</li>
-        <li>این نقشه را می‌توانید با خود به رصدگاه ببرید</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- Original Download Section -->
 <section id="skymap-download">
   <div class="wrap">
     <div class="kicker">منابع رصد</div>
@@ -405,194 +231,6 @@
 </footer>
 
 <script src="kavosh.js"></script>
-
-<!-- Interactive Map Script -->
-<script>
-(function(){
-  const canvas = document.getElementById('starMapCanvas');
-  const ctx = canvas.getContext('2d');
-  const tooltip = document.getElementById('mapTooltip');
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-  const radius = Math.min(centerX, centerY) - 20;
-
-  let currentSeason = 'summer';
-  let isAnimating = false;
-  let rotationAngle = 0;
-  let animationId = null;
-
-  const seasons = {
-    summer: [
-      { name: 'شباهنگ (آلفا کلب اکبر)', ra: 110, dec: -17, mag: -1.46, constellation: 'کلب اکبر' },
-      { name: 'قلب عقرب (آلفا عقرب)', ra: 247, dec: -26, mag: 0.96, constellation: 'عقرب' },
-      { name: 'رأس الجاثی (بتا قیفا)', ra: 307, dec: 45, mag: 2.23, constellation: 'قیفا' },
-      { name: 'الصفر (گاما شکارچی)', ra: 84, dec: 5, mag: 1.64, constellation: 'شکارچی' },
-      { name: 'المثلث (بتا مثلث)', ra: 148, dec: 34, mag: 3.06, constellation: 'مثلث' },
-      { name: 'الدبران (آلفا ثور)', ra: 68, dec: 16, mag: 0.85, constellation: 'ثور' }
-    ],
-    autumn: [
-      { name: 'پسخ (آلفا ماهی)', ra: 15, dec: 2, mag: 2.02, constellation: 'ماهی' },
-      { name: 'فرقد (بتا قز)', ra: 22, dec: 57, mag: 2.34, constellation: 'قز' },
-      { name: 'الجزرا (آلفا مثلث)', ra: 205, dec: 29, mag: 3.06, constellation: 'مثلث' },
-      { name: 'الدبران (آلفا ثور)', ra: 68, dec: 16, mag: 0.85, constellation: 'ثور' },
-      { name: 'المثلث (گاما مثلث)', ra: 148, dec: 34, mag: 3.53, constellation: 'مثلث' },
-      { name: 'القلم (دلتا قیفا)', ra: 315, dec: 38, mag: 3.18, constellation: 'قیفا' }
-    ],
-    winter: [
-      { name: 'شباهنگ', ra: 110, dec: -17, mag: -1.46, constellation: 'کلب اکبر' },
-      { name: 'ریجل (بتا شکارچی)', ra: 88, dec: -8, mag: 0.13, constellation: 'شکارچی' },
-      { name: 'الصفر', ra: 84, dec: 5, mag: 1.64, constellation: 'شکارچی' },
-      { name: 'الکوکب (آلفا اوریا)', ra: 90, dec: 7, mag: 0.5, constellation: 'اوریا' },
-      { name: 'الشعرالعبری (آلفا کلب اصغر)', ra: 114, dec: -52, mag: -0.72, constellation: 'کلب اصغر' },
-      { name: 'النجح (دلتا شکارچی)', ra: 86, dec: -12, mag: 2.58, constellation: 'شکارچی' }
-    ],
-    spring: [
-      { name: 'سپیوس (آلفا سنطور)', ra: 203, dec: -60, mag: 0.96, constellation: 'سنطور' },
-      { name: 'الدب (بتا دب اکبر)', ra: 132, dec: 56, mag: 1.86, constellation: 'دب اکبر' },
-      { name: 'المئز (گاما دب اکبر)', ra: 140, dec: 49, mag: 1.76, constellation: 'دب اکبر' },
-      { name: 'الدب (دلتا دب اکبر)', ra: 134, dec: 54, mag: 3.49, constellation: 'دب اکبر' },
-      { name: 'المعرق (بتا اسد)', ra: 160, dec: 15, mag: 2.14, constellation: 'اسد' },
-      { name: 'الصرف (دلتا قیطس)', ra: 45, dec: 6, mag: 3.19, constellation: 'قیطس' }
-    ]
-  };
-
-  function setSeason(season) {
-    currentSeason = season;
-    document.querySelectorAll('.control-btn').forEach(btn => {
-      btn.classList.remove('active');
-    });
-    event.target.classList.add('active');
-    drawMap();
-  }
-
-  function toggleAnimation() {
-    isAnimating = !isAnimating;
-    if (isAnimating) {
-      animate();
-    } else if (animationId) {
-      cancelAnimationFrame(animationId);
-    }
-  }
-
-  function animate() {
-    if (!isAnimating) return;
-    rotationAngle += 0.003;
-    drawMap();
-    animationId = requestAnimationFrame(animate);
-  }
-
-  function polarToCartesian(ra, dec) {
-    const r = radius * (1 - Math.abs(dec) / 90);
-    const theta = (ra - rotationAngle * 30) * Math.PI / 180;
-    const x = centerX + r * Math.cos(theta);
-    const y = centerY + r * Math.sin(theta);
-    return { x, y };
-  }
-
-  function drawMap() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Outer circle
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.strokeStyle = '#6d4aff';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    const stars = seasons[currentSeason];
-    
-    // Draw stars
-    stars.forEach(star => {
-      const pos = polarToCartesian(star.ra, star.dec);
-      const size = Math.max(1, 5 - star.mag);
-      
-      ctx.beginPath();
-      ctx.arc(pos.x, pos.y, size, 0, 2 * Math.PI);
-      
-      const brightness = Math.max(0.3, 1 - star.mag / 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
-      ctx.fill();
-
-      if (size >= 2) {
-        ctx.beginPath();
-        ctx.arc(pos.x, pos.y, size + 3, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(255, 255, 255, ${brightness * 0.3})`;
-        ctx.fill();
-      }
-    });
-
-    // Grid circles
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 6; i++) {
-      const r = (radius / 6) * i;
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, r, 0, 2 * Math.PI);
-      ctx.stroke();
-    }
-
-    // Cardinal directions
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate(-Math.PI / 2);
-    ctx.fillStyle = '#6d4aff';
-    ctx.font = 'bold 14px Vazirmatn';
-    ctx.textAlign = 'center';
-    ctx.fillText('شمال', 0, -radius + 15);
-    ctx.fillText('جنوب', 0, radius - 5);
-    ctx.restore();
-  }
-
-  canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    const mouseX = (e.clientX - rect.left) * scaleX;
-    const mouseY = (e.clientY - rect.top) * scaleY;
-    
-    let hoveredStar = null;
-    const stars = seasons[currentSeason];
-    
-    stars.forEach(star => {
-      const pos = polarToCartesian(star.ra, star.dec);
-      const dist = Math.sqrt(Math.pow(mouseX - pos.x, 2) + Math.pow(mouseY - pos.y, 2));
-      
-      if (dist < 15) {
-        hoveredStar = star;
-      }
-    });
-
-    if (hoveredStar) {
-      tooltip.style.display = 'block';
-      tooltip.style.left = e.clientX + 15 + 'px';
-      tooltip.style.top = e.clientY + 15 + 'px';
-      document.getElementById('starName').textContent = hoveredStar.name;
-      document.getElementById('starInfo').textContent = 
-        `صورت فلکی: ${hoveredStar.constellation}\nقدر ظاهری: ${hoveredStar.mag}`;
-      canvas.style.cursor = 'pointer';
-    } else {
-      tooltip.style.display = 'none';
-      canvas.style.cursor = 'default';
-    }
-  });
-
-  canvas.addEventListener('mouseleave', () => {
-    tooltip.style.display = 'none';
-    canvas.style.cursor = 'default';
-  });
-
-  window.addEventListener('resize', () => {
-    const rect = canvas.getBoundingClientRect();
-    const scale = Math.min(rect.width, rect.height) / 600;
-    if (scale !== 1) {
-      canvas.style.width = (600 * scale) + 'px';
-      canvas.style.height = (600 * scale) + 'px';
-    }
-  });
-
-  drawMap();
-})();
-</script>
 
 </body>
 </html>
