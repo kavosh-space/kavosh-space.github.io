@@ -1,0 +1,37 @@
+name: Update comet data
+
+on:
+  schedule:
+    # Every 6 hours. GitHub may delay this slightly at busy times.
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-comets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch latest comet data from COBS
+        run: python3 scripts/update_comets.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "kavosh-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if ! git diff --quiet -- data/comets.json; then
+            git add data/comets.json
+            git commit -m "chore: update comet data from COBS [skip ci]"
+            git push
+          else
+            echo "No changes in comet data."
+          fi

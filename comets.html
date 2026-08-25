@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وضعیت دنباله‌دارها | گروه نجوم کاوش</title>
+<meta name="description" content="فهرست دنباله‌دارهای قابل‌رصد امشب، قدر نوری و روند تغییرات آن‌ها، برگرفته به‌صورت خودکار از پایگاه داده COBS.">
+<link rel="canonical" href="https://kavosh-space.github.io/comets.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="وضعیت دنباله‌دارها | گروه نجوم کاوش">
+<meta property="og:description" content="فهرست دنباله‌دارهای قابل‌رصد و قدر نوری آن‌ها، برگرفته از پایگاه داده COBS.">
+<meta property="og:url" content="https://kavosh-space.github.io/comets.html">
+<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:image" content="https://kavosh-space.github.io/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+  .hero-comets h1{font-size:clamp(34px, 5vw, 58px);}
+
+  .back-row{margin-bottom:32px;}
+  .back-row a{
+    font-family:var(--font-data); font-size:12.5px; color:var(--star-300);
+    border-bottom:1px solid var(--night-500); padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .back-row a:hover{color:var(--star-100); border-color:var(--ember-500);}
+
+  .comet-meta{
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px 28px;
+    padding-bottom:22px; margin-bottom:28px;
+    border-bottom:1px solid var(--night-600);
+    font-family:var(--font-data); font-size:12px; letter-spacing:.04em;
+    color:var(--star-500);
+  }
+  .comet-meta b{color:var(--star-300); font-weight:500;}
+  .comet-status-dot{display:inline-flex; align-items:center; gap:8px;}
+  .status-dot{
+    width:7px; height:7px; border-radius:50%; background:#7ee0a8;
+    box-shadow:0 0 0 3px rgba(126,224,168,.18);
+    animation:statusPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes statusPulse{0%,100%{opacity:.55;} 50%{opacity:1;}}
+
+  .comet-disclaimer{
+    display:flex; align-items:flex-start; gap:14px;
+    margin-bottom:32px; padding:18px 22px;
+    border:1px dashed var(--night-600); border-radius:8px;
+    color:var(--star-300); font-size:13.5px; line-height:1.9;
+  }
+  .comet-disclaimer .dot{flex-shrink:0; margin-top:6px; width:6px; height:6px; border-radius:50%; background:var(--ember-500);}
+
+  .comet-table-wrap{overflow-x:auto; border:1px solid var(--night-700); border-radius:8px;}
+  table.comet-table{width:100%; border-collapse:collapse; min-width:760px;}
+  .comet-table thead th{
+    font-family:var(--font-data); font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--ember-400); text-align:right; padding:14px 18px;
+    background:var(--night-800); border-bottom:1px solid var(--night-600); white-space:nowrap;
+  }
+  .comet-table tbody td{
+    padding:16px 18px; border-bottom:1px solid var(--night-700);
+    font-size:14px; color:var(--star-300); white-space:nowrap;
+  }
+  .comet-table tbody tr:last-child td{border-bottom:none;}
+  .comet-table tbody tr:hover{background:rgba(213,155,60,.05);}
+  .comet-table td.num, .comet-table td.time{font-family:var(--font-data); direction:ltr; text-align:left;}
+  .comet-table td.name{color:var(--star-100); font-weight:700; white-space:normal;}
+  .comet-table td.name span{display:block; font-family:var(--font-data); font-size:11px; color:var(--star-500); font-weight:400; margin-top:2px;}
+
+  .trend-badge{
+    font-family:var(--font-data); font-size:11px; padding:4px 10px; border-radius:999px;
+    border:1px solid var(--night-500); color:var(--star-500); white-space:nowrap;
+  }
+  .trend-badge.bright{color:var(--ember-400); border-color:var(--ember-500);}
+  .trend-badge.steady{color:var(--star-300); border-color:var(--night-500);}
+
+  .comet-loading, .comet-error{color:var(--star-500); font-size:14px; padding:40px 0; text-align:center;}
+  .comet-error{color:var(--star-300);}
+
+  .comet-attribution{
+    margin-top:28px; padding:20px 22px;
+    border:1px solid var(--night-700); border-radius:8px;
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px;
+    font-size:13px; color:var(--star-500);
+  }
+  .comet-attribution a{color:var(--star-300); border-bottom:1px solid var(--night-500); padding-bottom:1px;}
+  .comet-attribution a:hover{color:var(--star-100); border-color:var(--ember-500);}
+  .license-badge{
+    font-family:var(--font-data); font-size:11px; border:1px solid var(--night-500);
+    border-radius:999px; padding:4px 12px; white-space:nowrap; color:var(--star-500);
+  }
+
+  @media (max-width:640px){
+    .comet-attribution{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
+
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
+    <a href="team.html">اعضا</a>
+    <a href="about.html">درباره</a>
+    <a href="tours.html">گشت رصدی</a>
+    <a href="offerings.html">کارگاه‌ها</a>
+    <a href="contact.html">تماس با ما</a>
+    <a href="tools.html">ابزار</a>
+    <a href="observatory.html">رصدگاه</a>
+    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
+      <span class="nv-dot"></span>
+      <span id="nvLabel">حالت شب</span>
+    </button>
+  </nav>
+</header>
+
+<header class="hero hero-lite hero-comets">
+  <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#f4f1ea">
+      <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
+      <circle cx="180" cy="150" r="1" opacity="0.5"/>
+      <circle cx="280" cy="50" r="1.6" opacity="0.9"/>
+      <circle cx="380" cy="120" r="1" opacity="0.4"/>
+      <circle cx="480" cy="40" r="1.2" opacity="0.7"/>
+      <circle cx="560" cy="100" r="1.8" opacity="1"/>
+      <circle cx="640" cy="60" r="1" opacity="0.5"/>
+      <circle cx="740" cy="140" r="1.3" opacity="0.8"/>
+      <circle cx="840" cy="50" r="1" opacity="0.4"/>
+      <circle cx="940" cy="120" r="1.5" opacity="0.9"/>
+      <circle cx="1000" cy="60" r="1" opacity="0.5"/>
+      <circle cx="150" cy="230" r="1" opacity="0.4"/>
+      <circle cx="450" cy="220" r="1.5" opacity="0.8"/>
+      <circle cx="750" cy="230" r="1.2" opacity="0.6"/>
+    </g>
+  </svg>
+  <div class="hero-content wrap">
+    <div class="eyebrow">ابزار آنلاین · داده زنده</div>
+    <h1>وضعیت دنباله‌دارها</h1>
+    <p class="hero-tag">فهرست دنباله‌دارهای قابل‌رصد، قدر نوری فعلی و روند تغییرات آن‌ها — به‌صورت خودکار از پایگاه داده COBS به‌روزرسانی می‌شود.</p>
+  </div>
+</header>
+
+<section id="comets-page">
+  <div class="wrap">
+    <div class="back-row"><a href="tools.html">← بازگشت به ابزار</a></div>
+
+    <div class="comet-meta" id="cometMeta">
+      <span class="comet-status-dot"><span class="status-dot"></span>در حال دریافت داده...</span>
+    </div>
+
+    <div class="comet-disclaimer">
+      <span class="dot"></span>
+      <p>این جدول برای موقعیت <b style="color:var(--star-100);">رصدخانه Crni Vrh</b> در اسلوونی محاسبه شده (همان جدولی که در صفحه اصلی COBS نمایش داده می‌شود) و لزوماً معرف وضعیت آسمان تهران یا دماوند نیست؛ آن را به‌عنوان راهنمای کلی «این روزها چه دنباله‌دارهایی در آسمان هستند» در نظر بگیرید، نه ساعت دقیق طلوع و غروب برای محل شما.</p>
+    </div>
+
+    <div id="cometTableWrap">
+      <div class="comet-loading">در حال بارگذاری فهرست دنباله‌دارها…</div>
+    </div>
+
+    <div class="comet-attribution">
+      <span>منبع داده: <a href="https://cobs.si/" target="_blank" rel="noopener">COBS Comet Observation Database</a> — Crni Vrh Observatory</span>
+      <a class="license-badge" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY‑NC‑SA 4.0</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
+  </div>
+</footer>
+
+<script src="kavosh.js"></script>
+<script>
+(function () {
+  var TREND_FA = { bright: "رو به روشن‌شدن", fade: "رو به کاهش", steady: "پایدار" };
+  var TYPE_FA = { P: "دوره‌ای", C: "بلندپریود", N: "تقریباً سهموی", D: "متلاشی‌شده", A: "سیارک‌مانند", I: "بین‌ستاره‌ای" };
+
+  function timeOnly(str) {
+    if (!str) return "—";
+    var parts = str.split(" ");
+    return parts.length > 1 ? parts[1] : str;
+  }
+
+  function fmtFetchedAt(iso) {
+    if (!iso) return "نامشخص";
+    try {
+      var d = new Date(iso);
+      return d.toLocaleString("fa-IR", { dateStyle: "medium", timeStyle: "short" });
+    } catch (e) {
+      return iso;
+    }
+  }
+
+  function render(data) {
+    var meta = document.getElementById("cometMeta");
+    var wrap = document.getElementById("cometTableWrap");
+
+    var moonPhase = data.moon_events && data.moon_events["Moon phase"];
+    meta.innerHTML =
+      '<span class="comet-status-dot"><span class="status-dot"></span>داده زنده</span>' +
+      '<span>آخرین به‌روزرسانی: <b>' + fmtFetchedAt(data.fetched_at) + '</b></span>' +
+      (moonPhase != null ? '<span>روشنایی ماه: <b>' + Math.round(moonPhase) + '٪</b></span>' : '') +
+      '<span>' + (data.comets ? data.comets.length : 0) + ' دنباله‌دار</span>';
+
+    if (!data.comets || !data.comets.length) {
+      wrap.innerHTML = '<div class="comet-error">در حال حاضر داده‌ای برای نمایش موجود نیست.</div>';
+      return;
+    }
+
+    var rows = data.comets.map(function (c) {
+      var trendClass = c.trend === "bright" ? "bright" : (c.trend === "steady" ? "steady" : "");
+      var trendLabel = TREND_FA[c.trend] || c.trend || "—";
+      var typeLabel = TYPE_FA[c.type] || c.type || "—";
+      return (
+        "<tr>" +
+        '<td class="name">' + (c.fullname || c.name || "—") + "<span>" + (c.mpc_name || "") + "</span></td>" +
+        '<td class="num">' + typeLabel + "</td>" +
+        '<td class="num">' + (c.magnitude != null ? c.magnitude.toFixed(1) : "—") + "</td>" +
+        "<td>" + (c.constellation || "—") + "</td>" +
+        '<td class="time">' + timeOnly(c.best_time) + "</td>" +
+        '<td class="num">' + (c.best_alt != null ? Math.round(c.best_alt) + "°" : "—") + "</td>" +
+        '<td class="time">' + timeOnly(c.rise_time) + " – " + timeOnly(c.set_time) + "</td>" +
+        "<td><span class=\"trend-badge " + trendClass + "\">" + trendLabel + "</span></td>" +
+        "</tr>"
+      );
+    }).join("");
+
+    wrap.innerHTML =
+      '<div class="comet-table-wrap"><table class="comet-table"><thead><tr>' +
+      "<th>دنباله‌دار</th><th>نوع</th><th>قدر</th><th>صورت فلکی</th><th>بهترین زمان رصد</th><th>ارتفاع</th><th>بازه رؤیت</th><th>روند</th>" +
+      "</tr></thead><tbody>" + rows + "</tbody></table></div>" +
+      '<p style="margin-top:14px; font-family:var(--font-data); font-size:11.5px; color:var(--star-500);">زمان‌ها به وقت محلی رصدخانه Crni Vrh (اروپای مرکزی) هستند.</p>';
+  }
+
+  fetch("data/comets.json", { cache: "no-store" })
+    .then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then(render)
+    .catch(function (err) {
+      document.getElementById("cometTableWrap").innerHTML =
+        '<div class="comet-error">دریافت اطلاعات دنباله‌دارها با خطا مواجه شد. لطفاً بعداً دوباره سر بزنید.</div>';
+      document.getElementById("cometMeta").innerHTML =
+        '<span style="color:var(--star-500);">داده در دسترس نیست</span>';
+      console.error("Failed to load comet data:", err);
+    });
+})();
+</script>
+
+</body>
+</html>
