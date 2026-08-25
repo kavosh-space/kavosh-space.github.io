@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-08-25T10:41:00Z",
+  "fetched_at": "2026-08-25T12:54:15Z",
   "location": {
     "name": "Crni Vrh",
     "lat": 45.945905,
@@ -14,21 +14,6 @@
   "comets": [
     {
       "type": "P",
-      "name": "220P",
-      "fullname": "220P/McNaught",
-      "mpc_name": "0220P",
-      "magnitude": 8.9,
-      "constellation": "Cetus",
-      "best_time": "2026-08-26 05:05",
-      "best_alt": 51.7,
-      "rise_time": "2026-08-25 23:17",
-      "set_time": "2026-08-26 05:05",
-      "sun_elongation": 104.0,
-      "moon_elongation": 99.0,
-      "trend": "steady"
-    },
-    {
-      "type": "P",
       "name": "10P",
       "fullname": "10P/Tempel",
       "mpc_name": "0010P",
@@ -41,6 +26,21 @@
       "sun_elongation": 157.0,
       "moon_elongation": 25.0,
       "trend": "fade"
+    },
+    {
+      "type": "P",
+      "name": "220P",
+      "fullname": "220P/McNaught",
+      "mpc_name": "0220P",
+      "magnitude": 8.9,
+      "constellation": "Cetus",
+      "best_time": "2026-08-26 05:05",
+      "best_alt": 51.7,
+      "rise_time": "2026-08-25 23:17",
+      "set_time": "2026-08-26 05:05",
+      "sun_elongation": 104.0,
+      "moon_elongation": 99.0,
+      "trend": "steady"
     },
     {
       "type": "P",
@@ -118,6 +118,21 @@
       "trend": "fade"
     },
     {
+      "type": "P",
+      "name": "260P",
+      "fullname": "260P/McNaught",
+      "mpc_name": "0260P",
+      "magnitude": 14.7,
+      "constellation": "Perseus",
+      "best_time": "2026-08-26 05:05",
+      "best_alt": 63.8,
+      "rise_time": "2026-08-25 22:14",
+      "set_time": "2026-08-26 05:05",
+      "sun_elongation": 85.0,
+      "moon_elongation": 119.0,
+      "trend": "steady"
+    },
+    {
       "type": "N",
       "name": "P/2021 N1",
       "fullname": "P/2021 N1 (ZTF)",
@@ -146,21 +161,6 @@
       "sun_elongation": 83.0,
       "moon_elongation": 70.0,
       "trend": "fade"
-    },
-    {
-      "type": "P",
-      "name": "260P",
-      "fullname": "260P/McNaught",
-      "mpc_name": "0260P",
-      "magnitude": 14.7,
-      "constellation": "Perseus",
-      "best_time": "2026-08-26 05:05",
-      "best_alt": 63.8,
-      "rise_time": "2026-08-25 22:14",
-      "set_time": "2026-08-26 05:05",
-      "sun_elongation": 85.0,
-      "moon_elongation": 119.0,
-      "trend": "steady"
     }
   ],
   "source": {
