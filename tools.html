@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ابزار | گروه نجوم کاوش</title>
+<meta name="description" content="ابزارهای آنلاین نجومی گروه کاوش — نقشه تعاملی آسمان، وضعیت دنباله‌دارها، ماه، قمرهای مشتری و شاخص دید و شفافیت آسمان برای رصد.">
+<link rel="canonical" href="https://kavosh-space.github.io/tools.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ابزار | گروه نجوم کاوش">
+<meta property="og:description" content="ابزارهای آنلاین نجومی گروه کاوش — نقشه آسمان، دنباله‌دارها، ماه، قمرهای مشتری و شرایط رصد.">
+<meta property="og:url" content="https://kavosh-space.github.io/tools.html">
+<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:image" content="https://kavosh-space.github.io/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+  /* ---------- Tools hero: same flexible type scale as contact/sky-map ---------- */
+  .hero-tools h1{font-size:clamp(34px, 5vw, 58px);}
+
+  /* ---------- Tools grid ---------- */
+  .tools-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; margin-top:8px;
+  }
+  .tool-card{
+    background:var(--night-800); border:1px solid var(--night-700); border-radius:8px;
+    overflow:hidden; display:flex; flex-direction:column;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .tool-card:hover{border-color:var(--ember-500); transform:translateY(-3px);}
+
+  .tool-visual{
+    aspect-ratio:16/10; width:100%;
+    background:radial-gradient(ellipse at 50% 0%, var(--night-700) 0%, var(--night-900) 78%);
+    display:flex; align-items:center; justify-content:center;
+    border-bottom:1px solid var(--night-700);
+  }
+  .tool-visual svg{width:62%; height:62%; overflow:visible;}
+  .tool-card:hover .tool-visual svg{filter:brightness(1.08);}
+
+  .tool-card-body{padding:24px 26px 26px; display:flex; flex-direction:column; gap:12px; flex:1;}
+  .tool-status{
+    align-self:flex-start;
+    font-family:var(--font-data); font-size:11px; letter-spacing:.04em;
+    color:var(--star-500); border:1px solid var(--night-500);
+    padding:4px 11px; border-radius:999px; white-space:nowrap;
+  }
+  .tool-status.live{color:var(--ember-400); border-color:var(--ember-500);}
+  .tool-card h3{font-size:17px; color:var(--star-100); line-height:1.5;}
+  .tool-card p{font-size:14px; color:var(--star-300); flex:1;}
+  .tool-card .tool-link{
+    font-family:var(--font-data); font-size:12.5px; color:var(--star-300);
+    border-bottom:1px solid var(--night-500); align-self:flex-start; padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .tool-card:hover .tool-link{color:var(--star-100); border-color:var(--ember-500);}
+
+  .tools-note{
+    display:flex; align-items:baseline; gap:18px;
+    margin-top:36px; padding:20px 28px;
+    border:1px dashed var(--night-600); border-radius:8px;
+    color:var(--star-500); font-size:13.5px;
+  }
+  .tools-note p{color:var(--star-300);}
+
+  @media (max-width:900px){
+    .tools-grid{grid-template-columns:repeat(2, 1fr);}
+  }
+  @media (max-width:640px){
+    .tools-grid{grid-template-columns:1fr;}
+    .tools-note{flex-direction:column; gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
+
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
+    <a href="team.html">اعضا</a>
+    <a href="about.html">درباره</a>
+    <a href="tours.html">گشت رصدی</a>
+    <a href="offerings.html">کارگاه‌ها</a>
+    <a href="contact.html">تماس با ما</a>
+    <a href="tools.html" class="active">ابزار</a>
+    <a href="observatory.html">رصدگاه</a>
+    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
+      <span class="nv-dot"></span>
+      <span id="nvLabel">حالت شب</span>
+    </button>
+  </nav>
+</header>
+
+<header class="hero hero-lite hero-tools">
+  <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#f4f1ea">
+      <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
+      <circle cx="180" cy="150" r="1" opacity="0.5"/>
+      <circle cx="280" cy="50" r="1.6" opacity="0.9"/>
+      <circle cx="380" cy="120" r="1" opacity="0.4"/>
+      <circle cx="480" cy="40" r="1.2" opacity="0.7"/>
+      <circle cx="560" cy="100" r="1.8" opacity="1"/>
+      <circle cx="640" cy="60" r="1" opacity="0.5"/>
+      <circle cx="740" cy="140" r="1.3" opacity="0.8"/>
+      <circle cx="840" cy="50" r="1" opacity="0.4"/>
+      <circle cx="940" cy="120" r="1.5" opacity="0.9"/>
+      <circle cx="1000" cy="60" r="1" opacity="0.5"/>
+      <circle cx="150" cy="230" r="1" opacity="0.4"/>
+      <circle cx="450" cy="220" r="1.5" opacity="0.8"/>
+      <circle cx="750" cy="230" r="1.2" opacity="0.6"/>
+    </g>
+  </svg>
+  <div class="hero-content wrap">
+    <div class="eyebrow">ابزارهای آنلاین نجومی</div>
+    <h1>ابزار کاوش</h1>
+    <p class="hero-tag">مجموعه‌ای از ابزارهای زنده و آنلاین برای برنامه‌ریزی رصد — از نقشه آسمان تا وضعیت دنباله‌دارها، ماه، قمرهای مشتری و شرایط جوی.</p>
+  </div>
+</header>
+
+<section id="tools-page">
+  <div class="wrap">
+    <div class="tools-grid">
+
+      <a class="tool-card" href="sky-map-live.html">
+        <div class="tool-visual">
+          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="120" cy="80" r="58" fill="none" stroke="var(--night-500)" stroke-width="1.4"/>
+            <circle cx="120" cy="80" r="40" fill="none" stroke="var(--night-500)" stroke-width="1" opacity="0.7"/>
+            <circle cx="120" cy="80" r="22" fill="none" stroke="var(--night-500)" stroke-width="1" opacity="0.5"/>
+            <line x1="62" y1="80" x2="178" y2="80" stroke="var(--night-500)" stroke-width="1" opacity="0.6"/>
+            <line x1="120" y1="22" x2="120" y2="138" stroke="var(--night-500)" stroke-width="1" opacity="0.6"/>
+            <g fill="var(--ember-400)">
+              <circle cx="90" cy="55" r="2"/>
+              <circle cx="140" cy="45" r="1.6"/>
+              <circle cx="152" cy="90" r="2.2"/>
+              <circle cx="100" cy="100" r="1.4"/>
+              <circle cx="130" cy="110" r="1.8"/>
+            </g>
+            <path d="M90 55 140 45 152 90" fill="none" stroke="var(--ember-400)" stroke-width="1" opacity="0.55"/>
+            <text x="120" y="18" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--star-500)">N</text>
+            <text x="120" y="146" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--star-500)">S</text>
+            <text x="56" y="83" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--star-500)">W</text>
+            <text x="186" y="83" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="var(--star-500)">E</text>
+          </svg>
+        </div>
+        <div class="tool-card-body">
+          <span class="tool-status">به‌زودی</span>
+          <h3>نقشه تعاملی آسمان</h3>
+          <p>موقعیت لحظه‌ای ستاره‌ها، سیارات و صورت‌های فلکی روی آسمان محل شما، قابل چرخش و بزرگ‌نمایی.</p>
+          <span class="tool-link">ورود به ابزار ↗</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="comets.html">
+        <div class="tool-visual">
+          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#f4f1ea" opacity="0.5">
+              <circle cx="40" cy="30" r="1"/>
+              <circle cx="70" cy="110" r="1.2"/>
+              <circle cx="190" cy="35" r="1"/>
+              <circle cx="205" cy="115" r="1.4"/>
+              <circle cx="50" cy="70" r="1"/>
+            </g>
+            <path d="M50 115 Q100 90 152 66" fill="none" stroke="var(--ember-500)" stroke-width="10" stroke-linecap="round" opacity="0.16"/>
+            <path d="M60 112 Q104 92 152 66" fill="none" stroke="var(--ember-400)" stroke-width="5" stroke-linecap="round" opacity="0.35"/>
+            <circle cx="152" cy="66" r="6" fill="var(--ember-300)"/>
+            <circle cx="152" cy="66" r="11" fill="none" stroke="var(--ember-400)" stroke-width="1" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="tool-card-body">
+          <span class="tool-status">به‌زودی</span>
+          <h3>وضعیت دنباله‌دارها</h3>
+          <p>فهرست دنباله‌دارهای قابل رصد، قدر نوری فعلی و پیش‌بینی روزهای آینده.</p>
+          <span class="tool-link">ورود به ابزار ↗</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="moon.html">
+        <div class="tool-visual">
+          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="120" cy="75" r="42" fill="var(--night-600)"/>
+            <path d="M120 33 A42 42 0 0 1 120 117 A26 42 0 0 0 120 33 Z" fill="var(--ember-300)"/>
+            <g fill="var(--night-700)">
+              <circle cx="108" cy="58" r="4"/>
+              <circle cx="128" cy="70" r="6"/>
+              <circle cx="112" cy="92" r="3.4"/>
+            </g>
+          </svg>
+        </div>
+        <div class="tool-card-body">
+          <span class="tool-status">به‌زودی</span>
+          <h3>وضعیت ماه</h3>
+          <p>فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب و مناسب یا نامناسب بودن شب برای رصد دیپ‌اسکای.</p>
+          <span class="tool-link">ورود به ابزار ↗</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="jupiter-moons.html">
+        <div class="tool-visual">
+          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+            <line x1="20" y1="75" x2="220" y2="75" stroke="var(--night-500)" stroke-width="1" opacity="0.4"/>
+            <circle cx="120" cy="75" r="19" fill="var(--ember-400)"/>
+            <path d="M101 68 Q120 62 139 68" stroke="var(--night-700)" stroke-width="2" fill="none" opacity="0.6"/>
+            <path d="M103 82 Q120 88 137 82" stroke="var(--night-700)" stroke-width="2" fill="none" opacity="0.5"/>
+            <ellipse cx="112" cy="78" rx="4.5" ry="3" fill="var(--ember-300)" opacity="0.7"/>
+            <g fill="var(--star-300)">
+              <circle cx="44" cy="75" r="2.4"/>
+              <circle cx="76" cy="75" r="2"/>
+              <circle cx="164" cy="75" r="2.2"/>
+              <circle cx="202" cy="75" r="2.6"/>
+            </g>
+          </svg>
+        </div>
+        <div class="tool-card-body">
+          <span class="tool-status">به‌زودی</span>
+          <h3>وضعیت قمرهای مشتری</h3>
+          <p>آرایش لحظه‌ای چهار قمر گالیله‌ای — یو، اروپا، گانیمد و کالیستو — نسبت به مشتری برای رصد با تلسکوپ.</p>
+          <span class="tool-link">ورود به ابزار ↗</span>
+        </div>
+      </a>
+
+      <a class="tool-card" href="seeing.html">
+        <div class="tool-visual">
+          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 105 A70 70 0 0 1 190 105" fill="none" stroke="var(--night-500)" stroke-width="10" stroke-linecap="round"/>
+            <path d="M50 105 A70 70 0 0 1 150 42" fill="none" stroke="var(--ember-500)" stroke-width="10" stroke-linecap="round"/>
+            <line x1="120" y1="105" x2="158" y2="58" stroke="var(--ember-300)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="120" cy="105" r="6" fill="var(--ember-300)"/>
+            <text x="120" y="132" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--star-500)">SEEING</text>
+          </svg>
+        </div>
+        <div class="tool-card-body">
+          <span class="tool-status">به‌زودی</span>
+          <h3>شاخص دید و شفافیت آسمان</h3>
+          <p>پیش‌بینی کیفیت دید (Seeing)، شفافیت جو و پوشش ابر برای ساعات پیش رو، ویژه انتخاب بهترین شب رصد.</p>
+          <span class="tool-link">ورود به ابزار ↗</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="tools-note">
+      <span class="log-ref" style="font-family:var(--font-data); font-size:12px; color:var(--ember-400);">KV–TOOLS</span>
+      <p>هرکدام از این ابزارها به‌مرور و به‌صورت جداگانه طراحی و فعال می‌شوند؛ برای اطلاع از فعال‌شدن هرکدام، صفحه اخبار یا اینستاگرام کاوش را دنبال کنید.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
+  </div>
+</footer>
+
+<script src="kavosh.js"></script>
+
+</body>
+</html>
