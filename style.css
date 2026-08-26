@@ -447,3 +447,9 @@ footer{padding:56px 0 44px; text-align:center; border-top:1px solid var(--night-
   .scroll-hint .line{animation:none;}
   html{scroll-behavior:auto;}
 }
+
+/* ---------- News article body: justified text ---------- */
+article p{
+  text-align:justify;
+  text-justify:inter-word;
+}
