@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نقشه تعاملی آسمان | گروه نجوم کاوش</title>
+<meta name="description" content="نقشه تعاملی و زنده آسمان به زبان فارسی — موقعیت لحظه‌ای ستاره‌ها، سیارات و صورت‌های فلکی برای هر تاریخ، ساعت و شهر، با نام‌های فارسی.">
+<link rel="canonical" href="https://kavosh-space.github.io/sky-map-live.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="نقشه تعاملی آسمان | گروه نجوم کاوش">
+<meta property="og:description" content="نقشه تعاملی و زنده آسمان به زبان فارسی — ستاره‌ها، سیارات و صورت‌های فلکی برای هر تاریخ، ساعت و شهر.">
+<meta property="og:url" content="https://kavosh-space.github.io/sky-map-live.html">
+<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:image" content="https://kavosh-space.github.io/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<!-- D3-Celestial (open-source sky map library) -->
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+<script src="https://ofrohn.github.io/celestial.min.js"></script>
+
+<style>
+  .hero-sky h1{font-size:clamp(34px, 5vw, 58px);}
+
+  .back-row{margin-bottom:32px;}
+  .back-row a{
+    font-family:var(--font-data); font-size:12.5px; color:var(--star-300);
+    border-bottom:1px solid var(--night-500); padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .back-row a:hover{color:var(--star-100); border-color:var(--ember-500);}
+
+  .sky-status{
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px 28px;
+    padding-bottom:22px; margin-bottom:28px;
+    border-bottom:1px solid var(--night-600);
+    font-family:var(--font-data); font-size:12px; letter-spacing:.04em;
+    color:var(--star-500);
+  }
+  .sky-status b{color:var(--star-300); font-weight:500;}
+  .sky-status-dot{display:inline-flex; align-items:center; gap:8px;}
+  .status-dot{
+    width:7px; height:7px; border-radius:50%; background:#7ee0a8;
+    box-shadow:0 0 0 3px rgba(126,224,168,.18);
+    animation:statusPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes statusPulse{0%,100%{opacity:.55;} 50%{opacity:1;}}
+
+  .sky-disclaimer{
+    display:flex; align-items:flex-start; gap:14px;
+    margin-bottom:32px; padding:18px 22px;
+    border:1px dashed var(--night-600); border-radius:8px;
+    color:var(--star-300); font-size:13.5px; line-height:1.9;
+  }
+  .sky-disclaimer .dot{flex-shrink:0; margin-top:6px; width:6px; height:6px; border-radius:50%; background:var(--ember-500);}
+
+  /* ---- Controls panel ---- */
+  .sky-controls{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    gap:16px;
+    padding:22px;
+    margin-bottom:24px;
+    border:1px solid var(--night-700);
+    border-radius:8px;
+    background:var(--night-800);
+  }
+  .sky-field{display:flex; flex-direction:column; gap:7px;}
+  .sky-field label{
+    font-family:var(--font-data); font-size:11px; letter-spacing:.04em;
+    color:var(--ember-400); text-transform:uppercase;
+  }
+  .sky-field select, .sky-field input{
+    background:var(--night-900); color:var(--star-100);
+    border:1px solid var(--night-500); border-radius:6px;
+    padding:9px 10px; font-family:var(--font-display); font-size:14px;
+    width:100%;
+  }
+  .sky-field select:focus, .sky-field input:focus{outline:none; border-color:var(--ember-500);}
+  .sky-field.coords{display:none;}
+  .sky-field.coords.show{display:flex;}
+  .sky-actions{
+    grid-column:1/-1;
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    padding-top:6px; border-top:1px solid var(--night-700);
+  }
+  .sky-actions .spacer{flex:1;}
+  .toggle-row{display:flex; flex-wrap:wrap; gap:16px; align-items:center; font-size:13px; color:var(--star-300);}
+  .toggle-row label{display:flex; align-items:center; gap:7px; cursor:pointer; white-space:nowrap;}
+  .toggle-row input[type=checkbox]{accent-color:var(--ember-500); width:15px; height:15px;}
+  .mag-slider{display:flex; align-items:center; gap:10px; font-family:var(--font-data); font-size:12px; color:var(--star-500);}
+  .mag-slider input[type=range]{accent-color:var(--ember-500); width:130px;}
+
+  /* ---- Map ---- */
+  .sky-map-shell{
+    border:1px solid var(--night-700); border-radius:8px;
+    background:#000; overflow:hidden; margin-bottom:12px;
+    display:flex; align-items:center; justify-content:center; min-height:320px;
+  }
+  #celestial-map{width:100%; max-width:760px; margin:0 auto;}
+  #celestial-map svg{display:block; width:100%; height:auto;}
+  .map-hint{
+    text-align:center; font-family:var(--font-data); font-size:11.5px;
+    color:var(--star-500); margin-bottom:28px;
+  }
+
+  .sky-attribution{
+    margin-top:12px; padding:20px 22px;
+    border:1px solid var(--night-700); border-radius:8px;
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px;
+    font-size:13px; color:var(--star-500);
+  }
+  .sky-attribution a{color:var(--star-300); border-bottom:1px solid var(--night-500); padding-bottom:1px;}
+  .sky-attribution a:hover{color:var(--star-100); border-color:var(--ember-500);}
+  .license-badge{
+    font-family:var(--font-data); font-size:11px; border:1px solid var(--night-500);
+    border-radius:999px; padding:4px 12px; white-space:nowrap; color:var(--star-500);
+  }
+
+  @media (max-width:640px){
+    .sky-attribution{flex-direction:column; align-items:flex-start;}
+    .sky-actions{flex-direction:column; align-items:stretch;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
+
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
+    <a href="team.html">اعضا</a>
+    <a href="about.html">درباره</a>
+    <a href="tours.html">گشت رصدی</a>
+    <a href="offerings.html">کارگاه‌ها</a>
+    <a href="contact.html">تماس با ما</a>
+    <a href="tools.html" class="active">ابزار</a>
+    <a href="observatory.html">رصدگاه</a>
+    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
+      <span class="nv-dot"></span>
+      <span id="nvLabel">حالت شب</span>
+    </button>
+  </nav>
+</header>
+
+<header class="hero hero-lite hero-sky">
+  <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#f4f1ea">
+      <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
+      <circle cx="180" cy="150" r="1" opacity="0.5"/>
+      <circle cx="280" cy="50" r="1.6" opacity="0.9"/>
+      <circle cx="380" cy="120" r="1" opacity="0.4"/>
+      <circle cx="480" cy="40" r="1.2" opacity="0.7"/>
+      <circle cx="560" cy="100" r="1.8" opacity="1"/>
+      <circle cx="640" cy="60" r="1" opacity="0.5"/>
+      <circle cx="740" cy="140" r="1.3" opacity="0.8"/>
+      <circle cx="840" cy="50" r="1" opacity="0.4"/>
+      <circle cx="940" cy="120" r="1.5" opacity="0.9"/>
+      <circle cx="1000" cy="60" r="1" opacity="0.5"/>
+      <circle cx="150" cy="230" r="1" opacity="0.4"/>
+      <circle cx="450" cy="220" r="1.5" opacity="0.8"/>
+      <circle cx="750" cy="230" r="1.2" opacity="0.6"/>
+    </g>
+  </svg>
+  <div class="hero-content wrap">
+    <div class="eyebrow">ابزار آنلاین · نقشه زنده</div>
+    <h1>نقشه تعاملی آسمان</h1>
+    <p class="hero-tag">موقعیت لحظه‌ای ستاره‌ها، سیارات، ماه و صورت‌های فلکی — با نام فارسی، برای هر تاریخ، ساعت و شهری که انتخاب کنید. قابل چرخش و بزرگ‌نمایی با ماوس یا انگشت.</p>
+  </div>
+</header>
+
+<section id="sky-map-page">
+  <div class="wrap">
+    <div class="back-row"><a href="tools.html">← بازگشت به ابزار</a></div>
+
+    <div class="sky-status" id="skyStatus">
+      <span class="sky-status-dot"><span class="status-dot"></span>در حال آماده‌سازی نقشه...</span>
+    </div>
+
+    <div class="sky-disclaimer">
+      <span class="dot"></span>
+      <p>این نقشه، آسمان بالای سر شما را برای زمان و مکانی که انتخاب می‌کنید شبیه‌سازی می‌کند (مثل نگاه‌کردن رو به بالا در یک شب صاف)؛ محاسبات بر پایه مدارهای واقعی سیارات و کاتالوگ ستاره‌ای انجام می‌شود، اما نور آلودگی شهری، ابر و کیفیت جو در آن لحاظ نشده. برای برخی اجرام کم‌نورتر، نام فارسی در پایگاه داده موجود نیست و در آن صورت نام لاتین/بین‌المللی نمایش داده می‌شود.</p>
+    </div>
+
+    <div class="sky-controls">
+      <div class="sky-field">
+        <label for="skyCity">شهر</label>
+        <select id="skyCity">
+          <option value="35.6892,51.3890,210">تهران</option>
+          <option value="35.7178,52.0653,210">دماوند</option>
+          <option value="36.2605,59.6168,210">مشهد</option>
+          <option value="32.6546,51.6680,210">اصفهان</option>
+          <option value="35.8400,50.9391,210">کرج</option>
+          <option value="29.5918,52.5837,210">شیراز</option>
+          <option value="38.0800,46.2919,210">تبریز</option>
+          <option value="34.6401,50.8764,210">قم</option>
+          <option value="31.3183,48.6706,210">اهواز</option>
+          <option value="34.3277,47.0778,210">کرمانشاه</option>
+          <option value="37.5527,45.0761,210">ارومیه</option>
+          <option value="37.2808,49.5832,210">رشت</option>
+          <option value="29.4963,60.8629,210">زاهدان</option>
+          <option value="34.7992,48.5146,210">همدان</option>
+          <option value="30.2839,57.0834,210">کرمان</option>
+          <option value="31.8974,54.3569,210">یزد</option>
+          <option value="38.2498,48.2933,210">اردبیل</option>
+          <option value="27.1865,56.2808,210">بندرعباس</option>
+          <option value="34.0917,49.6892,210">اراک</option>
+          <option value="36.6736,48.4787,210">زنجان</option>
+          <option value="35.3219,46.9862,210">سنندج</option>
+          <option value="36.2688,50.0041,210">قزوین</option>
+          <option value="33.4878,48.3558,210">خرم‌آباد</option>
+          <option value="36.8427,54.4441,210">گرگان</option>
+          <option value="36.5633,53.0601,210">ساری</option>
+          <option value="28.9684,50.8385,210">بوشهر</option>
+          <option value="33.6374,46.4227,210">ایلام</option>
+          <option value="32.8663,59.2211,210">بیرجند</option>
+          <option value="30.6682,51.5880,210">یاسوج</option>
+          <option value="37.4747,57.3291,210">بجنورد</option>
+          <option value="32.3256,50.8644,210">شهرکرد</option>
+          <option value="35.5729,53.3971,210">سمنان</option>
+          <option value="other">موقعیت دیگر (وارد کردن مختصات)…</option>
+        </select>
+      </div>
+
+      <div class="sky-field coords" id="latField">
+        <label for="skyLat">عرض جغرافیایی</label>
+        <input type="number" id="skyLat" step="0.0001" min="-90" max="90" placeholder="مثلاً ۳۵٫۶۸۹۲">
+      </div>
+      <div class="sky-field coords" id="lonField">
+        <label for="skyLon">طول جغرافیایی</label>
+        <input type="number" id="skyLon" step="0.0001" min="-180" max="180" placeholder="مثلاً ۵۱٫۳۸۹۰">
+      </div>
+      <div class="sky-field coords" id="tzField">
+        <label for="skyTz">منطقه زمانی (UTC)</label>
+        <input type="number" id="skyTz" step="0.5" min="-12" max="14" placeholder="مثلاً ۳٫۵">
+      </div>
+
+      <div class="sky-field">
+        <label for="skyDate">تاریخ</label>
+        <input type="date" id="skyDate">
+      </div>
+      <div class="sky-field">
+        <label for="skyTime">ساعت</label>
+        <input type="time" id="skyTime" step="60">
+      </div>
+
+      <div class="sky-actions">
+        <button class="btn btn-primary btn-sm" id="skyApply">به‌روزرسانی نقشه</button>
+        <button class="btn btn-ghost btn-sm" id="skyNow">اکنون</button>
+        <div class="spacer"></div>
+        <div class="mag-slider">
+          <span>حداکثر قدر ستاره: <b id="magVal" style="color:var(--star-300);">6.0</b></span>
+          <input type="range" id="magLimit" min="3" max="8" step="0.5" value="6">
+        </div>
+      </div>
+
+      <div class="sky-actions">
+        <div class="toggle-row">
+          <label><input type="checkbox" id="toggleLines" checked> خطوط صورت‌های فلکی</label>
+          <label><input type="checkbox" id="toggleNames" checked> نام صورت‌های فلکی</label>
+          <label><input type="checkbox" id="toggleMW" checked> کهکشان راه شیری</label>
+          <label><input type="checkbox" id="toggleHorizon" checked> افق</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="sky-map-shell">
+      <div id="celestial-map"></div>
+    </div>
+    <p class="map-hint">برای چرخش نقشه بکشید، برای بزرگ‌نمایی اسکرول کنید یا با دو انگشت پینچ کنید.</p>
+
+    <div class="sky-attribution">
+      <span>موتور نقشه: <a href="https://github.com/ofrohn/d3-celestial" target="_blank" rel="noopener">D3-Celestial</a> — Copyright 2015–2025 Olaf Frohn، منتشرشده تحت مجوز BSD-3-Clause</span>
+      <a class="license-badge" href="https://opensource.org/licenses/BSD-3-Clause" target="_blank" rel="noopener">BSD-3-Clause</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
+  </div>
+</footer>
+
+<script src="kavosh.js"></script>
+<script>
+(function () {
+
+  /* ---------- Persian digit helper for the status line ---------- */
+  function faDigits(str) {
+    var fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return String(str).replace(/[0-9]/g, function (d) { return fa[d]; });
+  }
+
+  var statusEl = document.getElementById('skyStatus');
+  var citySelect = document.getElementById('skyCity');
+  var latField = document.getElementById('latField');
+  var lonField = document.getElementById('lonField');
+  var tzField = document.getElementById('tzField');
+  var latInput = document.getElementById('skyLat');
+  var lonInput = document.getElementById('skyLon');
+  var tzInput = document.getElementById('skyTz');
+  var dateInput = document.getElementById('skyDate');
+  var timeInput = document.getElementById('skyTime');
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function setDateTimeFields(d) {
+    dateInput.value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    timeInput.value = pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  function showCoordFields(show) {
+    [latField, lonField, tzField].forEach(function (f) {
+      f.classList.toggle('show', show);
+    });
+  }
+
+  citySelect.addEventListener('change', function () {
+    showCoordFields(citySelect.value === 'other');
+  });
+
+  /* Default: Tehran, right now */
+  setDateTimeFields(new Date());
+  showCoordFields(false);
+
+  function currentLocation() {
+    if (citySelect.value === 'other') {
+      var lat = parseFloat(latInput.value);
+      var lon = parseFloat(lonInput.value);
+      var tz = parseFloat(tzInput.value);
+      if (isNaN(lat) || isNaN(lon)) return null;
+      return { location: [lat, lon], timezone: isNaN(tz) ? undefined : tz * 60 };
+    }
+    var parts = citySelect.value.split(',');
+    return { location: [parseFloat(parts[0]), parseFloat(parts[1])], timezone: parseFloat(parts[2]) };
+  }
+
+  function currentDate() {
+    if (!dateInput.value || !timeInput.value) return new Date();
+    var d = new Date(dateInput.value + 'T' + timeInput.value + ':00');
+    return isNaN(d.getTime()) ? new Date() : d;
+  }
+
+  function updateStatus(loc, date, cityLabel) {
+    var dateStr = date.toLocaleDateString('fa-IR', { year: 'numeric', month: 'long', day: 'numeric' });
+    var timeStr = pad(date.getHours()) + ':' + pad(date.getMinutes());
+    statusEl.innerHTML =
+      '<span class="sky-status-dot"><span class="status-dot"></span>نقشه زنده</span>' +
+      '<span>موقعیت: <b>' + cityLabel + '</b></span>' +
+      '<span>تاریخ: <b>' + dateStr + '</b></span>' +
+      '<span>ساعت: <b>' + faDigits(timeStr) + '</b></span>';
+  }
+
+  /* ---------- D3-Celestial setup ---------- */
+  var config = {
+    width: 0,
+    projection: 'stereographic',
+    transform: 'equatorial',
+    center: null,
+    geopos: [35.6892, 51.3890],
+    follow: 'zenith',
+    orientationfixed: true,
+    zoomlevel: null,
+    zoomextend: 10,
+    adaptable: true,
+    interactive: true,
+    form: false,
+    location: false,
+    controls: true,
+    lang: '',
+    culture: 'iau',
+    container: 'celestial-map',
+    datapath: 'https://ofrohn.github.io/data/',
+    stars: {
+      show: true,
+      limit: 6,
+      colors: true,
+      style: { fill: '#ffffff', opacity: 1 },
+      designation: false,
+      propername: true,
+      propernameType: 'fa',
+      propernameLimit: 2,
+      size: 5,
+      exponent: -0.28,
+      data: 'stars.6.json'
+    },
+    dsos: { show: false, data: 'dsos.bright.json' },
+    planets: {
+      show: true,
+      which: ['sol', 'mer', 'ven', 'ter', 'lun', 'mar', 'jup', 'sat', 'ura', 'nep'],
+      names: true,
+      namesType: 'fa',
+      symbolType: 'symbol',
+      nameStyle: { fill: '#e6b563', font: '13px Vazirmatn, sans-serif', align: 'right', baseline: 'top' }
+    },
+    constellations: {
+      names: true,
+      namesType: 'fa',
+      nameStyle: {
+        fill: '#e6b563',
+        align: 'center',
+        baseline: 'middle',
+        font: ['13px Vazirmatn, sans-serif', '12px Vazirmatn, sans-serif', '11px Vazirmatn, sans-serif']
+      },
+      lines: true,
+      lineStyle: { stroke: '#3a4a7d', width: 1, opacity: 0.65 },
+      bounds: false
+    },
+    mw: { show: true, style: { fill: '#ffffff', opacity: 0.12 } },
+    lines: {
+      graticule: { show: false },
+      equatorial: { show: false },
+      ecliptic: { show: false },
+      galactic: { show: false },
+      supergalactic: { show: false }
+    },
+    background: { fill: '#070b14', opacity: 1, stroke: '#152036', width: 1.5 },
+    horizon: { show: true, stroke: '#d59b3c', width: 1.2, fill: '#070b14', opacity: 0.85 },
+    daylight: { show: false }
+  };
+
+  var ready = false;
+
+  function applySky() {
+    var loc = currentLocation();
+    if (!loc) { alert('لطفاً عرض و طول جغرافیایی معتبر وارد کنید.'); return; }
+    var date = currentDate();
+    var cityLabel = citySelect.value === 'other' ? 'مختصات دستی' : citySelect.options[citySelect.selectedIndex].text;
+
+    if (!ready) return;
+    Celestial.skyview({ date: date, location: loc.location, timezone: loc.timezone });
+    updateStatus(loc, date, cityLabel);
+  }
+
+  document.getElementById('skyApply').addEventListener('click', applySky);
+  citySelect.addEventListener('change', applySky);
+
+  document.getElementById('skyNow').addEventListener('click', function () {
+    citySelect.value = citySelect.value === 'other' ? 'other' : citySelect.value;
+    setDateTimeFields(new Date());
+    applySky();
+  });
+
+  var magVal = document.getElementById('magVal');
+  document.getElementById('magLimit').addEventListener('input', function (e) {
+    var v = parseFloat(e.target.value);
+    magVal.textContent = v.toFixed(1);
+    if (ready) Celestial.apply({ stars: { limit: v } });
+  });
+
+  document.getElementById('toggleLines').addEventListener('change', function (e) {
+    if (ready) Celestial.apply({ constellations: { lines: e.target.checked } });
+  });
+  document.getElementById('toggleNames').addEventListener('change', function (e) {
+    if (ready) Celestial.apply({ constellations: { names: e.target.checked } });
+  });
+  document.getElementById('toggleMW').addEventListener('change', function (e) {
+    if (ready) Celestial.apply({ mw: { show: e.target.checked } });
+  });
+  document.getElementById('toggleHorizon').addEventListener('change', function (e) {
+    if (ready) Celestial.apply({ horizon: { show: e.target.checked } });
+  });
+
+  function boot() {
+    if (typeof Celestial === 'undefined') {
+      statusEl.innerHTML = '<span style="color:var(--star-500);">بارگذاری موتور نقشه با خطا مواجه شد. لطفاً اتصال اینترنت را بررسی و صفحه را دوباره بارگذاری کنید.</span>';
+      return;
+    }
+    Celestial.display(config);
+    ready = true;
+    applySky();
+  }
+
+  if (document.readyState === 'complete') {
+    boot();
+  } else {
+    window.addEventListener('load', boot);
+  }
+})();
+</script>
+
+</body>
+</html>
