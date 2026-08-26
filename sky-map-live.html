@@ -277,6 +277,8 @@
           <label><input type="checkbox" id="toggleNames" checked> نام صورت‌های فلکی</label>
           <label><input type="checkbox" id="toggleMW" checked> کهکشان راه شیری</label>
           <label><input type="checkbox" id="toggleHorizon" checked> افق</label>
+          <label><input type="checkbox" id="toggleMessier" checked> اجرام مسیه (دیپ‌اسکای)</label>
+          <label><input type="checkbox" id="toggleEcliptic" checked> مدار دایرة‌البروج</label>
         </div>
       </div>
     </div>
@@ -410,7 +412,16 @@
       exponent: -0.28,
       data: 'stars.6.json'
     },
-    dsos: { show: false, data: 'dsos.bright.json' },
+    dsos: {
+      show: true,
+      colors: true,
+      style: { fill: '#cccccc', stroke: '#cccccc', width: 1.5, opacity: 1 },
+      names: true,
+      namesType: 'desig',
+      nameStyle: { fill: '#b7bed8', font: '11px "JetBrains Mono", monospace', align: 'left', baseline: 'top' },
+      nameLimit: 12,
+      data: 'messier.json'
+    },
     planets: {
       show: true,
       which: ['sol', 'mer', 'ven', 'ter', 'lun', 'mar', 'jup', 'sat', 'ura', 'nep'],
@@ -436,7 +447,7 @@
     lines: {
       graticule: { show: false },
       equatorial: { show: false },
-      ecliptic: { show: false },
+      ecliptic: { show: true, stroke: '#5fb8b0', width: 1.3, opacity: 0.75 },
       galactic: { show: false },
       supergalactic: { show: false }
     },
@@ -485,6 +496,12 @@
   });
   document.getElementById('toggleHorizon').addEventListener('change', function (e) {
     if (ready) Celestial.apply({ horizon: { show: e.target.checked } });
+  });
+  document.getElementById('toggleMessier').addEventListener('change', function (e) {
+    if (ready) Celestial.apply({ dsos: { show: e.target.checked } });
+  });
+  document.getElementById('toggleEcliptic').addEventListener('change', function (e) {
+    if (ready) Celestial.apply({ lines: { ecliptic: { show: e.target.checked } } });
   });
 
   function boot() {
