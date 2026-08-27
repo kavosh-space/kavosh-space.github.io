@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وضعیت قمرهای مشتری | گروه نجوم کاوش</title>
+<meta name="description" content="آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری — یو، اروپا، گانیمد و کالیستو — محاسبه‌شده به‌صورت محلی در مرورگر شما، ویژه رصد با تلسکوپ.">
+<link rel="canonical" href="https://kavosh-space.github.io/jupiter-moons.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="وضعیت قمرهای مشتری | گروه نجوم کاوش">
+<meta property="og:description" content="آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری نسبت به سیاره، محاسبه‌شده لحظه‌به‌لحظه در مرورگر شما.">
+<meta property="og:url" content="https://kavosh-space.github.io/jupiter-moons.html">
+<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:image" content="https://kavosh-space.github.io/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+  .hero-jm h1{font-size:clamp(32px, 5vw, 56px);}
+
+  .back-row{margin-bottom:32px;}
+  .back-row a{
+    font-family:var(--font-data); font-size:12.5px; color:var(--star-300);
+    border-bottom:1px solid var(--night-500); padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .back-row a:hover{color:var(--star-100); border-color:var(--ember-500);}
+
+  .jm-meta{
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px 28px;
+    padding-bottom:22px; margin-bottom:28px;
+    border-bottom:1px solid var(--night-600);
+    font-family:var(--font-data); font-size:12px; letter-spacing:.04em;
+    color:var(--star-500);
+  }
+  .jm-meta b{color:var(--star-300); font-weight:500;}
+  .jm-status-dot{display:inline-flex; align-items:center; gap:8px;}
+  .status-dot{
+    width:7px; height:7px; border-radius:50%; background:#7ee0a8;
+    box-shadow:0 0 0 3px rgba(126,224,168,.18);
+    animation:statusPulse 2.2s ease-in-out infinite;
+  }
+  .status-dot.down{background:#e08a6a; box-shadow:0 0 0 3px rgba(224,138,106,.18);}
+  @keyframes statusPulse{0%,100%{opacity:.55;} 50%{opacity:1;}}
+
+  .jm-disclaimer{
+    display:flex; align-items:flex-start; gap:14px;
+    margin-bottom:28px; padding:18px 22px;
+    border:1px dashed var(--night-600); border-radius:8px;
+    color:var(--star-300); font-size:13.5px; line-height:1.9;
+  }
+  .jm-disclaimer .dot{flex-shrink:0; margin-top:6px; width:6px; height:6px; border-radius:50%; background:var(--ember-500);}
+
+  .jm-controls{
+    display:flex; flex-wrap:wrap; align-items:center; gap:14px 22px;
+    margin-bottom:22px; padding:16px 20px;
+    border:1px solid var(--night-700); border-radius:8px;
+    background:var(--night-800);
+    font-size:13.5px; color:var(--star-300);
+  }
+  .jm-controls label{display:flex; align-items:center; gap:8px; cursor:pointer;}
+  .jm-controls input[type=datetime-local]{
+    background:var(--night-900); border:1px solid var(--night-600); border-radius:6px;
+    color:var(--star-100); font-family:var(--font-data); font-size:13px; padding:6px 10px;
+    color-scheme:dark;
+  }
+  .jm-btn{
+    font-family:var(--font-data); font-size:12.5px; letter-spacing:.03em;
+    background:var(--night-700); color:var(--star-100); border:1px solid var(--night-600);
+    border-radius:6px; padding:7px 14px; cursor:pointer; transition:border-color .2s ease, background .2s ease;
+  }
+  .jm-btn:hover{border-color:var(--ember-500);}
+  .jm-btn.active{background:var(--ember-500); border-color:var(--ember-500); color:#1a1410;}
+  .jm-toggle-group{display:flex; gap:8px; flex-wrap:wrap;}
+
+  .jm-diagram-wrap{
+    border:1px solid var(--night-700); border-radius:8px;
+    background:var(--night-800);
+    padding:12px 8px 6px;
+    margin-bottom:10px;
+    overflow-x:auto;
+  }
+  .jm-diagram-wrap svg{display:block; width:100%; min-width:640px; height:auto;}
+  .jm-scale-note{
+    text-align:center; font-family:var(--font-data); font-size:11px;
+    color:var(--star-500); margin-bottom:26px;
+  }
+
+  .jm-table-wrap{overflow-x:auto; margin-bottom:28px;}
+  table.jm-table{
+    width:100%; border-collapse:collapse; font-size:13.5px; min-width:560px;
+  }
+  table.jm-table th, table.jm-table td{
+    text-align:right; padding:10px 14px; border-bottom:1px solid var(--night-700);
+  }
+  table.jm-table th{
+    font-family:var(--font-data); font-size:11.5px; letter-spacing:.04em;
+    color:var(--star-500); font-weight:500;
+  }
+  table.jm-table td{color:var(--star-200);}
+  table.jm-table td.jm-moon-name{display:flex; align-items:center; gap:9px; font-weight:500; color:var(--star-100);}
+  .jm-swatch{width:11px; height:11px; border-radius:50%; flex-shrink:0;}
+  .jm-tag{
+    display:inline-block; font-family:var(--font-data); font-size:11px;
+    padding:2px 9px; border-radius:20px; border:1px solid var(--night-600); color:var(--star-400);
+  }
+  .jm-tag.transit{border-color:#7ee0a8; color:#7ee0a8;}
+  .jm-tag.occult{border-color:#e08a6a; color:#e08a6a;}
+
+  .jm-attribution{
+    margin-top:4px; padding:20px 22px;
+    border:1px solid var(--night-700); border-radius:8px;
+    font-size:13px; color:var(--star-500); line-height:1.9;
+  }
+  .jm-attribution a{color:var(--star-300); border-bottom:1px solid var(--night-500); padding-bottom:1px;}
+  .jm-attribution a:hover{color:var(--star-100); border-color:var(--ember-500);}
+
+  @media (max-width:640px){
+    .jm-controls{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
+
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
+    <a href="team.html">اعضا</a>
+    <a href="about.html">درباره</a>
+    <a href="tours.html">گشت رصدی</a>
+    <a href="offerings.html">کارگاه‌ها</a>
+    <a href="contact.html">تماس با ما</a>
+    <a href="tools.html" class="active">ابزار</a>
+    <a href="observatory.html">رصدگاه</a>
+    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
+      <span class="nv-dot"></span>
+      <span id="nvLabel">حالت شب</span>
+    </button>
+  </nav>
+</header>
+
+<header class="hero hero-lite hero-jm">
+  <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#f4f1ea">
+      <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
+      <circle cx="180" cy="150" r="1" opacity="0.5"/>
+      <circle cx="280" cy="50" r="1.6" opacity="0.9"/>
+      <circle cx="380" cy="120" r="1" opacity="0.4"/>
+      <circle cx="480" cy="40" r="1.2" opacity="0.7"/>
+      <circle cx="560" cy="100" r="1.8" opacity="1"/>
+      <circle cx="640" cy="60" r="1" opacity="0.5"/>
+      <circle cx="740" cy="140" r="1.3" opacity="0.8"/>
+      <circle cx="840" cy="50" r="1" opacity="0.4"/>
+      <circle cx="940" cy="120" r="1.5" opacity="0.9"/>
+      <circle cx="1000" cy="60" r="1" opacity="0.5"/>
+      <circle cx="150" cy="230" r="1" opacity="0.4"/>
+      <circle cx="450" cy="220" r="1.5" opacity="0.8"/>
+      <circle cx="750" cy="230" r="1.2" opacity="0.6"/>
+    </g>
+  </svg>
+  <div class="hero-content wrap">
+    <div class="eyebrow">ابزار آنلاین · محاسبه لحظه‌ای</div>
+    <h1>وضعیت قمرهای مشتری</h1>
+    <p class="hero-tag">آرایش لحظه‌ای چهار قمر گالیله‌ای — یو، اروپا، گانیمد و کالیستو — نسبت به مشتری، محاسبه‌شده در مرورگر شما بدون اتکا به هیچ سرویس یا داده‌ی خارجی.</p>
+  </div>
+</header>
+
+<section id="jm-page">
+  <div class="wrap">
+    <div class="back-row"><a href="tools.html">← بازگشت به ابزار</a></div>
+
+    <div class="jm-meta" id="jmMeta">
+      <span class="jm-status-dot"><span class="status-dot" id="jmDot"></span><span id="jmDotLabel">محاسبه زنده</span></span>
+      <span>منبع: <b>Astronomy Engine</b> (متن‌باز، مجوز MIT)</span>
+      <span id="jmAltitude">ارتفاع مشتری از افق: در حال محاسبه…</span>
+    </div>
+
+    <div class="jm-disclaimer">
+      <span class="dot"></span>
+      <p>این ابزار مختصات چهار قمر گالیله‌ای را نسبت به مشتری، بر پایه‌ی مدل نجومی <b style="color:var(--star-100);">VSOP87</b>، به‌طور کامل در همین صفحه و در مرورگر شما محاسبه می‌کند — بدون درخواست داده از هیچ API یا پایگاه‌داده‌ی خارجی. دقت محاسبات در حد چند ثانیه‌ی قوسی است که برای رصد آماتوری با تلسکوپ کافی است؛ برای پیش‌بینی دقیق گذر و اختفا در سطح حرفه‌ای به منابعی مانند IMCCE یا Sky &amp; Telescope مراجعه کنید. جهت شرق-غرب بر اساس آسمان (نه لزوماً میدان دید تلسکوپ شما) است — از دکمه‌های زیر برای تطبیق با نوع ابزار رصدی خود استفاده کنید.</p>
+    </div>
+
+    <div class="jm-controls">
+      <button class="jm-btn active" id="jmNowBtn">اکنون</button>
+      <label>زمان دلخواه: <input type="datetime-local" id="jmTimeInput"></label>
+      <div class="jm-toggle-group">
+        <button class="jm-btn" id="jmFlipH" title="برای دوربین دوچشمی یا تلسکوپ رفرکتور با آینه‌ی مورب">وارونه‌ی چپ-راست</button>
+        <button class="jm-btn" id="jmFlipV" title="برای تلسکوپ نیوتنی">وارونه‌ی بالا-پایین</button>
+      </div>
+    </div>
+
+    <div class="jm-diagram-wrap">
+      <svg id="jmSvg" viewBox="0 0 1000 260" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <p class="jm-scale-note" id="jmScaleNote">مقیاس بر حسب شعاع استوایی مشتری (R<tspan>♃</tspan>) — فاصله‌ها واقعی و متناسب‌اند، اندازه‌ی مشتری نیز به همین مقیاس رسم شده است.</p>
+
+    <div class="jm-table-wrap">
+      <table class="jm-table">
+        <thead>
+          <tr><th>قمر</th><th>فاصله از مشتری</th><th>جهت</th><th>وضعیت</th></tr>
+        </thead>
+        <tbody id="jmTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="jm-attribution">
+      موقعیت‌ها به‌صورت محلی و لحظه‌ای با کتابخانه‌ی متن‌باز <a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noopener">Astronomy Engine</a> (نوشته‌ی Don Cross، منتشرشده تحت مجوز MIT) محاسبه می‌شوند؛ این کتابخانه تنها از فرمول‌های نجومی عمومی (VSOP87) استفاده می‌کند و هیچ داده‌ای از سرویس یا پایگاه‌داده‌ی شخص ثالث دریافت نمی‌شود، بنابراین محدودیت کپی‌رایتی در کار نیست.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
+  </div>
+</footer>
+
+<script src="kavosh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/source/js/astronomy.browser.min.js"></script>
+<script>
+(function(){
+  const A = Astronomy;
+  const EPS = 23.4392911 * Math.PI/180;
+  const ECL_POLE = {x:0, y:-Math.sin(EPS), z:Math.cos(EPS)};
+  const AU_KM = 1.495978707e8;
+  const RJ = A.JUPITER_EQUATORIAL_RADIUS_KM;
+
+  const MOONS = [
+    {key:'io',       name:'یو',      color:'#e0b25a'},
+    {key:'europa',   name:'اروپا',    color:'#e8e2cf'},
+    {key:'ganymede', name:'گانیمد',  color:'#b9a888'},
+    {key:'callisto', name:'کالیستو', color:'#8a7460'}
+  ];
+
+  const svg = document.getElementById('jmSvg');
+  const tbody = document.getElementById('jmTableBody');
+  const altEl = document.getElementById('jmAltitude');
+  const dotEl = document.getElementById('jmDot');
+  const dotLabelEl = document.getElementById('jmDotLabel');
+  const nowBtn = document.getElementById('jmNowBtn');
+  const timeInput = document.getElementById('jmTimeInput');
+  const flipHBtn = document.getElementById('jmFlipH');
+  const flipVBtn = document.getElementById('jmFlipV');
+
+  let liveMode = true;
+  let flipH = false, flipV = false;
+  let observer = new A.Observer(35.6892, 51.3890, 1100); // fallback: Tehran
+  let timer = null;
+
+  function setLive(on){
+    liveMode = on;
+    nowBtn.classList.toggle('active', on);
+    if (on) { timeInput.value = ''; startTimer(); } else { stopTimer(); }
+  }
+
+  function startTimer(){
+    stopTimer();
+    render();
+    timer = setInterval(render, 60000);
+  }
+  function stopTimer(){ if (timer) { clearInterval(timer); timer = null; } }
+
+  function getTime(){
+    if (liveMode || !timeInput.value) return new Date();
+    return new Date(timeInput.value);
+  }
+
+  function project(date){
+    const t = A.MakeTime(date);
+    const jv = A.GeoVector(A.Body.Jupiter, t, true);
+    const dist = Math.sqrt(jv.x*jv.x + jv.y*jv.y + jv.z*jv.z);
+    const r = {x: jv.x/dist, y: jv.y/dist, z: jv.z/dist};
+
+    let e = {
+      x: ECL_POLE.y*r.z - ECL_POLE.z*r.y,
+      y: ECL_POLE.z*r.x - ECL_POLE.x*r.z,
+      z: ECL_POLE.x*r.y - ECL_POLE.y*r.x
+    };
+    const elen = Math.hypot(e.x, e.y, e.z);
+    e = {x:e.x/elen, y:e.y/elen, z:e.z/elen};
+    const n = {
+      x: r.y*e.z - r.z*e.y,
+      y: r.z*e.x - r.x*e.z,
+      z: r.x*e.y - r.y*e.x
+    };
+
+    const jm = A.JupiterMoons(t);
+    const results = MOONS.map(m => {
+      const v = jm[m.key];
+      const east_au  = v.x*e.x + v.y*e.y + v.z*e.z;
+      const north_au = v.x*n.x + v.y*n.y + v.z*n.z;
+      const los_au   = v.x*r.x + v.y*r.y + v.z*r.z;
+      const east_rj  = east_au  * AU_KM / RJ;
+      const north_rj = north_au * AU_KM / RJ;
+      const sep_rj = Math.hypot(east_rj, north_rj);
+      const front = los_au < 0;
+      let status = 'عادی';
+      if (sep_rj < 1) status = front ? 'گذر از جلوی مشتری' : 'پنهان پشت مشتری';
+      return {...m, east_rj, north_rj, front, status};
+    });
+
+    // observer-based altitude of Jupiter
+    let altitude = null;
+    try {
+      const eq = A.Equator(A.Body.Jupiter, t, observer, true, true);
+      const hor = A.Horizon(t, observer, eq.ra, eq.dec, 'normal');
+      altitude = hor.altitude;
+    } catch(e){ altitude = null; }
+
+    return {results, altitude};
+  }
+
+  function renderDiagram(results){
+    const W = 1000, H = 260, cx = W/2, cy = H/2;
+    const maxRj = 30;
+    const halfSpan = 440;
+    const scale = halfSpan / maxRj;
+    const jRadiusPx = scale; // 1 Rj, to-scale
+
+    const sign = flipH ? -1 : 1;
+    const vsign = flipV ? -1 : 1;
+
+    let parts = [];
+    parts.push(`<line x1="30" y1="${cy}" x2="${W-30}" y2="${cy}" stroke="var(--night-600)" stroke-width="1" stroke-dasharray="3 5"/>`);
+
+    // draw far-side moons first (behind jupiter), then jupiter, then near-side moons
+    const behind = results.filter(m => !m.front);
+    const front = results.filter(m => m.front);
+
+    function moonMarkup(m){
+      const x = cx + sign * m.east_rj * scale;
+      const y = cy - vsign * m.north_rj * scale;
+      const opacity = m.front ? 1 : 0.55;
+      const r = 7;
+      let extra = '';
+      if (m.status !== 'عادی'){
+        const ringColor = m.status === 'گذر از جلوی مشتری' ? '#7ee0a8' : '#e08a6a';
+        extra = `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r+5}" fill="none" stroke="${ringColor}" stroke-width="1.4" stroke-dasharray="2 3"/>`;
+      }
+      return `<g opacity="${opacity}">
+        ${extra}
+        <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${m.color}"/>
+        <text x="${x.toFixed(1)}" y="${(y+22).toFixed(1)}" text-anchor="middle" font-family="var(--font-data)" font-size="12" fill="var(--star-400)">${m.name}</text>
+      </g>`;
+    }
+
+    behind.forEach(m => parts.push(moonMarkup(m)));
+    parts.push(`<defs>
+        <radialGradient id="jupGrad" cx="35%" cy="35%" r="70%">
+          <stop offset="0%" stop-color="#f3d9a4"/>
+          <stop offset="55%" stop-color="#d9a45c"/>
+          <stop offset="100%" stop-color="#a9713a"/>
+        </radialGradient>
+      </defs>`);
+    parts.push(`<circle cx="${cx}" cy="${cy}" r="${jRadiusPx.toFixed(1)}" fill="url(#jupGrad)"/>`);
+    parts.push(`<ellipse cx="${cx}" cy="${(cy-jRadiusPx*0.28).toFixed(1)}" rx="${jRadiusPx.toFixed(1)}" ry="${(jRadiusPx*0.16).toFixed(1)}" fill="#c98f4e" opacity="0.5"/>`);
+    parts.push(`<ellipse cx="${cx}" cy="${(cy+jRadiusPx*0.35).toFixed(1)}" rx="${jRadiusPx.toFixed(1)}" ry="${(jRadiusPx*0.14).toFixed(1)}" fill="#8a5a2e" opacity="0.5"/>`);
+    front.forEach(m => parts.push(moonMarkup(m)));
+
+    svg.innerHTML = parts.join('\n');
+  }
+
+  function renderTable(results){
+    tbody.innerHTML = results.map(m => {
+      const dir = m.east_rj >= 0 ? 'شرق' : 'غرب';
+      let tag = '';
+      if (m.status === 'گذر از جلوی مشتری') tag = `<span class="jm-tag transit">گذر</span>`;
+      else if (m.status === 'پنهان پشت مشتری') tag = `<span class="jm-tag occult">پنهان</span>`;
+      else tag = `<span class="jm-tag">عادی</span>`;
+      return `<tr>
+        <td class="jm-moon-name"><span class="jm-swatch" style="background:${m.color}"></span>${m.name}</td>
+        <td style="font-family:var(--font-data);">${Math.abs(m.east_rj).toFixed(1)} R♃</td>
+        <td>${dir} (${m.front ? 'نزدیک‌تر به زمین' : 'دورتر از زمین'})</td>
+        <td>${tag} ${m.status !== 'عادی' ? m.status : ''}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function render(){
+    const date = getTime();
+    const {results, altitude} = project(date);
+    renderDiagram(results);
+    renderTable(results);
+
+    if (altitude !== null){
+      const up = altitude > 0;
+      dotEl.classList.toggle('down', !up);
+      altEl.textContent = `ارتفاع مشتری از افق: ${altitude.toFixed(0)}° ${up ? '(بالای افق)' : '(زیر افق)'}`;
+    } else {
+      altEl.textContent = 'ارتفاع مشتری از افق: در دسترس نیست';
+    }
+    dotLabelEl.textContent = liveMode ? 'محاسبه زنده' : 'زمان دلخواه';
+  }
+
+  nowBtn.addEventListener('click', () => setLive(true));
+  timeInput.addEventListener('change', () => { if (timeInput.value) setLive(false), render(); });
+  flipHBtn.addEventListener('click', () => { flipH = !flipH; flipHBtn.classList.toggle('active', flipH); render(); });
+  flipVBtn.addEventListener('click', () => { flipV = !flipV; flipVBtn.classList.toggle('active', flipV); render(); });
+
+  if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      pos => { observer = new A.Observer(pos.coords.latitude, pos.coords.longitude, 0); render(); },
+      () => {},
+      {timeout: 4000}
+    );
+  }
+
+  setLive(true);
+})();
+</script>
+
+</body>
+</html>
