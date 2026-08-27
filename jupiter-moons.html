@@ -241,9 +241,13 @@
 </footer>
 
 <script src="kavosh.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/source/js/astronomy.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
 <script>
 (function(){
+  if (typeof Astronomy === 'undefined') {
+    document.getElementById('jmAltitude').textContent = 'خطا: کتابخانه‌ی محاسباتی بارگذاری نشد (اتصال اینترنت یا مسدودکننده‌ی تبلیغات را بررسی کنید).';
+    return;
+  }
   const A = Astronomy;
   const EPS = 23.4392911 * Math.PI/180;
   const ECL_POLE = {x:0, y:-Math.sin(EPS), z:Math.cos(EPS)};
@@ -402,8 +406,14 @@
   }
 
   function render(){
-    const date = getTime();
-    const {results, altitude} = project(date);
+    let date, results, altitude;
+    try {
+      date = getTime();
+      ({results, altitude} = project(date));
+    } catch(err){
+      altEl.textContent = 'خطا در محاسبه — لطفاً صفحه را دوباره بارگذاری کنید.';
+      return;
+    }
     renderDiagram(results);
     renderTable(results);
 
@@ -418,7 +428,9 @@
   }
 
   nowBtn.addEventListener('click', () => setLive(true));
-  timeInput.addEventListener('change', () => { if (timeInput.value) setLive(false), render(); });
+  timeInput.addEventListener('change', () => {
+    if (timeInput.value) { setLive(false); render(); }
+  });
   flipHBtn.addEventListener('click', () => { flipH = !flipH; flipHBtn.classList.toggle('active', flipH); render(); });
   flipVBtn.addEventListener('click', () => { flipV = !flipV; flipVBtn.classList.toggle('active', flipV); render(); });
 
