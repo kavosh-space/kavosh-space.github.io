@@ -1,18 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://kavosh-space.github.io/</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/team.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/corona-borealis-nova.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/shbahang.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/amateur-astronomers.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/persieds2026.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/perseids-2024.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/comet-tsuchinshan-atlas.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/earth-shadow-venus-belt.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/canopus-star.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/earthshine.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/how-many-stars-visible.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/k2-18b-life-signs.html</loc><lastmod>2026-08-21</lastmod></url>
-  <url><loc>https://kavosh-space.github.io/news/two-comets-2025.html</loc><lastmod>2026-08-21</lastmod></url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/about.html</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/contact.html</loc>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/tours.html</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/tools.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/sky-map-live.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/comets.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/jupiter-moons.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/seeing.html</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://kavosh-space.github.io/perseids-2026.html</loc>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>
