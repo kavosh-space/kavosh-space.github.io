@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>گذر ایستگاه فضایی بین‌المللی از بالای سر شما | گروه نجوم کاوش</title>
+<meta name="description" content="پیش‌بینی زمان و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی (ISS) از بالای سر شما — محاسبه‌شده در مرورگر بر پایه داده مداری زنده.">
+<link rel="canonical" href="https://kavosh-space.github.io/iss-passes.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="گذر ایستگاه فضایی بین‌المللی از بالای سر شما | گروه نجوم کاوش">
+<meta property="og:description" content="زمان، ارتفاع و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی برای شهر یا موقعیت شما — محاسبه زنده در مرورگر.">
+<meta property="og:url" content="https://kavosh-space.github.io/iss-passes.html">
+<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:image" content="https://kavosh-space.github.io/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+  .hero-iss h1{font-size:clamp(30px, 5vw, 54px);}
+
+  .back-row{margin-bottom:32px;}
+  .back-row a{
+    font-family:var(--font-data); font-size:12.5px; color:var(--star-300);
+    border-bottom:1px solid var(--night-500); padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .back-row a:hover{color:var(--star-100); border-color:var(--ember-500);}
+
+  .iss-disclaimer{
+    display:flex; align-items:flex-start; gap:14px;
+    margin-bottom:28px; padding:18px 22px;
+    border:1px dashed var(--night-600); border-radius:8px;
+    color:var(--star-300); font-size:13.5px; line-height:1.9;
+  }
+  .iss-disclaimer .dot{flex-shrink:0; margin-top:6px; width:6px; height:6px; border-radius:50%; background:var(--ember-500);}
+
+  .iss-controls{
+    display:flex; flex-wrap:wrap; align-items:flex-end; gap:16px 22px;
+    margin-bottom:18px; padding:18px 20px;
+    border:1px solid var(--night-700); border-radius:8px;
+    background:var(--night-800);
+  }
+  .iss-field{display:flex; flex-direction:column; gap:6px; min-width:170px;}
+  .iss-field.coords{display:none;}
+  .iss-field.coords.show{display:flex;}
+  .iss-field label{font-family:var(--font-data); font-size:11.5px; letter-spacing:.03em; color:var(--star-500);}
+  .iss-field select, .iss-field input{
+    background:var(--night-900); border:1px solid var(--night-600); border-radius:6px;
+    color:var(--star-100); font-family:var(--font-display); font-size:14px; padding:8px 10px;
+    color-scheme:dark;
+  }
+  .iss-actions{display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap; margin-right:auto;}
+  .iss-geo-btn{
+    font-family:var(--font-data); font-size:12px; letter-spacing:.02em;
+    background:transparent; color:var(--star-300); border:1px solid var(--night-600);
+    border-radius:6px; padding:9px 14px; cursor:pointer; transition:border-color .2s ease, color .2s ease;
+    white-space:nowrap;
+  }
+  .iss-geo-btn:hover{border-color:var(--ember-500); color:var(--star-100);}
+
+  .iss-status{
+    font-family:var(--font-data); font-size:12.5px; color:var(--star-500);
+    margin-bottom:24px; min-height:18px;
+  }
+
+  .iss-table-wrap{overflow-x:auto; margin-bottom:10px;}
+  table.iss-table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:600px;}
+  table.iss-table th, table.iss-table td{
+    text-align:right; padding:12px 14px; border-bottom:1px solid var(--night-700); vertical-align:top;
+  }
+  table.iss-table th{
+    font-family:var(--font-data); font-size:11px; letter-spacing:.04em;
+    color:var(--star-500); font-weight:500;
+  }
+  table.iss-table td{color:var(--star-200);}
+  .iss-sub{display:block; font-family:var(--font-display); font-size:12px; color:var(--star-500); margin-top:3px;}
+
+  .iss-empty{
+    padding:26px 22px; border:1px dashed var(--night-600); border-radius:8px;
+    color:var(--star-300); font-size:14px; text-align:center; margin-bottom:10px; display:none;
+  }
+
+  .iss-attribution{
+    margin-top:26px; padding:20px 22px;
+    border:1px solid var(--night-700); border-radius:8px;
+    font-size:13px; color:var(--star-500); line-height:1.9;
+  }
+  .iss-attribution a{color:var(--star-300); border-bottom:1px solid var(--night-500); padding-bottom:1px;}
+  .iss-attribution a:hover{color:var(--star-100); border-color:var(--ember-500);}
+
+  @media (max-width:640px){
+    .iss-controls{flex-direction:column; align-items:stretch;}
+    .iss-actions{margin-right:0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
+
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
+    <a href="team.html">اعضا</a>
+    <a href="about.html">درباره</a>
+    <a href="tours.html">گشت رصدی</a>
+    <a href="offerings.html">کارگاه‌ها</a>
+    <a href="contact.html">تماس با ما</a>
+    <a href="tools.html" class="active">ابزار</a>
+    <a href="observatory.html">رصدگاه</a>
+    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
+      <span class="nv-dot"></span>
+      <span id="nvLabel">حالت شب</span>
+    </button>
+  </nav>
+</header>
+
+<header class="hero hero-lite hero-iss">
+  <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#f4f1ea">
+      <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
+      <circle cx="180" cy="150" r="1" opacity="0.5"/>
+      <circle cx="280" cy="50" r="1.6" opacity="0.9"/>
+      <circle cx="380" cy="120" r="1" opacity="0.4"/>
+      <circle cx="480" cy="40" r="1.2" opacity="0.7"/>
+      <circle cx="560" cy="100" r="1.8" opacity="1"/>
+      <circle cx="640" cy="60" r="1" opacity="0.5"/>
+      <circle cx="740" cy="140" r="1.3" opacity="0.8"/>
+      <circle cx="840" cy="50" r="1" opacity="0.4"/>
+      <circle cx="940" cy="120" r="1.5" opacity="0.9"/>
+      <circle cx="1000" cy="60" r="1" opacity="0.5"/>
+      <circle cx="150" cy="230" r="1" opacity="0.4"/>
+      <circle cx="450" cy="220" r="1.5" opacity="0.8"/>
+      <circle cx="750" cy="230" r="1.2" opacity="0.6"/>
+    </g>
+  </svg>
+  <div class="hero-content wrap">
+    <div class="eyebrow">ابزار آنلاین · محاسبه زنده</div>
+    <h1>گذر ایستگاه فضایی از بالای سر شما</h1>
+    <p class="hero-tag">زمان، ارتفاع و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی (ISS) برای شهر یا موقعیت شما.</p>
+  </div>
+</header>
+
+<section id="iss-page">
+  <div class="wrap">
+    <div class="back-row"><a href="tools.html">← بازگشت به ابزار</a></div>
+
+    <div class="iss-disclaimer">
+      <span class="dot"></span>
+      <p>این ابزار فقط گذرهای <b style="color:var(--star-100);">قابل‌رؤیت با چشم</b> ایستگاه فضایی بین‌المللی را نشان می‌دهد: زمانی که ایستگاه به‌اندازه کافی بالای افق است، آسمان شما به‌اندازه کافی تاریک است (غروب مدنی خورشید) و خود ایستگاه هنوز زیر نور مستقیم خورشید قرار دارد (هنوز وارد سایه زمین نشده). داده مداری (TLE) به‌صورت زنده از <b style="color:var(--star-100);">wheretheiss.at</b> دریافت و محاسبات با مدل انتشار SGP4 و یک تقریب استوانه‌ای ساده از سایه زمین، به‌طور کامل در همین مرورگر انجام می‌شود؛ دقت زمان‌بندی در حد یک تا دو دقیقه است. برای برنامه‌ریزی دقیق‌تر یا رصد سایر ماهواره‌ها، به <a href="https://www.heavens-above.com/" target="_blank" rel="noopener" style="color:var(--star-100); border-bottom:1px solid var(--night-500);">heavens-above.com</a> مراجعه کنید.</p>
+    </div>
+
+    <div class="iss-controls">
+      <div class="iss-field">
+        <label for="issCity">شهر</label>
+        <select id="issCity">
+          <option value="35.6892,51.3890">تهران</option>
+          <option value="35.7178,52.0653">دماوند</option>
+          <option value="36.2605,59.6168">مشهد</option>
+          <option value="32.6546,51.6680">اصفهان</option>
+          <option value="35.8400,50.9391">کرج</option>
+          <option value="29.5918,52.5837">شیراز</option>
+          <option value="38.0800,46.2919">تبریز</option>
+          <option value="34.6401,50.8764">قم</option>
+          <option value="31.3183,48.6706">اهواز</option>
+          <option value="34.3277,47.0778">کرمانشاه</option>
+          <option value="37.5527,45.0761">ارومیه</option>
+          <option value="37.2808,49.5832">رشت</option>
+          <option value="29.4963,60.8629">زاهدان</option>
+          <option value="34.7992,48.5146">همدان</option>
+          <option value="30.2839,57.0834">کرمان</option>
+          <option value="31.8974,54.3569">یزد</option>
+          <option value="38.2498,48.2933">اردبیل</option>
+          <option value="27.1865,56.2808">بندرعباس</option>
+          <option value="34.0917,49.6892">اراک</option>
+          <option value="36.6736,48.4787">زنجان</option>
+          <option value="35.3219,46.9862">سنندج</option>
+          <option value="36.2688,50.0041">قزوین</option>
+          <option value="33.4878,48.3558">خرم‌آباد</option>
+          <option value="36.8427,54.4441">گرگان</option>
+          <option value="36.5633,53.0601">ساری</option>
+          <option value="28.9684,50.8385">بوشهر</option>
+          <option value="33.6374,46.4227">ایلام</option>
+          <option value="32.8663,59.2211">بیرجند</option>
+          <option value="30.6682,51.5880">یاسوج</option>
+          <option value="37.4747,57.3291">بجنورد</option>
+          <option value="32.3256,50.8644">شهرکرد</option>
+          <option value="35.5729,53.3971">سمنان</option>
+          <option value="other">موقعیت دیگر (وارد کردن مختصات)…</option>
+        </select>
+      </div>
+
+      <div class="iss-field coords" id="issLatField">
+        <label for="issLat">عرض جغرافیایی</label>
+        <input type="number" id="issLat" step="0.0001" min="-90" max="90" placeholder="مثلاً ۳۵٫۶۸۹۲">
+      </div>
+      <div class="iss-field coords" id="issLonField">
+        <label for="issLon">طول جغرافیایی</label>
+        <input type="number" id="issLon" step="0.0001" min="-180" max="180" placeholder="مثلاً ۵۱٫۳۸۹۰">
+      </div>
+
+      <div class="iss-field">
+        <label for="issDays">بازه پیش‌بینی</label>
+        <select id="issDays">
+          <option value="3">۳ روز آینده</option>
+          <option value="5" selected>۵ روز آینده</option>
+          <option value="7">۷ روز آینده</option>
+          <option value="10">۱۰ روز آینده</option>
+        </select>
+      </div>
+
+      <div class="iss-actions">
+        <button class="iss-geo-btn" id="issGeoBtn" type="button">📍 استفاده از موقعیت من</button>
+        <button class="btn btn-primary btn-sm" id="issCalcBtn" type="button">محاسبه گذرها</button>
+      </div>
+    </div>
+
+    <p class="iss-status" id="issStatus">برای شروع، شهر یا موقعیت خود را انتخاب کنید و «محاسبه گذرها» را بزنید.</p>
+
+    <div class="iss-table-wrap" id="issResultsWrap" style="display:none;">
+      <table class="iss-table">
+        <thead>
+          <tr><th>تاریخ</th><th>شروع گذر</th><th>اوج گذر</th><th>پایان گذر</th><th>مدت</th></tr>
+        </thead>
+        <tbody id="issResultsBody"></tbody>
+      </table>
+    </div>
+    <div class="iss-empty" id="issEmptyMsg">در بازه انتخابی، گذر قابل‌رؤیتی برای این موقعیت یافت نشد — این حالت معمولاً در شب‌های نزدیک به میان‌تابستان (وقتی آسمان دیر تاریک می‌شود) طبیعی است؛ بازه طولانی‌تری را امتحان کنید.</div>
+
+    <div class="iss-attribution">
+      <p style="margin:0 0 8px;">داده مداری (TLE) ایستگاه فضایی: <a href="https://wheretheiss.at/w/developer" target="_blank" rel="noopener">wheretheiss.at</a> — بر پایه عناصر مداری NORAD.</p>
+      <p style="margin:0;">محاسبه مسیر: کتابخانه متن‌باز <a href="https://github.com/shashwatak/satellite-js" target="_blank" rel="noopener">satellite.js</a> (مجوز MIT) برای مدل SGP4، و <a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noopener">Astronomy Engine</a> برای موقعیت خورشید.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
+  </div>
+</footer>
+
+<script src="kavosh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/satellite.js@6.0.2/dist/satellite.min.js"></script>
+<script>
+(function(){
+  var statusEl = document.getElementById('issStatus');
+  var calcBtn = document.getElementById('issCalcBtn');
+
+  if (typeof Astronomy === 'undefined' || typeof satellite === 'undefined'){
+    statusEl.textContent = 'خطا: کتابخانه‌های محاسباتی بارگذاری نشدند (اتصال اینترنت یا مسدودکننده‌ی تبلیغات را بررسی کنید).';
+    calcBtn.disabled = true;
+    return;
+  }
+
+  var A = Astronomy;
+  var sat = satellite;
+
+  var AU_KM = 1.495978707e8;
+  var R_EARTH_KM = 6371;
+  var MIN_ELEV_DEG = 10;
+  var SUN_DARK_ALT_DEG = -6;
+  var SAT_STEP_SEC = 15;
+  var SUN_STEP_SEC = 90;
+  var TLE_URL = 'https://api.wheretheiss.at/v1/satellites/25544/tles';
+  var COMPASS = ['شمال', 'شمال‌شرق', 'شرق', 'جنوب‌شرق', 'جنوب', 'جنوب‌غرب', 'غرب', 'شمال‌غرب'];
+
+  function faDigits(str){
+    var fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return String(str).replace(/[0-9]/g, function(d){ return fa[d]; });
+  }
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+  function toIRST(d){ return new Date(d.getTime() + 3.5*3600000); }
+  function fmtTime(d){
+    var x = toIRST(d);
+    return faDigits(pad(x.getUTCHours()) + ':' + pad(x.getUTCMinutes()) + ':' + pad(x.getUTCSeconds()));
+  }
+  function fmtDate(d){
+    var x = toIRST(d);
+    var months = ['ژانویه','فوریه','مارس','آوریل','مه','ژوئن','ژوئیه','اوت','سپتامبر','اکتبر','نوامبر','دسامبر'];
+    return faDigits(x.getUTCDate()) + ' ' + months[x.getUTCMonth()] + ' ' + faDigits(x.getUTCFullYear());
+  }
+  function compassLabel(azDeg){
+    var norm = ((azDeg % 360) + 360) % 360;
+    var idx = Math.round(norm / 45) % 8;
+    return COMPASS[idx];
+  }
+
+  var citySelect = document.getElementById('issCity');
+  var latField = document.getElementById('issLatField');
+  var lonField = document.getElementById('issLonField');
+  var latInput = document.getElementById('issLat');
+  var lonInput = document.getElementById('issLon');
+  var daysSelect = document.getElementById('issDays');
+  var geoBtn = document.getElementById('issGeoBtn');
+  var resultsWrap = document.getElementById('issResultsWrap');
+  var resultsBody = document.getElementById('issResultsBody');
+  var emptyMsg = document.getElementById('issEmptyMsg');
+
+  function showCoordFields(show){
+    [latField, lonField].forEach(function(f){ f.classList.toggle('show', show); });
+  }
+  citySelect.addEventListener('change', function(){
+    showCoordFields(citySelect.value === 'other');
+  });
+
+  geoBtn.addEventListener('click', function(){
+    if (!navigator.geolocation){
+      statusEl.textContent = 'مرورگر شما از موقعیت‌یابی پشتیبانی نمی‌کند.';
+      return;
+    }
+    statusEl.textContent = 'در حال دریافت موقعیت مکانی…';
+    navigator.geolocation.getCurrentPosition(function(pos){
+      citySelect.value = 'other';
+      showCoordFields(true);
+      latInput.value = pos.coords.latitude.toFixed(4);
+      lonInput.value = pos.coords.longitude.toFixed(4);
+      statusEl.textContent = 'موقعیت دریافت شد — اکنون «محاسبه گذرها» را بزنید.';
+    }, function(){
+      statusEl.textContent = 'دریافت موقعیت مکانی ممکن نشد؛ لطفاً شهر را از فهرست انتخاب کنید یا مختصات را دستی وارد کنید.';
+    }, {timeout: 8000});
+  });
+
+  function getObserverLatLon(){
+    if (citySelect.value === 'other'){
+      var la = parseFloat(latInput.value), lo = parseFloat(lonInput.value);
+      if (isNaN(la) || isNaN(lo)) return null;
+      return {lat: la, lon: lo};
+    }
+    var parts = citySelect.value.split(',');
+    return {lat: parseFloat(parts[0]), lon: parseFloat(parts[1])};
+  }
+
+  function isIlluminated(rSat, sunVec){
+    var rmag = Math.sqrt(rSat.x*rSat.x + rSat.y*rSat.y + rSat.z*rSat.z);
+    var smag = Math.sqrt(sunVec.x*sunVec.x + sunVec.y*sunVec.y + sunVec.z*sunVec.z);
+    var ux = sunVec.x/smag, uy = sunVec.y/smag, uz = sunVec.z/smag;
+    var proj = rSat.x*ux + rSat.y*uy + rSat.z*uz;
+    if (proj > 0) return true;
+    var perp2 = rmag*rmag - proj*proj;
+    var perp = perp2 > 0 ? Math.sqrt(perp2) : 0;
+    return perp > R_EARTH_KM;
+  }
+
+  function computeSunState(date, observerAE){
+    var t = A.MakeTime(date);
+    var eq = A.Equator(A.Body.Sun, t, observerAE, true, true);
+    var hor = A.Horizon(t, observerAE, eq.ra, eq.dec, 'normal');
+    var gv = A.GeoVector(A.Body.Sun, t, true);
+    var rot = A.Rotation_EQJ_EQD(t);
+    var eqd = A.RotateVector(rot, gv);
+    return {
+      altDeg: hor.altitude,
+      sunVecKm: {x: eqd.x*AU_KM, y: eqd.y*AU_KM, z: eqd.z*AU_KM}
+    };
+  }
+
+  function computePasses(satrec, observerGd, observerAE, startDate, days){
+    var passes = [];
+    var totalSec = days * 86400;
+    var inPass = false;
+    var current = null;
+    var cachedSun = null;
+    var lastSunS = -Infinity;
+
+    for (var s = 0; s <= totalSec; s += SAT_STEP_SEC){
+      var t = new Date(startDate.getTime() + s*1000);
+
+      if (cachedSun === null || (s - lastSunS) >= SUN_STEP_SEC){
+        cachedSun = computeSunState(t, observerAE);
+        lastSunS = s;
+      }
+
+      var pv;
+      try { pv = sat.propagate(satrec, t); } catch(e){ pv = null; }
+      if (!pv || !pv.position || typeof pv.position.x !== 'number'){
+        if (inPass && current){ passes.push(current); inPass = false; current = null; }
+        continue;
+      }
+
+      var gmst = sat.gstime(t);
+      var ecf = sat.eciToEcf(pv.position, gmst);
+      var look = sat.ecfToLookAngles(observerGd, ecf);
+      var elevDeg = look.elevation * 180 / Math.PI;
+      var azDeg = look.azimuth * 180 / Math.PI;
+
+      var visible = false;
+      if (elevDeg >= MIN_ELEV_DEG){
+        var lit = isIlluminated(pv.position, cachedSun.sunVecKm);
+        var dark = cachedSun.altDeg <= SUN_DARK_ALT_DEG;
+        visible = lit && dark;
+      }
+
+      if (visible){
+        if (!inPass){
+          inPass = true;
+          current = {start: t, startAz: azDeg, maxElev: elevDeg, maxTime: t, maxAz: azDeg, end: t, endAz: azDeg};
+        } else {
+          if (elevDeg > current.maxElev){
+            current.maxElev = elevDeg; current.maxTime = t; current.maxAz = azDeg;
+          }
+          current.end = t; current.endAz = azDeg;
+        }
+      } else if (inPass && current){
+        passes.push(current);
+        inPass = false; current = null;
+        if (passes.length >= 25) break;
+      }
+    }
+    if (inPass && current){ passes.push(current); }
+    return passes;
+  }
+
+  function renderPasses(passes){
+    resultsBody.innerHTML = '';
+    if (passes.length === 0){
+      resultsWrap.style.display = 'none';
+      emptyMsg.style.display = 'block';
+      return;
+    }
+    emptyMsg.style.display = 'none';
+    resultsWrap.style.display = 'block';
+    passes.forEach(function(p){
+      var durSec = Math.max(0, Math.round((p.end.getTime() - p.start.getTime()) / 1000));
+      var durMin = Math.floor(durSec / 60), durRem = durSec % 60;
+      var durStr = faDigits(durMin) + ':' + faDigits(pad(durRem));
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + fmtDate(p.start) + '</td>' +
+        '<td style="font-family:var(--font-data);">' + fmtTime(p.start) + '<span class="iss-sub">از ' + compassLabel(p.startAz) + '</span></td>' +
+        '<td style="font-family:var(--font-data);">' + fmtTime(p.maxTime) + '<span class="iss-sub">' + faDigits(Math.round(p.maxElev)) + '° در ' + compassLabel(p.maxAz) + '</span></td>' +
+        '<td style="font-family:var(--font-data);">' + fmtTime(p.end) + '<span class="iss-sub">به‌سمت ' + compassLabel(p.endAz) + '</span></td>' +
+        '<td style="font-family:var(--font-data);">' + durStr + '</td>';
+      resultsBody.appendChild(tr);
+    });
+  }
+
+  calcBtn.addEventListener('click', function(){
+    var loc = getObserverLatLon();
+    if (!loc){
+      statusEl.textContent = 'لطفاً یک شهر انتخاب کنید یا مختصات معتبر وارد کنید.';
+      return;
+    }
+    var days = parseInt(daysSelect.value, 10) || 5;
+
+    calcBtn.disabled = true;
+    calcBtn.textContent = 'در حال محاسبه…';
+    statusEl.textContent = 'در حال دریافت داده مداری ایستگاه فضایی…';
+    resultsWrap.style.display = 'none';
+    emptyMsg.style.display = 'none';
+
+    fetch(TLE_URL).then(function(res){
+      if (!res.ok) throw new Error('network');
+      return res.json();
+    }).then(function(data){
+      if (!data || !data.line1 || !data.line2) throw new Error('bad-data');
+      statusEl.textContent = 'در حال محاسبه گذرها برای ' + days + ' روز آینده…';
+      setTimeout(function(){
+        try {
+          var satrec = sat.twoline2satrec(data.line1, data.line2);
+          var observerGd = {
+            longitude: sat.degreesToRadians(loc.lon),
+            latitude: sat.degreesToRadians(loc.lat),
+            height: 0
+          };
+          var observerAE = new A.Observer(loc.lat, loc.lon, 0);
+          var passes = computePasses(satrec, observerGd, observerAE, new Date(), days);
+          renderPasses(passes);
+          statusEl.textContent = 'محاسبه انجام شد — زمان‌ها به وقت رسمی ایران (UTC+۳:۳۰) هستند.';
+        } catch(err){
+          statusEl.textContent = 'خطا در محاسبه گذرها. لطفاً صفحه را دوباره بارگذاری کنید و امتحان کنید.';
+        } finally {
+          calcBtn.disabled = false;
+          calcBtn.textContent = 'محاسبه گذرها';
+        }
+      }, 30);
+    }).catch(function(){
+      statusEl.textContent = 'دریافت داده مداری ایستگاه فضایی ممکن نشد (اتصال اینترنت یا مسدودکننده تبلیغات را بررسی کنید).';
+      calcBtn.disabled = false;
+      calcBtn.textContent = 'محاسبه گذرها';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
