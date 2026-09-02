@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-01T20:49:19Z",
+  "fetched_at": "2026-09-02T03:47:44Z",
   "location": {
     "name": "Crni Vrh",
     "lat": 45.945905,
@@ -7,8 +7,9 @@
     "tz": "Europe/Ljubljana"
   },
   "moon_events": {
-    "Rise": "2026-09-01 21:12 CEST",
-    "Moon phase": 75.3
+    "Set": "2026-09-02 12:34 CEST",
+    "Rise": "2026-09-02 21:41 CEST",
+    "Moon phase": 65.0
   },
   "comets": [
     {
@@ -18,12 +19,12 @@
       "mpc_name": "0220P",
       "magnitude": 9.2,
       "constellation": "Cetus",
-      "best_time": "2026-09-02 05:15",
+      "best_time": "2026-09-03 05:17",
       "best_alt": 52.7,
-      "rise_time": "2026-09-01 22:59",
-      "set_time": "2026-09-02 05:15",
-      "sun_elongation": 109.0,
-      "moon_elongation": 17.0,
+      "rise_time": "2026-09-02 22:56",
+      "set_time": "2026-09-03 05:17",
+      "sun_elongation": 110.0,
+      "moon_elongation": 15.0,
       "trend": "steady"
     },
     {
@@ -31,14 +32,14 @@
       "name": "107P",
       "fullname": "107P/Wilson-Harrington",
       "mpc_name": "0107P",
-      "magnitude": 11.2,
+      "magnitude": 11.1,
       "constellation": "Libra",
-      "best_time": "2026-09-01 20:51",
+      "best_time": "2026-09-02 20:49",
       "best_alt": 14.6,
-      "rise_time": "2026-09-01 20:51",
-      "set_time": "2026-09-01 22:42",
+      "rise_time": "2026-09-02 20:49",
+      "set_time": "2026-09-02 22:39",
       "sun_elongation": 78.0,
-      "moon_elongation": 159.0,
+      "moon_elongation": 171.0,
       "trend": "bright"
     },
     {
@@ -46,14 +47,14 @@
       "name": "161P",
       "fullname": "161P/Hartley-IRAS",
       "mpc_name": "0161P",
-      "magnitude": 13.9,
+      "magnitude": 13.8,
       "constellation": "Eridanus",
-      "best_time": "2026-09-02 05:08",
-      "best_alt": 26.1,
-      "rise_time": "2026-09-02 00:24",
-      "set_time": "2026-09-02 05:15",
-      "sun_elongation": 120.0,
-      "moon_elongation": 38.0,
+      "best_time": "2026-09-03 05:02",
+      "best_alt": 26.2,
+      "rise_time": "2026-09-03 00:17",
+      "set_time": "2026-09-03 05:17",
+      "sun_elongation": 121.0,
+      "moon_elongation": 43.0,
       "trend": "bright"
     },
     {
@@ -63,12 +64,12 @@
       "mpc_name": "CK24T050",
       "magnitude": 13.9,
       "constellation": "Lepus",
-      "best_time": "2026-09-02 05:15",
-      "best_alt": 21.4,
-      "rise_time": "2026-09-02 02:44",
-      "set_time": "2026-09-02 05:15",
-      "sun_elongation": 80.0,
-      "moon_elongation": 56.0,
+      "best_time": "2026-09-03 05:17",
+      "best_alt": 22.0,
+      "rise_time": "2026-09-03 02:41",
+      "set_time": "2026-09-03 05:17",
+      "sun_elongation": 81.0,
+      "moon_elongation": 48.0,
       "trend": "bright"
     },
     {
@@ -78,12 +79,12 @@
       "mpc_name": "0078P",
       "magnitude": 14.0,
       "constellation": "Gemini",
-      "best_time": "2026-09-02 05:15",
-      "best_alt": 39.2,
-      "rise_time": "2026-09-02 01:19",
-      "set_time": "2026-09-02 05:15",
+      "best_time": "2026-09-03 05:17",
+      "best_alt": 39.8,
+      "rise_time": "2026-09-03 01:17",
+      "set_time": "2026-09-03 05:17",
       "sun_elongation": 63.0,
-      "moon_elongation": 57.0,
+      "moon_elongation": 44.0,
       "trend": "steady"
     },
     {
@@ -93,12 +94,12 @@
       "mpc_name": "CK24J030",
       "magnitude": 14.2,
       "constellation": "Lyra",
-      "best_time": "2026-09-01 20:58",
+      "best_time": "2026-09-02 20:53",
       "best_alt": 87.4,
-      "rise_time": "2026-09-01 20:51",
-      "set_time": "2026-09-02 05:15",
+      "rise_time": "2026-09-02 20:49",
+      "set_time": "2026-09-03 05:17",
       "sun_elongation": 104.0,
-      "moon_elongation": 94.0,
+      "moon_elongation": 99.0,
       "trend": "steady"
     },
     {
@@ -108,43 +109,13 @@
       "mpc_name": "0260P",
       "magnitude": 14.6,
       "constellation": "Perseus",
-      "best_time": "2026-09-02 05:15",
-      "best_alt": 68.3,
-      "rise_time": "2026-09-01 21:46",
-      "set_time": "2026-09-02 05:15",
-      "sun_elongation": 87.0,
-      "moon_elongation": 32.0,
+      "best_time": "2026-09-03 05:17",
+      "best_alt": 68.9,
+      "rise_time": "2026-09-02 21:42",
+      "set_time": "2026-09-03 05:17",
+      "sun_elongation": 88.0,
+      "moon_elongation": 19.0,
       "trend": "steady"
-    },
-    {
-      "type": "P",
-      "name": "88P",
-      "fullname": "88P/Howell",
-      "mpc_name": "0088P",
-      "magnitude": 14.8,
-      "constellation": "Aries",
-      "best_time": "2026-09-02 05:15",
-      "best_alt": 58.8,
-      "rise_time": "2026-09-01 22:29",
-      "set_time": "2026-09-02 05:15",
-      "sun_elongation": 109.0,
-      "moon_elongation": 13.0,
-      "trend": "steady"
-    },
-    {
-      "type": "C",
-      "name": "C/2023 R1",
-      "fullname": "C/2023 R1 (PANSTARRS)",
-      "mpc_name": "CK23R010",
-      "magnitude": 15.0,
-      "constellation": "Libra",
-      "best_time": "2026-09-01 20:51",
-      "best_alt": 16.7,
-      "rise_time": "2026-09-01 20:51",
-      "set_time": "2026-09-01 22:50",
-      "sun_elongation": 75.0,
-      "moon_elongation": 160.0,
-      "trend": "fade"
     }
   ],
   "source": {
