@@ -73,8 +73,8 @@ PAGE_TMPL = """<!DOCTYPE html>
 <meta property="og:url" content="{url}">
 <meta property="og:site_name" content="گروه نجوم کاوش">
 <meta property="og:locale" content="fa_IR">
-<meta property="og:image" content="{site_url}/logo.png">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{og_image}">
+<meta name="twitter:card" content="{twitter_card}">
 <link rel="icon" href="../logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -129,6 +129,28 @@ PAGE_TMPL = """<!DOCTYPE html>
 </html>
 """
 
+def render_body_block(p):
+    """Render one item of a news 'body' array.
+    - plain string -> a paragraph, exactly as before (old articles are unaffected).
+    - {"type": "image", "src": "...", "alt": "...", "caption": "..."} -> an inline figure.
+    """
+    if isinstance(p, dict) and p.get("type") == "image":
+        src = esc(p["src"])
+        alt = esc(p.get("alt", ""))
+        figcaption = ""
+        if p.get("caption"):
+            figcaption = (
+                f"<figcaption style='margin-top:10px; font-size:13px; "
+                f"color:var(--star-500); text-align:center;'>{esc(p['caption'])}</figcaption>"
+            )
+        return (
+            f"<figure style='margin:32px 0;'>"
+            f"<img src='../{src}' alt='{alt}' loading='lazy' "
+            f"style='width:100%; border-radius:12px; display:block;'>"
+            f"{figcaption}</figure>"
+        )
+    return f"<p style='margin-bottom:20px;'>{esc(p)}</p>"
+
 def build():
     with open(os.path.join(ROOT, "news.json"), encoding="utf-8") as f:
         items = json.load(f)
@@ -141,7 +163,12 @@ def build():
     for item in items:
         url = f"{SITE_URL}/news/{item['id']}.html"
         urls.append(url)
-        body_html = "\n      ".join(f"<p style='margin-bottom:20px;'>{esc(p)}</p>" for p in item.get("body", [item.get("excerpt","")]))
+        body_html = "\n      ".join(
+            render_body_block(p) for p in item.get("body", [item.get("excerpt","")])
+        )
+
+        og_image = f"{SITE_URL}/{item['image']}" if item.get("image") else f"{SITE_URL}/logo.png"
+        twitter_card = "summary_large_image" if item.get("image") else "summary"
 
         jsonld = {
             "@context": "https://schema.org",
@@ -149,8 +176,10 @@ def build():
             "name": item["title"],
             "headline": item["title"],
             "description": item["excerpt"],
+            "image": og_image,
             "datePublished": item["date"],
             "url": url,
+            "author": {"@type": "Organization", "name": SITE_NAME},
             "publisher": {
                 "@type": "Organization",
                 "name": SITE_NAME,
@@ -173,6 +202,8 @@ def build():
             excerpt=esc(item["excerpt"]),
             url=url,
             site_url=SITE_URL,
+            og_image=esc(og_image),
+            twitter_card=twitter_card,
             category=esc(item["category"]),
             fa_date=fa_date(item["date"]),
             body_html=body_html,
