@@ -453,3 +453,9 @@ article p{
   text-align:justify;
   text-justify:inter-word;
 }
+
+/* ---------- About page: justified text ---------- */
+.page-about main p{
+  text-align:justify;
+  text-justify:inter-word;
+}
