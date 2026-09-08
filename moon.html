@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وضعیت ماه | گروه نجوم کاوش</title>
+<meta name="description" content="فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب برای شهر شما، عارضه‌ای از سطح ماه که امروز دیدنی است، و نمایی از مدار ماه به دور زمین — همه محاسبه‌شده به‌صورت لحظه‌ای.">
+<link rel="canonical" href="https://kavosh-space.github.io/moon.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="وضعیت ماه | گروه نجوم کاوش">
+<meta property="og:description" content="فاز فعلی ماه، طلوع و غروب برای شهر شما، و مدار ماه به دور زمین — محاسبه‌شده لحظه‌به‌لحظه در مرورگر شما.">
+<meta property="og:url" content="https://kavosh-space.github.io/moon.html">
+<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:image" content="https://kavosh-space.github.io/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+  html{background:#05070a;}
+  body{
+    background-image:
+      linear-gradient(rgba(6,8,13,.86), rgba(6,8,13,.92) 55%, rgba(6,8,13,.97)),
+      radial-gradient(ellipse at 50% -10%, #1c2740 0%, #05070a 60%);
+    background-repeat:no-repeat;
+    background-position:top center;
+    background-size:cover;
+    background-attachment:fixed;
+  }
+  .hero.hero-mn{background:transparent;}
+  .hero-mn h1{font-size:clamp(32px, 5vw, 56px);}
+
+  .back-row{margin-bottom:32px;}
+  .back-row a{
+    font-family:var(--font-data); font-size:12.5px; color:var(--star-300);
+    border-bottom:1px solid var(--night-500); padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .back-row a:hover{color:var(--star-100); border-color:var(--ember-500);}
+
+  .mn-meta{
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px 28px;
+    padding-bottom:22px; margin-bottom:28px;
+    border-bottom:1px solid var(--night-600);
+    font-family:var(--font-data); font-size:12px; letter-spacing:.04em;
+    color:var(--star-500);
+  }
+  .mn-meta b{color:var(--star-300); font-weight:500;}
+  .status-dot{
+    width:7px; height:7px; border-radius:50%; background:#7ee0a8;
+    box-shadow:0 0 0 3px rgba(126,224,168,.18);
+    animation:statusPulse 2.2s ease-in-out infinite; display:inline-block;
+  }
+  @keyframes statusPulse{0%,100%{opacity:.55;} 50%{opacity:1;}}
+
+  .mn-disclaimer{
+    display:flex; align-items:flex-start; gap:14px;
+    margin-bottom:34px; padding:18px 22px;
+    border:1px dashed var(--night-600); border-radius:8px;
+    color:var(--star-300); font-size:13.5px; line-height:1.9;
+  }
+  .mn-disclaimer .dot{flex-shrink:0; margin-top:6px; width:6px; height:6px; border-radius:50%; background:var(--ember-500);}
+
+  .mn-section{margin-bottom:40px;}
+  .mn-section-title{
+    font-size:19px; color:var(--star-100); margin-bottom:16px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .mn-section-title .num{
+    font-family:var(--font-data); font-size:12px; color:var(--ember-400);
+    border:1px solid var(--night-600); border-radius:50%;
+    width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+
+  /* ---- Phase section ---- */
+  .mn-phase-grid{
+    display:grid; grid-template-columns:220px 1fr; gap:28px;
+    border:1px solid var(--night-700); border-radius:8px; background:var(--night-800);
+    padding:24px;
+  }
+  .mn-phase-visual{
+    width:100%; aspect-ratio:1/1; border-radius:50%; overflow:hidden;
+    background:#0a0e18; position:relative; flex-shrink:0;
+    box-shadow:inset 0 0 30px rgba(0,0,0,.5);
+  }
+  .mn-phase-visual img{width:100%; height:100%; object-fit:cover; display:block;}
+  .mn-phase-visual svg{width:100%; height:100%; display:block;}
+  .mn-phase-name{font-size:20px; color:var(--star-100); font-weight:700; margin-bottom:14px;}
+  .mn-stat-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:14px 22px;
+  }
+  .mn-stat{display:flex; flex-direction:column; gap:4px;}
+  .mn-stat .lbl{font-family:var(--font-data); font-size:11px; letter-spacing:.04em; color:var(--star-500);}
+  .mn-stat .val{font-size:15.5px; color:var(--star-200); font-family:var(--font-data);}
+
+  @media (max-width:640px){
+    .mn-phase-grid{grid-template-columns:1fr;}
+    .mn-phase-visual{max-width:220px; margin:0 auto;}
+  }
+
+  /* ---- widgets (rise/set) ---- */
+  .mn-location-row{
+    display:flex; flex-wrap:wrap; align-items:flex-end; gap:14px 20px;
+    margin-bottom:18px; padding:16px 20px;
+    border:1px solid var(--night-700); border-radius:8px; background:var(--night-800);
+  }
+  .mn-field{display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--star-300);}
+  .mn-field select, .mn-field input{
+    background:var(--night-900); border:1px solid var(--night-600); border-radius:6px;
+    color:var(--star-100); font-family:var(--font-data); font-size:13px; padding:7px 10px;
+    color-scheme:dark; min-width:120px;
+  }
+  .mn-field.coords{display:none;}
+  .mn-field.coords.show{display:flex;}
+
+  .mn-widgets{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:14px;}
+  .mn-widget{
+    border:1px solid var(--night-700); border-radius:10px; background:var(--night-800);
+    padding:18px 20px; position:relative; overflow:hidden;
+  }
+  .mn-widget::before{
+    content:''; position:absolute; top:0; right:0; width:3px; height:100%; background:var(--ember-500); opacity:.7;
+  }
+  .mn-widget .lbl{font-family:var(--font-data); font-size:11.5px; letter-spacing:.05em; color:var(--star-500); margin-bottom:8px; display:block;}
+  .mn-widget .time{font-size:24px; font-weight:700; color:var(--star-100); font-family:var(--font-data);}
+  .mn-widget .sub{font-size:12.5px; color:var(--star-400); margin-top:6px;}
+  .mn-updown{font-size:13.5px; color:var(--star-300); margin-top:14px; display:flex; align-items:center; gap:8px;}
+
+  /* ---- feature of the day ---- */
+  .mn-feature-grid{
+    display:grid; grid-template-columns:190px 1fr; gap:24px;
+    border:1px solid var(--night-700); border-radius:8px; background:var(--night-800);
+    padding:22px;
+  }
+  .mn-feature-photo{
+    width:100%; aspect-ratio:1/1; border-radius:10px; overflow:hidden;
+    background:#0a0e18; position:relative;
+  }
+  .mn-feature-photo img{width:100%; height:100%; object-fit:cover; display:block;}
+  .mn-feature-pin{
+    position:absolute; width:22px; height:22px; margin:-11px 0 0 -11px;
+    border-radius:50%; border:2px solid var(--ember-400);
+    box-shadow:0 0 0 5px rgba(213,155,60,.22), 0 0 14px rgba(213,155,60,.5);
+    pointer-events:none;
+  }
+  .mn-feature-fallback{
+    display:flex; align-items:center; justify-content:center; height:100%;
+    color:var(--star-500); font-size:12px; text-align:center; padding:10px;
+  }
+  .mn-feature-type{
+    display:inline-block; font-family:var(--font-data); font-size:11px;
+    padding:2px 10px; border-radius:20px; border:1px solid var(--night-600); color:var(--star-400);
+    margin-bottom:10px;
+  }
+  .mn-feature-name{font-size:19px; color:var(--star-100); font-weight:700; margin-bottom:4px;}
+  .mn-feature-lat{font-family:var(--font-data); font-size:12px; color:var(--star-500); margin-bottom:12px;}
+  .mn-feature-desc{color:var(--star-300); font-size:14px; line-height:1.9;}
+
+  @media (max-width:640px){
+    .mn-feature-grid{grid-template-columns:1fr;}
+    .mn-feature-photo{max-width:200px; margin:0 auto;}
+  }
+
+  /* ---- orbit diagram ---- */
+  .mn-orbit-wrap{
+    border:1px solid var(--night-700); border-radius:8px; background:var(--night-800);
+    padding:20px 8px; overflow-x:auto;
+  }
+  .mn-orbit-wrap svg{display:block; width:100%; min-width:560px; height:auto; margin:0 auto;}
+  .mn-orbit-note{
+    text-align:center; font-family:var(--font-data); font-size:11px;
+    color:var(--star-500); margin-top:10px;
+  }
+
+  .mn-attribution{
+    margin-top:4px; padding:20px 22px;
+    border:1px solid var(--night-700); border-radius:8px;
+    font-size:13px; color:var(--star-500); line-height:1.9;
+  }
+  .mn-attribution a{color:var(--star-300); border-bottom:1px solid var(--night-500); padding-bottom:1px;}
+  .mn-attribution a:hover{color:var(--star-100); border-color:var(--ember-500);}
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
+
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
+    <a href="team.html">اعضا</a>
+    <a href="about.html">درباره</a>
+    <a href="tours.html">گشت رصدی</a>
+    <a href="offerings.html">کارگاه‌ها</a>
+    <a href="contact.html">تماس با ما</a>
+    <a href="tools.html" class="active">ابزار</a>
+    <a href="observatory.html">رصدگاه</a>
+    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
+      <span class="nv-dot"></span>
+      <span id="nvLabel">حالت شب</span>
+    </button>
+  </nav>
+</header>
+
+<header class="hero hero-lite hero-mn">
+  <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#f4f1ea">
+      <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
+      <circle cx="180" cy="150" r="1" opacity="0.5"/>
+      <circle cx="280" cy="50" r="1.6" opacity="0.9"/>
+      <circle cx="380" cy="120" r="1" opacity="0.4"/>
+      <circle cx="480" cy="40" r="1.2" opacity="0.7"/>
+      <circle cx="560" cy="100" r="1.8" opacity="1"/>
+      <circle cx="640" cy="60" r="1" opacity="0.5"/>
+      <circle cx="740" cy="140" r="1.3" opacity="0.8"/>
+      <circle cx="840" cy="50" r="1" opacity="0.4"/>
+      <circle cx="940" cy="120" r="1.5" opacity="0.9"/>
+      <circle cx="1000" cy="60" r="1" opacity="0.5"/>
+      <circle cx="150" cy="230" r="1" opacity="0.4"/>
+      <circle cx="450" cy="220" r="1.5" opacity="0.8"/>
+      <circle cx="750" cy="230" r="1.2" opacity="0.6"/>
+    </g>
+  </svg>
+  <div class="hero-content wrap">
+    <div class="eyebrow">ابزار آنلاین · محاسبه لحظه‌ای</div>
+    <h1>وضعیت ماه</h1>
+    <p class="hero-tag">فاز فعلی ماه، زمان طلوع و غروب برای شهر شما، عارضه‌ای از سطح ماه که امروز دیدنی است، و نمایی از مدار ماه به دور زمین.</p>
+  </div>
+</header>
+
+<section id="mn-page">
+  <div class="wrap">
+    <div class="back-row"><a href="tools.html">← بازگشت به ابزار</a></div>
+
+    <div class="mn-meta" id="mnMeta">
+      <span><span class="status-dot"></span> محاسبه زنده</span>
+      <span id="mnNowLabel">در حال محاسبه…</span>
+    </div>
+
+    <div class="mn-disclaimer">
+      <span class="dot"></span>
+      <p>فاز، سن، فاصله و قطر ظاهری ماه، مختصات نقطه‌ی زیرزمینی و زیرخورشیدی روی ماه، و زمان طلوع/غروب، همگی بر پایه‌ی مدل نجومی <b style="color:var(--star-100);">VSOP87</b> و فرمول‌های استاندارد IAU برای محور چرخش ماه، به‌طور کامل در مرورگر شما محاسبه می‌شوند — بدون نیاز به هیچ API خارجی. تصویر لحظه‌ای ماه (فاز و لیبراسیون واقعی) از سرویس عمومی و بدون کپی‌رایت «Dial-A-Moon» ناسا (استودیوی تصویرسازی علمی گدارد) دریافت می‌شود؛ اگر این سرویس در دسترس نباشد، به‌جای آن یک نمودار ساده از فاز رسم می‌شود. مکان نشانگر عارضه‌ی ماه روی تصویر، تقریبی است (بدون احتساب زاویه‌ی موضعی محور) و صرفاً برای نشان‌دادن ناحیه‌ی تقریبی به‌کار می‌رود.</p>
+    </div>
+
+    <!-- 1. PHASE -->
+    <div class="mn-section">
+      <h2 class="mn-section-title"><span class="num">۱</span> فاز فعلی ماه</h2>
+      <div class="mn-phase-grid">
+        <div class="mn-phase-visual" id="mnPhaseVisual">
+          <svg id="mnPhaseFallback" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+            <circle cx="100" cy="100" r="98" fill="#11182a"/>
+            <path id="mnPhasePath" fill="#e8e2cf"/>
+          </svg>
+          <img id="mnPhaseImg" alt="تصویر لحظه‌ای ماه" style="display:none;">
+        </div>
+        <div>
+          <div class="mn-phase-name" id="mnPhaseName">در حال محاسبه…</div>
+          <div class="mn-stat-grid">
+            <div class="mn-stat"><span class="lbl">درصد روشنایی</span><span class="val" id="mnIllum">—</span></div>
+            <div class="mn-stat"><span class="lbl">سن ماه</span><span class="val" id="mnAge">—</span></div>
+            <div class="mn-stat"><span class="lbl">فاصله از زمین</span><span class="val" id="mnDist">—</span></div>
+            <div class="mn-stat"><span class="lbl">قطر ظاهری</span><span class="val" id="mnDiam">—</span></div>
+            <div class="mn-stat"><span class="lbl">لیبراسیون طولی</span><span class="val" id="mnLibLon">—</span></div>
+            <div class="mn-stat"><span class="lbl">لیبراسیون عرضی</span><span class="val" id="mnLibLat">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. RISE/SET -->
+    <div class="mn-section">
+      <h2 class="mn-section-title"><span class="num">۲</span> طلوع و غروب ماه</h2>
+
+      <div class="mn-location-row">
+        <div class="mn-field">
+          <label for="mnCity">شهر</label>
+          <select id="mnCity">
+            <optgroup label="شهرهای ایران">
+              <option value="35.6892,51.3890,3.5">تهران</option>
+              <option value="35.7178,52.0653,3.5">دماوند</option>
+              <option value="36.2605,59.6168,3.5">مشهد</option>
+              <option value="32.6546,51.6680,3.5">اصفهان</option>
+              <option value="35.8400,50.9391,3.5">کرج</option>
+              <option value="29.5918,52.5837,3.5">شیراز</option>
+              <option value="38.0800,46.2919,3.5">تبریز</option>
+              <option value="34.6401,50.8764,3.5">قم</option>
+              <option value="31.3183,48.6706,3.5">اهواز</option>
+              <option value="34.3277,47.0778,3.5">کرمانشاه</option>
+              <option value="37.5527,45.0761,3.5">ارومیه</option>
+              <option value="37.2808,49.5832,3.5">رشت</option>
+              <option value="29.4963,60.8629,3.5">زاهدان</option>
+              <option value="34.7992,48.5146,3.5">همدان</option>
+              <option value="30.2839,57.0834,3.5">کرمان</option>
+              <option value="31.8974,54.3569,3.5">یزد</option>
+              <option value="38.2498,48.2933,3.5">اردبیل</option>
+              <option value="27.1865,56.2808,3.5">بندرعباس</option>
+              <option value="34.0917,49.6892,3.5">اراک</option>
+              <option value="36.6736,48.4787,3.5">زنجان</option>
+              <option value="35.3219,46.9862,3.5">سنندج</option>
+              <option value="36.2688,50.0041,3.5">قزوین</option>
+              <option value="33.4878,48.3558,3.5">خرم‌آباد</option>
+              <option value="36.8427,54.4441,3.5">گرگان</option>
+              <option value="36.5633,53.0601,3.5">ساری</option>
+              <option value="28.9684,50.8385,3.5">بوشهر</option>
+              <option value="33.6374,46.4227,3.5">ایلام</option>
+              <option value="32.8663,59.2211,3.5">بیرجند</option>
+              <option value="30.6682,51.5880,3.5">یاسوج</option>
+              <option value="37.4747,57.3291,3.5">بجنورد</option>
+              <option value="32.3256,50.8644,3.5">شهرکرد</option>
+              <option value="35.5729,53.3971,3.5">سمنان</option>
+            </optgroup>
+            <optgroup label="شهرهای جهان">
+              <option value="51.5074,-0.1278,0">لندن</option>
+              <option value="48.8566,2.3522,1">پاریس</option>
+              <option value="52.5200,13.4050,1">برلین</option>
+              <option value="40.4168,-3.7038,1">مادرید</option>
+              <option value="41.9028,12.4964,1">رم</option>
+              <option value="55.7558,37.6173,3">مسکو</option>
+              <option value="41.0082,28.9784,3">استانبول</option>
+              <option value="25.2048,55.2708,4">دبی</option>
+              <option value="24.7136,46.6753,3">ریاض</option>
+              <option value="33.3152,44.3661,3">بغداد</option>
+              <option value="33.6844,73.0479,5">اسلام‌آباد</option>
+              <option value="34.5553,69.2075,4.5">کابل</option>
+              <option value="28.6139,77.2090,5.5">نیودهلی</option>
+              <option value="39.9042,116.4074,8">پکن</option>
+              <option value="35.6762,139.6503,9">توکیو</option>
+              <option value="37.5665,126.9780,9">سئول</option>
+              <option value="3.1390,101.6869,8">کوالالامپور</option>
+              <option value="1.3521,103.8198,8">سنگاپور</option>
+              <option value="13.7563,100.5018,7">بانکوک</option>
+              <option value="-33.8688,151.2093,10">سیدنی</option>
+              <option value="-36.8485,174.7633,12">اوکلند</option>
+              <option value="40.7128,-74.0060,-5">نیویورک</option>
+              <option value="41.8781,-87.6298,-6">شیکاگو</option>
+              <option value="34.0522,-118.2437,-8">لس‌آنجلس</option>
+              <option value="49.2827,-123.1207,-8">ونکوور</option>
+              <option value="43.6532,-79.3832,-5">تورنتو</option>
+              <option value="19.4326,-99.1332,-6">مکزیکوسیتی</option>
+              <option value="-23.5505,-46.6333,-3">سائوپائولو</option>
+              <option value="30.0444,31.2357,2">قاهره</option>
+              <option value="6.5244,3.3792,1">لاگوس</option>
+              <option value="-1.2921,36.8219,3">نایروبی</option>
+              <option value="-26.2041,28.0473,2">ژوهانسبورگ</option>
+            </optgroup>
+            <option value="other">موقعیت دیگر (وارد کردن مختصات)…</option>
+          </select>
+        </div>
+        <div class="mn-field coords" id="mnLatField">
+          <label for="mnLat">عرض جغرافیایی</label>
+          <input type="number" id="mnLat" step="0.0001" min="-90" max="90" placeholder="مثلاً ۳۵٫۶۸۹۲">
+        </div>
+        <div class="mn-field coords" id="mnLonField">
+          <label for="mnLon">طول جغرافیایی</label>
+          <input type="number" id="mnLon" step="0.0001" min="-180" max="180" placeholder="مثلاً ۵۱٫۳۸۹۰">
+        </div>
+        <div class="mn-field coords" id="mnTzField">
+          <label for="mnTz">منطقه زمانی (UTC)</label>
+          <input type="number" id="mnTz" step="0.5" min="-12" max="14" placeholder="مثلاً ۳٫۵">
+        </div>
+      </div>
+
+      <div class="mn-widgets">
+        <div class="mn-widget">
+          <span class="lbl">طلوع بعدی</span>
+          <div class="time" id="mnRiseTime">—</div>
+          <div class="sub" id="mnRiseDate">—</div>
+        </div>
+        <div class="mn-widget">
+          <span class="lbl">غروب بعدی</span>
+          <div class="time" id="mnSetTime">—</div>
+          <div class="sub" id="mnSetDate">—</div>
+        </div>
+      </div>
+      <p class="mn-updown"><span class="status-dot" id="mnUpDownDot"></span><span id="mnUpDownText">در حال محاسبه وضعیت ماه نسبت به افق…</span></p>
+    </div>
+
+    <!-- 3. FEATURE OF THE DAY -->
+    <div class="mn-section">
+      <h2 class="mn-section-title"><span class="num">۳</span> عارضه‌ای از ماه، دیدنی امروز</h2>
+      <div class="mn-feature-grid">
+        <div class="mn-feature-photo" id="mnFeaturePhoto">
+          <div class="mn-feature-fallback">تصویر لحظه‌ای در دسترس نیست</div>
+        </div>
+        <div>
+          <span class="mn-feature-type" id="mnFeatureType">—</span>
+          <div class="mn-feature-name" id="mnFeatureName">در حال محاسبه…</div>
+          <div class="mn-feature-lat" id="mnFeatureCoord">—</div>
+          <p class="mn-feature-desc" id="mnFeatureDesc"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. ORBIT DIAGRAM -->
+    <div class="mn-section">
+      <h2 class="mn-section-title"><span class="num">۴</span> مدار ماه به دور زمین</h2>
+      <div class="mn-orbit-wrap">
+        <svg id="mnOrbitSvg" viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <p class="mn-orbit-note">نمایی شماتیک از بالای قطب شمال گیتی‌شناختی (اکلیپتیک) — جهت واقعی خورشید و موقعیت مداری واقعی ماه برای همین لحظه، اندازه‌ها به مقیاس نیستند.</p>
+    </div>
+
+    <div class="mn-attribution">
+      <p style="margin:0 0 8px;">محاسبات نجومی با کتابخانه‌ی متن‌باز <a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noopener">Astronomy Engine</a> (نوشته‌ی Don Cross، مجوز MIT) به‌طور کامل در مرورگر شما انجام می‌شود.</p>
+      <p style="margin:0 0 8px;">تصویر لحظه‌ای ماه از سرویس عمومی <a href="https://svs.gsfc.nasa.gov/4955" target="_blank" rel="noopener">Dial-A-Moon</a>، ساخته‌ی Ernie Wright در استودیوی تصویرسازی علمی ناسا (NASA Scientific Visualization Studio)، اثری از دولت ایالات متحده و بدون محدودیت کپی‌رایت.</p>
+      <p style="margin:0;">مختصات دریاوارها برگرفته از فهرست رسمی اتحادیه بین‌المللی نجوم (IAU) بر پایه‌ی «فهرست دریاوارهای کره ماه» در ویکی‌پدیای فارسی؛ مختصات دهانه‌ها از Gazetteer of Planetary Nomenclature سازمان زمین‌شناسی ایالات متحده (USGS).</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
+  </div>
+</footer>
+
+<script src="kavosh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
+<script>
+(function(){
+  if (typeof Astronomy === 'undefined') {
+    document.getElementById('mnNowLabel').textContent = 'خطا: کتابخانه‌ی محاسباتی بارگذاری نشد (اتصال اینترنت یا مسدودکننده‌ی تبلیغات را بررسی کنید).';
+    return;
+  }
+  const A = Astronomy;
+
+  /* ---------------- feature database ----------------
+     lat/lon in selenographic degrees (IAU convention, east positive toward Mare Crisium).
+     Coordinates for maria from the Persian Wikipedia list of lunar maria (IAU-sourced);
+     crater coordinates from the USGS Gazetteer of Planetary Nomenclature / English Wikipedia. */
+  const FEATURES = [
+    {type:'دریاوار', lat:8.5,  lon:31.4,  nameFa:'دریای آسایش', nameLat:'Mare Tranquillitatis', desc:'دشتی بازالتی در نیمکره‌ی شرقی سمت پیدای ماه؛ محل فرود آپولو ۱۱.'},
+    {type:'دریاوار', lat:28.0, lon:17.5,  nameFa:'دریای آرامی', nameLat:'Mare Serenitatis', desc:'یکی از دریاوارهای بزرگ و مدور نیمکره‌ی شمالی سمت پیدا.'},
+    {type:'دریاوار', lat:17.0, lon:59.1,  nameFa:'دریای بحران‌ها', nameLat:'Mare Crisium', desc:'دریاواری بیضی‌شکل و مجزا در شمال‌شرق سمت پیدا؛ به‌آسانی با چشم غیرمسلح شناسایی می‌شود.'},
+    {type:'دریاوار', lat:-7.8, lon:51.3,  nameFa:'دریای باروری', nameLat:'Mare Fecunditatis', desc:'دشتی گسترده در نیمکره‌ی جنوب‌شرقی سمت پیدای ماه.'},
+    {type:'دریاوار', lat:-15.2,lon:35.5,  nameFa:'دریای شهد', nameLat:'Mare Nectaris', desc:'دریاواری کوچک‌تر، در کنار دهانه‌های تئوفیلوس و کریلوس.'},
+    {type:'دریاوار', lat:-24.4,lon:-38.6, nameFa:'دریای نمناکی', nameLat:'Mare Humorum', desc:'حوضه‌ای گرد در نیمکره‌ی جنوب‌غربی، در کنار دهانه‌ی گاسندی.'},
+    {type:'دریاوار', lat:-21.3,lon:-16.6, nameFa:'دریای ابرها', nameLat:'Mare Nubium', desc:'دشتی در نیمکره‌ی جنوب‌غربی سمت پیدا، مجاور فلات نامنظم آن.'},
+    {type:'دریاوار', lat:18.4, lon:-57.4, nameFa:'اقیانوس توفان‌ها', nameLat:'Oceanus Procellarum', desc:'گسترده‌ترین دریاوار ماه، در نیمکره‌ی غربی سمت پیدا.'},
+    {type:'دریاوار', lat:32.8, lon:-15.6, nameFa:'دریای رگبارها', nameLat:'Mare Imbrium', desc:'دومین دریاوار بزرگ ماه؛ حاصل برخوردی عظیم در گذشته‌های دور.'},
+    {type:'دریاوار', lat:56.0, lon:1.4,   nameFa:'دریای سرما', nameLat:'Mare Frigoris', desc:'نواری کشیده در نزدیکی قطب شمال ماه.'},
+    {type:'دریاوار', lat:13.3, lon:3.6,   nameFa:'دریای بخارها', nameLat:'Mare Vaporum', desc:'دریاواری کوچک میان دریای آرامی و خلیج جوشان.'},
+    {type:'دریاوار', lat:-10.0,lon:-23.1, nameFa:'دریای شناخته', nameLat:'Mare Cognitum', desc:'دریاواری کوچک در مجاورت اقیانوس توفان‌ها.'},
+    {type:'دهانه', lat:9.62,  lon:-20.08, nameFa:'کوپرنیک', nameLat:'Copernicus', desc:'یکی از باشکوه‌ترین دهانه‌های ماه با سامانه‌ی پرتوی گسترده و قله‌های مرکزی.'},
+    {type:'دهانه', lat:43.3,  lon:-11.4,  nameFa:'تیخو', nameLat:'Tycho', desc:'دهانه‌ای جوان و پرتودار در نیمکره‌ی جنوبی؛ پرتوهایش تا نیمی از سطح ماه کشیده شده‌اند.'},
+    {type:'دهانه', lat:8.1,   lon:-38.0,  nameFa:'کپلر', nameLat:'Kepler', desc:'دهانه‌ای پرتودار در اقیانوس توفان‌ها.'},
+    {type:'دهانه', lat:23.7,  lon:-47.4,  nameFa:'آریستارخوس', nameLat:'Aristarchus', desc:'درخشان‌ترین عارضه‌ی بزرگ سطح ماه، با آلبیدویی نزدیک به دوبرابر میانگین سطح ماه.'},
+    {type:'دهانه', lat:51.6,  lon:-9.3,   nameFa:'افلاطون', nameLat:'Plato', desc:'دهانه‌ای بزرگ و پر از گدازه با کفی صاف و تیره، در کنار دریای رگبارها.'},
+    {type:'دهانه', lat:-58.4, lon:-14.4,  nameFa:'کلاویوس', nameLat:'Clavius', desc:'یکی از بزرگ‌ترین دهانه‌های سمت پیدای ماه، در فلات ناهموار جنوبی.'},
+    {type:'دهانه', lat:-5.2,  lon:-68.6,  nameFa:'گریمالدی', nameLat:'Grimaldi', desc:'حوضه‌ای بزرگ و تیره نزدیک لبه‌ی غربی ماه.'},
+    {type:'دهانه', lat:33.9,  lon:1.2,    nameFa:'آریستیلوس', nameLat:'Aristillus', desc:'دهانه‌ای برجسته در بخش شرقی دریای رگبارها.'},
+    {type:'دهانه', lat:44.3,  lon:16.3,   nameFa:'اودوکسوس', nameLat:'Eudoxus', desc:'دهانه‌ای نمایان در کنار رشته‌کوه‌های کاوکاسوس.'},
+    {type:'دهانه', lat:16.1,  lon:46.8,   nameFa:'پروکلوس', nameLat:'Proclus', desc:'دهانه‌ای جوان و پرتودار در کنار دریای بحران‌ها.'},
+    {type:'دهانه', lat:-11.4, lon:26.4,   nameFa:'تئوفیلوس', nameLat:'Theophilus', desc:'دهانه‌ای عمیق با قله‌ی مرکزی بلند، کنار دریای شهد.'},
+    {type:'دهانه', lat:-8.9,  lon:61.1,   nameFa:'لانگرنوس', nameLat:'Langrenus', desc:'دهانه‌ای بزرگ و پلکانی نزدیک لبه‌ی شرقی ماه.'},
+    {type:'دهانه', lat:-25.3, lon:60.4,   nameFa:'پتاویوس', nameLat:'Petavius', desc:'دهانه‌ای بزرگ با شکافی چشمگیر روی کف آن.'},
+    {type:'دهانه', lat:29.7,  lon:-4.0,   nameFa:'ارشمیدس', nameLat:'Archimedes', desc:'دهانه‌ای پهن و پر از گدازه در کناره‌ی دریای رگبارها.'},
+    {type:'دهانه', lat:-9.3,  lon:-1.9,   nameFa:'بطلمیوس', nameLat:'Ptolemaeus', desc:'بزرگ‌ترین عضو زنجیره‌ای از سه دهانه‌ی هم‌مرز در مرکز سمت پیدای ماه.'},
+    {type:'دهانه', lat:-13.4, lon:-3.2,   nameFa:'آلفونسوس', nameLat:'Alphonsus', desc:'دهانه‌ای با کفی نسبتاً هموار و چند شکاف کوچک.'},
+    {type:'دهانه', lat:-44.4, lon:-55.3,  nameFa:'شیکارد', nameLat:'Schickard', desc:'یکی از بزرگ‌ترین دهانه‌های دیواردار سمت پیدا.'},
+    {type:'دهانه', lat:-66.5, lon:-69.1,  nameFa:'بایی', nameLat:'Bailly', desc:'بزرگ‌ترین دهانه‌ی سمت پیدای ماه، نزدیک لبه‌ی جنوبی.'},
+    {type:'دهانه', lat:31.8,  lon:29.9,   nameFa:'پوسیدونیوس', nameLat:'Posidonius', desc:'دهانه‌ای بزرگ و پرشکاف در کنار دریای آرامی.'},
+    {type:'دهانه', lat:-17.6, lon:-39.9,  nameFa:'گاسندی', nameLat:'Gassendi', desc:'دهانه‌ای با شبکه‌ای پیچیده از شکاف‌های سطحی، در شمال دریای نمناکی.'},
+    {type:'دهانه', lat:-42.0, lon:14.0,   nameFa:'ماورولیکوس', nameLat:'Maurolycus', desc:'دهانه‌ای بزرگ در فلات ناهموار جنوبی ماه.'},
+    {type:'دهانه', lat:46.7,  lon:44.4,   nameFa:'اطلس', nameLat:'Atlas', desc:'دهانه‌ای برجسته در نیمکره‌ی شمال‌شرقی، همراه دهانه‌ی هرکول.'},
+    {type:'دهانه', lat:46.7,  lon:39.1,   nameFa:'هرکول', nameLat:'Hercules', desc:'دهانه‌ای هم‌جوار اطلس، با کفی تیره و پر از گدازه.'},
+    {type:'دهانه', lat:50.2,  lon:17.4,   nameFa:'ارسطو', nameLat:'Aristoteles', desc:'دهانه‌ای بزرگ و دیواردار در نیمکره‌ی شمالی.'},
+    {type:'ناحیه', lat:7.5,   lon:-59.0,  nameFa:'گردابه‌ی راینر گاما', nameLat:'Reiner Gamma', desc:'یکی از عجیب‌ترین عوارض ماه؛ الگویی روشن و پیچ‌درپیچ ناشی از میدان مغناطیسی موضعی سطح.'}
+  ];
+
+  /* ---------------- selenographic frame (validated) ---------------- */
+  function rad(d){return d*Math.PI/180;}
+  function deg(r){return r*180/Math.PI;}
+  function rz(v,t){const a=rad(t),c=Math.cos(a),s=Math.sin(a); return {x:c*v.x-s*v.y, y:s*v.x+c*v.y, z:v.z};}
+  function rx(v,t){const a=rad(t),c=Math.cos(a),s=Math.sin(a); return {x:v.x, y:c*v.y-s*v.z, z:s*v.y+c*v.z};}
+  function norm(v){const l=Math.hypot(v.x,v.y,v.z); return {x:v.x/l,y:v.y/l,z:v.z/l};}
+
+  function subPoint(vecFromMoon, axis){
+    const alpha0 = axis.ra*15, delta0 = axis.dec, W = axis.spin;
+    let r = rz(vecFromMoon, -(90+alpha0));
+    r = rx(r, -(90-delta0));
+    r = rz(r, -W);
+    return {lat: deg(Math.asin(r.z)), lon: deg(Math.atan2(r.y, r.x))};
+  }
+
+  function moonGeometry(date){
+    const t = A.MakeTime(date);
+    const axis = A.RotationAxis(A.Body.Moon, t);
+    const moonVec = A.GeoVector(A.Body.Moon, t, true);
+    const sunVec = A.GeoVector(A.Body.Sun, t, true);
+    const moonToEarth = norm({x:-moonVec.x, y:-moonVec.y, z:-moonVec.z});
+    const moonToSun = norm({x:sunVec.x-moonVec.x, y:sunVec.y-moonVec.y, z:sunVec.z-moonVec.z});
+    return {
+      subEarth: subPoint(moonToEarth, axis),
+      subSolar: subPoint(moonToSun, axis)
+    };
+  }
+
+  function angSep(lat1,lon1,lat2,lon2){
+    const a = Math.sin(rad(lat1))*Math.sin(rad(lat2)) + Math.cos(rad(lat1))*Math.cos(rad(lat2))*Math.cos(rad(lon1-lon2));
+    return deg(Math.acos(Math.max(-1,Math.min(1,a))));
+  }
+
+  function pickFeature(subEarth, subSolar){
+    let cands = FEATURES.map(f=>({...f,
+      sepE: angSep(f.lat,f.lon, subEarth.lat, subEarth.lon),
+      sepS: angSep(f.lat,f.lon, subSolar.lat, subSolar.lon)
+    }));
+    let visible = cands.filter(f=>f.sepE<75 && f.sepS<88);
+    if (!visible.length) visible = cands.filter(f=>f.sepE<85 && f.sepS<90);
+    if (!visible.length) visible = cands.filter(f=>f.sepE<85);
+    if (!visible.length) visible = cands;
+    visible.sort((a,b)=>b.sepS-a.sepS);
+    return visible[0];
+  }
+
+  function orthoProject(feat, center){
+    const lat = rad(feat.lat), lon = rad(feat.lon);
+    const lat0 = rad(center.lat), lon0 = rad(center.lon);
+    const cosc = Math.sin(lat0)*Math.sin(lat) + Math.cos(lat0)*Math.cos(lat)*Math.cos(lon-lon0);
+    const x = Math.cos(lat)*Math.sin(lon-lon0);
+    const y = Math.cos(lat0)*Math.sin(lat) - Math.sin(lat0)*Math.cos(lat)*Math.cos(lon-lon0);
+    return {x, y, visible: cosc>0};
+  }
+
+  /* ---------------- phase name ---------------- */
+  const PHASE_NAMES = [
+    [0,22.5,'ماه نو'], [22.5,67.5,'هلال باریک، رو به کمال'],
+    [67.5,112.5,'تربیع اول'], [112.5,157.5,'ماه برآمده، رو به کمال'],
+    [157.5,202.5,'بدر (ماه کامل)'], [202.5,247.5,'ماه برآمده، رو به کاهش'],
+    [247.5,292.5,'تربیع آخر'], [292.5,337.5,'هلال باریک، رو به کاهش'],
+    [337.5,360.01,'ماه نو']
+  ];
+  function phaseName(p){
+    for (const [a,b,name] of PHASE_NAMES) if (p>=a && p<b) return name;
+    return 'ماه نو';
+  }
+
+  function moonAge(date){
+    const start = new Date(date.getTime() - 32*86400000);
+    const t = A.SearchMoonPhase(0, start, 40);
+    return (date.getTime() - t.date.getTime())/86400000;
+  }
+
+  /* ---------------- fallback phase SVG ---------------- */
+  function moonPhasePath(k, waxing){
+    const R = 98, cx=100, cy=100;
+    const rx_ = R*Math.abs(1-2*k);
+    const outerSweep = waxing?1:0;
+    const innerSweep = (k<0.5) ? (waxing?0:1) : (waxing?1:0);
+    return `M ${cx} ${cy-R} A ${R} ${R} 0 0 ${outerSweep} ${cx} ${cy+R} A ${rx_} ${R} 0 0 ${innerSweep} ${cx} ${cy-R} Z`;
+  }
+
+  /* ---------------- location handling ---------------- */
+  const citySel = document.getElementById('mnCity');
+  const latF = document.getElementById('mnLatField'), lonF = document.getElementById('mnLonField'), tzF = document.getElementById('mnTzField');
+  const latI = document.getElementById('mnLat'), lonI = document.getElementById('mnLon'), tzI = document.getElementById('mnTz');
+
+  function currentLoc(){
+    if (citySel.value === 'other'){
+      [latF,lonF,tzF].forEach(f=>f.classList.add('show'));
+      const lat = parseFloat(latI.value), lon = parseFloat(lonI.value), tz = parseFloat(tzI.value);
+      if (isNaN(lat) || isNaN(lon)) return null;
+      return {lat, lon, tz: isNaN(tz)?0:tz};
+    }
+    [latF,lonF,tzF].forEach(f=>f.classList.remove('show'));
+    const parts = citySel.value.split(',').map(Number);
+    return {lat:parts[0], lon:parts[1], tz:parts[2]};
+  }
+  citySel.addEventListener('change', render);
+  [latI,lonI,tzI].forEach(el=>el.addEventListener('change', render));
+
+  function fmtLocalTime(date, tz){
+    const d = new Date(date.getTime() + tz*3600000);
+    return String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');
+  }
+  function fmtLocalDateLabel(date, tz, now){
+    const d = new Date(date.getTime() + tz*3600000);
+    const n = new Date(now.getTime() + tz*3600000);
+    const sameDay = d.getUTCFullYear()===n.getUTCFullYear() && d.getUTCMonth()===n.getUTCMonth() && d.getUTCDate()===n.getUTCDate();
+    if (sameDay) return 'امروز';
+    const nd = new Date(n.getTime()+86400000);
+    const isTomorrow = d.getUTCFullYear()===nd.getUTCFullYear() && d.getUTCMonth()===nd.getUTCMonth() && d.getUTCDate()===nd.getUTCDate();
+    return isTomorrow ? 'فردا' : (d.getUTCMonth()+1)+'/'+d.getUTCDate();
+  }
+
+  /* ---------------- orbit diagram ---------------- */
+  function renderOrbit(phaseDeg){
+    const svg = document.getElementById('mnOrbitSvg');
+    const cx=350, cy=170, a=210, b=150; // ellipse semi-axes for the drawn orbit
+    const phi = rad(180 + phaseDeg); // 180deg -> sunward side at phase 0 (new moon)
+    const mx = cx + a*Math.cos(phi);
+    const my = cy + b*Math.sin(phi);
+    let parts = [];
+    parts.push(`<ellipse cx="${cx}" cy="${cy}" rx="${a}" ry="${b}" fill="none" stroke="var(--night-600)" stroke-width="1.4" stroke-dasharray="4 6"/>`);
+    // sun icon (fixed, to the left)
+    parts.push(`<g>
+      <circle cx="40" cy="${cy}" r="20" fill="#f2c169"/>
+      <circle cx="40" cy="${cy}" r="26" fill="none" stroke="#f2c169" stroke-width="1.4" opacity="0.4"/>
+      <text x="40" y="${cy+42}" text-anchor="middle" font-family="var(--font-data)" font-size="12" fill="var(--star-400)">خورشید (جهت)</text>
+    </g>`);
+    parts.push(`<line x1="66" y1="${cy}" x2="${cx-a}" y2="${cy}" stroke="var(--ember-500)" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"/>`);
+    // earth
+    parts.push(`<circle cx="${cx}" cy="${cy}" r="16" fill="#4d7ec9"/>`);
+    parts.push(`<text x="${cx}" y="${cy-26}" text-anchor="middle" font-family="var(--font-data)" font-size="12" fill="var(--star-400)">زمین</text>`);
+    // moon icon: bright half always facing sun direction (angle 180deg = toward -x)
+    const mr = 9;
+    parts.push(`<defs><clipPath id="moonBright"><rect x="${mx-mr}" y="${my-mr}" width="${mr}" height="${mr*2}"/></clipPath></defs>`);
+    parts.push(`<circle cx="${mx}" cy="${my}" r="${mr}" fill="#3a4260"/>`);
+    parts.push(`<circle cx="${mx}" cy="${my}" r="${mr}" fill="#e8e2cf" clip-path="url(#moonBright)"/>`);
+    parts.push(`<circle cx="${mx}" cy="${my}" r="${mr}" fill="none" stroke="var(--night-500)" stroke-width="1"/>`);
+    svg.innerHTML = parts.join('');
+  }
+
+  /* ---------------- NASA Dial-A-Moon fetch ---------------- */
+  let lastPhotoFetch = 0;
+  let photoInfo = null;
+  function isoNow(date){
+    return date.toISOString().slice(0,16);
+  }
+  function refreshPhoto(date){
+    const now = Date.now();
+    if (now - lastPhotoFetch < 15*60000 && photoInfo) return Promise.resolve(photoInfo);
+    lastPhotoFetch = now;
+    return fetch('https://svs.gsfc.nasa.gov/api/dialamoon/'+isoNow(date))
+      .then(r=>r.ok?r.json():Promise.reject())
+      .then(j=>{ photoInfo = j; return j; })
+      .catch(()=>{ photoInfo = null; return null; });
+  }
+
+  /* ---------------- main render ---------------- */
+  let observer = null;
+
+  function render(){
+    const now = new Date();
+    document.getElementById('mnNowLabel').textContent = 'به‌روزرسانی: ' + now.toLocaleTimeString('fa-IR');
+
+    const illum = A.Illumination(A.Body.Moon, now);
+    const phase = A.MoonPhase(now);
+    const lib = A.Libration(now);
+    const geo = moonGeometry(now);
+    const age = moonAge(now);
+    const k = illum.phase_fraction;
+    const waxing = phase < 180;
+
+    document.getElementById('mnPhaseName').textContent = phaseName(phase);
+    document.getElementById('mnIllum').textContent = (k*100).toFixed(1) + '٪';
+    document.getElementById('mnAge').textContent = age.toFixed(1) + ' روز';
+    document.getElementById('mnDist').textContent = Math.round(lib.dist_km).toLocaleString('fa-IR') + ' کیلومتر';
+    document.getElementById('mnDiam').textContent = (lib.diam_deg*60).toFixed(1) + ' دقیقه‌ی قوسی';
+    document.getElementById('mnLibLon').textContent = lib.elon.toFixed(2) + '°';
+    document.getElementById('mnLibLat').textContent = lib.elat.toFixed(2) + '°';
+
+    document.getElementById('mnPhasePath').setAttribute('d', moonPhasePath(k, waxing));
+
+    // rise/set
+    const loc = currentLoc();
+    if (loc){
+      observer = new A.Observer(loc.lat, loc.lon, 0);
+      try {
+        const rise = A.SearchRiseSet(A.Body.Moon, observer, +1, now, 2);
+        const set = A.SearchRiseSet(A.Body.Moon, observer, -1, now, 2);
+        if (rise){
+          document.getElementById('mnRiseTime').textContent = fmtLocalTime(rise.date, loc.tz);
+          document.getElementById('mnRiseDate').textContent = fmtLocalDateLabel(rise.date, loc.tz, now);
+        }
+        if (set){
+          document.getElementById('mnSetTime').textContent = fmtLocalTime(set.date, loc.tz);
+          document.getElementById('mnSetDate').textContent = fmtLocalDateLabel(set.date, loc.tz, now);
+        }
+        if (rise && set){
+          const up = set.date.getTime() < rise.date.getTime();
+          document.getElementById('mnUpDownDot').style.background = up ? '#7ee0a8' : '#e08a6a';
+          document.getElementById('mnUpDownText').textContent = up ? 'اکنون ماه بالای افق است' : 'اکنون ماه زیر افق است';
+        }
+      } catch(e){
+        document.getElementById('mnRiseTime').textContent = '—';
+        document.getElementById('mnSetTime').textContent = '—';
+        document.getElementById('mnUpDownText').textContent = 'محاسبه برای این موقعیت ممکن نشد.';
+      }
+    }
+
+    // feature of the day
+    const feat = pickFeature(geo.subEarth, geo.subSolar);
+    document.getElementById('mnFeatureType').textContent = feat.type;
+    document.getElementById('mnFeatureName').textContent = feat.nameFa + ' (' + feat.nameLat + ')';
+    document.getElementById('mnFeatureCoord').textContent =
+      Math.abs(feat.lat).toFixed(1)+'° '+(feat.lat>=0?'شمالی':'جنوبی')+'، '+
+      Math.abs(feat.lon).toFixed(1)+'° '+(feat.lon>=0?'شرقی':'غربی');
+    document.getElementById('mnFeatureDesc').textContent = feat.desc;
+
+    refreshPhoto(now).then(info=>{
+      const wrap = document.getElementById('mnFeaturePhoto');
+      const phaseWrap = document.getElementById('mnPhaseVisual');
+      if (info && info.image && info.image.url){
+        phaseWrap.querySelector('#mnPhaseFallback').style.display = 'none';
+        const pImg = document.getElementById('mnPhaseImg');
+        pImg.src = info.image.url;
+        pImg.style.display = 'block';
+
+        wrap.innerHTML = '<img src="'+info.image.url+'" alt="تصویر لحظه‌ای ماه">';
+        const proj = orthoProject(feat, geo.subEarth);
+        if (proj.visible){
+          const pin = document.createElement('div');
+          pin.className = 'mn-feature-pin';
+          const px = 50 + proj.x*46, py = 50 - proj.y*46;
+          pin.style.left = px+'%';
+          pin.style.top = py+'%';
+          wrap.appendChild(pin);
+        }
+      } else {
+        phaseWrap.querySelector('#mnPhaseFallback').style.display = 'block';
+        document.getElementById('mnPhaseImg').style.display = 'none';
+        wrap.innerHTML = '<div class="mn-feature-fallback">تصویر لحظه‌ای در دسترس نیست</div>';
+      }
+    });
+
+    renderOrbit(phase);
+  }
+
+  render();
+  setInterval(render, 60000);
+})();
+</script>
+
+</body>
+</html>
