@@ -66,7 +66,7 @@
     position:relative; z-index:1; max-width:660px; margin:0 auto;
     font-size:17px; line-height:2.05; color:var(--star-300);
   }
-  .story-copy p{margin-bottom:24px;}
+  .story-copy p{margin-bottom:24px; text-align:justify; text-align-last:right;}
   .story-copy p:last-child{margin-bottom:0;}
   .story-copy .lede{font-size:19px; color:var(--star-100);}
 
@@ -74,11 +74,11 @@
      default, and only hidden-then-faded-in if the "js" class confirms the
      reveal script actually initialized (see inline script in <head>). */
   html.js .story-copy.reveal, html.js .chapter-card.reveal, html.js .story-figure.reveal,
-  html.js .tip-box.reveal, html.js .cta-box.reveal{
+  html.js .tip-box.reveal, html.js .cta-box.reveal, html.js .frame.reveal{
     opacity:0; transform:translateY(26px); transition:opacity .8s ease, transform .8s ease;
   }
   html.js .story-copy.reveal.in-view, html.js .chapter-card.reveal.in-view, html.js .story-figure.reveal.in-view,
-  html.js .tip-box.reveal.in-view, html.js .cta-box.reveal.in-view{
+  html.js .tip-box.reveal.in-view, html.js .cta-box.reveal.in-view, html.js .frame.reveal.in-view{
     opacity:1; transform:translateY(0);
   }
 
@@ -112,11 +112,20 @@
     content:''; position:absolute; inset:0;
     background:linear-gradient(180deg, rgba(7,11,20,0) 40%, rgba(7,11,20,.92) 100%);
   }
-  .story-figure-1{background-image:url('seeing-story-2-turbulence-diagram.jpg'); background-position:center 20%;}
   .story-figure-2{background-image:url('seeing-story-3-lasilla.jpg');}
   .story-figure-inner{position:relative; z-index:1; padding:30px 0 34px; width:100%;}
+
+  /* Contained inline figure - shows the whole image, never cropped or stretched.
+     Used for diagrams/illustrations where cropping would hide content. */
+  .story-inline-figure{background:var(--night-900); padding:20px 0 96px;}
+  .story-inline-figure .frame{
+    max-width:660px; margin:0 auto; border:1px solid var(--night-700); border-radius:10px;
+    overflow:hidden; background:var(--night-800);
+  }
+  .story-inline-figure img{display:block; width:100%; height:auto;}
   .story-caption{
     max-width:660px; margin:0 auto; font-size:14.5px; line-height:1.9; color:var(--star-300);
+    text-align:justify; text-align-last:right;
   }
   .story-caption b{color:var(--star-100); font-weight:500;}
   .story-credit{
@@ -131,7 +140,7 @@
     border:1px dashed var(--night-600); border-radius:8px;
   }
   .tip-box .kicker{margin-bottom:10px;}
-  .tip-box p{color:var(--star-300); font-size:15.5px; line-height:1.95; margin:0;}
+  .tip-box p{color:var(--star-300); font-size:15.5px; line-height:1.95; margin:0; text-align:justify; text-align-last:right;}
 
   /* CTA box linking to the tools page */
   .cta-box{
@@ -139,7 +148,7 @@
     border:1px solid var(--night-700); border-radius:10px; background:var(--night-800);
     display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;
   }
-  .cta-box p{color:var(--star-300); font-size:15px; line-height:1.9; margin:0; max-width:400px;}
+  .cta-box p{color:var(--star-300); font-size:15px; line-height:1.9; margin:0; max-width:400px; text-align:justify; text-align-last:right;}
   .cta-box .kicker{margin-bottom:8px;}
 
   /* Closing section */
@@ -152,7 +161,7 @@
   }
   .story-close-inner{position:relative; z-index:1; max-width:560px; padding:0 28px;}
   .story-close h2{font-size:clamp(24px,4vw,36px); margin-bottom:16px;}
-  .story-close p{color:var(--star-300); font-size:16px; line-height:2;}
+  .story-close p{color:var(--star-300); font-size:16px; line-height:2; text-align:justify; text-align-last:center;}
 
   .story-nav-row{
     max-width:660px; margin:0 auto 8px; font-family:var(--font-data); font-size:12px; color:var(--star-500);
@@ -162,7 +171,7 @@
 
   @media (prefers-reduced-motion: reduce){
     html.js .story-copy.reveal, html.js .chapter-card.reveal, html.js .story-figure.reveal,
-    html.js .tip-box.reveal, html.js .cta-box.reveal{
+    html.js .tip-box.reveal, html.js .cta-box.reveal, html.js .frame.reveal{
       opacity:1; transform:none; transition:none;
     }
   }
@@ -247,6 +256,16 @@
   </div>
 </section>
 
+<!-- FULL DESERT STAR-TRAIL PHOTO (uncropped) -->
+<div class="story-inline-figure" style="padding-top:0;">
+  <div class="wrap">
+    <div class="frame reveal">
+      <img src="seeing-story-1-startrails.jpg" alt="مسیر ستارگان (استارترریل) بر فراز کوهستانی کویری، عکس پدرام محمدطاهری" loading="lazy">
+    </div>
+    <p class="story-credit" style="margin-top:12px;">عکس: پدرام محمدطاهری</p>
+  </div>
+</div>
+
 <!-- CHAPTER ALEF -->
 <div class="chapter-open">
   <div class="chapter-card reveal">
@@ -275,11 +294,12 @@
 </section>
 
 <!-- MOUNTAIN TURBULENCE DIAGRAM -->
-<div class="story-figure-wrap">
-  <div class="story-figure story-figure-1 reveal">
-    <div class="wrap story-figure-inner">
-      <p class="story-caption"><b>تلاطم جوی بر فراز کوهستان.</b> باد در عبور از تاج کوه به‌صورت گردابی درمی‌آید؛ به همین دلیل دو رصدگاه که فاصله چندانی هم ندارند می‌توانند دید متفاوتی از سیاره کیوان ثبت کنند.</p>
+<div class="story-inline-figure">
+  <div class="wrap">
+    <div class="frame reveal">
+      <img src="seeing-story-2-turbulence-diagram.jpg" alt="دیاگرام تلاطم جوی بر فراز کوهستان و تاثیر آن بر دید سیاره کیوان از دو رصدگاه" loading="lazy">
     </div>
+    <p class="story-caption" style="margin-top:16px;"><b>تلاطم جوی بر فراز کوهستان.</b> باد در عبور از تاج کوه به‌صورت گردابی درمی‌آید؛ به همین دلیل دو رصدگاه که فاصله چندانی هم ندارند می‌توانند دید متفاوتی از سیاره کیوان ثبت کنند.</p>
   </div>
 </div>
 
