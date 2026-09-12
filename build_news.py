@@ -262,7 +262,18 @@ def build():
     news_dir = os.path.join(ROOT, "news")
     os.makedirs(news_dir, exist_ok=True)
 
-    urls = [f"{SITE_URL}/", f"{SITE_URL}/news.html", f"{SITE_URL}/team.html"]
+    # Static site pages that are properly nav-linked from every page (and so
+    # already have internal links pointing at them) but were previously
+    # missing from the sitemap entirely — this was leaving Google to discover
+    # them only by chance rather than being told about them directly.
+    STATIC_PAGES = [
+        "news.html", "team.html", "about.html", "contact.html", "tours.html",
+        "offerings.html", "observatory.html",
+        "tools.html", "sky-map-live.html", "comets.html", "moon.html",
+        "jupiter-moons.html", "seeing.html", "iss-passes.html",
+        "seeing-transparency-story.html",
+    ]
+    urls = [f"{SITE_URL}/"] + [f"{SITE_URL}/{p}" for p in STATIC_PAGES]
 
     for item in items:
         url = f"{SITE_URL}/news/{item['id']}.html"

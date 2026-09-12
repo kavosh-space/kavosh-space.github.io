@@ -1,0 +1,605 @@
+diff --git a/build_news.py b/build_news.py
+index c43769d..6fb2cec 100644
+--- a/build_news.py
++++ b/build_news.py
+@@ -151,6 +151,110 @@ def render_body_block(p):
+         )
+     return f"<p style='margin-bottom:20px;'>{esc(p)}</p>"
+ 
++NEWS_DEFAULT_IMG = "perseids.jpg"
++
++def news_card_html(item):
++    """Static HTML for one card in the news.html full grid — mirrors kavosh.js'
++    newsCardHtml() exactly, plus a data-cat attribute so the (now optional)
++    client-side filter can show/hide pre-rendered cards without re-fetching JSON."""
++    image = esc(item.get("image") or NEWS_DEFAULT_IMG)
++    category = esc(item["category"])
++    return f"""    <article class="news-card" data-cat="{category}">
++      <img src="{image}" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">{category}</span>
++          <span>{fa_date(item["date"])}</span>
++        </div>
++        <h3>{esc(item["title"])}</h3>
++        <p>{esc(item["excerpt"])}</p>
++        <a class="news-link" href="news/{esc(item['id'])}.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>"""
++
++def news_featured_html(item):
++    """Static HTML for the single featured/latest item — mirrors kavosh.js' newsFeaturedHtml()."""
++    image = esc(item.get("image") or NEWS_DEFAULT_IMG)
++    category = esc(item["category"])
++    return f"""  <a class="news-featured" href="news/{esc(item['id'])}.html" data-cat="{category}">
++    <img src="{image}" alt="" class="news-featured-img" loading="lazy">
++    <div class="news-featured-body">
++      <div class="news-meta">
++        <span class="news-tag">{category}</span>
++        <span>{fa_date(item["date"])}</span>
++      </div>
++      <h3>{esc(item["title"])}</h3>
++      <p>{esc(item["excerpt"])}</p>
++      <span class="news-link">بیشتر بخوانید ↗</span>
++    </div>
++  </a>"""
++
++def news_filters_html(items):
++    categories = ["همه"]
++    for i in items:
++        if i["category"] not in categories:
++            categories.append(i["category"])
++    chips = []
++    for idx, c in enumerate(categories):
++        active = " active" if idx == 0 else ""
++        chips.append(f'<button class="filter-chip{active}" data-cat="{esc(c)}">{esc(c)}</button>')
++    return "\n    ".join(chips)
++
++def inject_between_markers(html_text, start_marker, end_marker, new_inner_html):
++    """Replace everything between two HTML comment markers, keeping the markers."""
++    start_idx = html_text.find(start_marker)
++    end_idx = html_text.find(end_marker)
++    if start_idx == -1 or end_idx == -1:
++        raise ValueError(f"markers {start_marker!r}/{end_marker!r} not found — is the template out of date?")
++    before = html_text[:start_idx + len(start_marker)]
++    after = html_text[end_idx:]
++    return f"{before}\n{new_inner_html}\n{after}"
++
++def build_news_listing_and_teaser(items_sorted):
++    """Pre-render the news.html full grid + filter chips, and the index.html
++    teaser (featured item + 3 more), so search engines and non-JS clients see
++    real content in the initial HTML instead of a JS-injected 'loading' state."""
++
++    # --- news.html: filter chips + full grid ---
++    news_html_path = os.path.join(ROOT, "news.html")
++    with open(news_html_path, encoding="utf-8") as f:
++        news_html = f.read()
++
++    news_html = inject_between_markers(
++        news_html, "<!--NEWS_FILTERS_START-->", "<!--NEWS_FILTERS_END-->",
++        "    " + news_filters_html(items_sorted)
++    )
++    full_grid = "\n".join(news_card_html(i) for i in items_sorted)
++    news_html = inject_between_markers(
++        news_html, "<!--NEWS_CARDS_START-->", "<!--NEWS_CARDS_END-->", full_grid
++    )
++
++    with open(news_html_path, "w", encoding="utf-8") as f:
++        f.write(news_html)
++    print("updated news.html (static filter chips + full grid)")
++
++    # --- index.html: teaser (latest item featured + next 3 as small cards) ---
++    index_html_path = os.path.join(ROOT, "index.html")
++    with open(index_html_path, encoding="utf-8") as f:
++        index_html = f.read()
++
++    if items_sorted:
++        latest, *rest = items_sorted[:4]
++        teaser_html = news_featured_html(latest)
++        if rest:
++            rest_cards = "\n".join(news_card_html(i) for i in rest)
++            teaser_html += f'\n  <div class="news-grid">\n{rest_cards}\n  </div>'
++    else:
++        teaser_html = '<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>'
++
++    index_html = inject_between_markers(
++        index_html, "<!--NEWS_TEASER_START-->", "<!--NEWS_TEASER_END-->", teaser_html
++    )
++
++    with open(index_html_path, "w", encoding="utf-8") as f:
++        f.write(index_html)
++    print("updated index.html (static news teaser)")
++
+ def build():
+     with open(os.path.join(ROOT, "news.json"), encoding="utf-8") as f:
+         items = json.load(f)
+@@ -158,7 +262,18 @@ def build():
+     news_dir = os.path.join(ROOT, "news")
+     os.makedirs(news_dir, exist_ok=True)
+ 
+-    urls = [f"{SITE_URL}/", f"{SITE_URL}/news.html", f"{SITE_URL}/team.html"]
++    # Static site pages that are properly nav-linked from every page (and so
++    # already have internal links pointing at them) but were previously
++    # missing from the sitemap entirely — this was leaving Google to discover
++    # them only by chance rather than being told about them directly.
++    STATIC_PAGES = [
++        "news.html", "team.html", "about.html", "contact.html", "tours.html",
++        "offerings.html", "observatory.html",
++        "tools.html", "sky-map-live.html", "comets.html", "moon.html",
++        "jupiter-moons.html", "seeing.html", "iss-passes.html",
++        "seeing-transparency-story.html",
++    ]
++    urls = [f"{SITE_URL}/"] + [f"{SITE_URL}/{p}" for p in STATIC_PAGES]
+ 
+     for item in items:
+         url = f"{SITE_URL}/news/{item['id']}.html"
+@@ -226,5 +341,8 @@ def build():
+         f.write("\n".join(sitemap))
+     print("wrote sitemap.xml")
+ 
++    items_sorted = sorted(items, key=lambda i: i["date"], reverse=True)
++    build_news_listing_and_teaser(items_sorted)
++
+ if __name__ == "__main__":
+     build()
+diff --git a/comets.html b/comets.html
+index 302c6b1..7d495aa 100644
+--- a/comets.html
++++ b/comets.html
+@@ -3,11 +3,11 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>وضعیت دنباله‌دارها | گروه نجوم کاوش</title>
+-<meta name="description" content="فهرست دنباله‌دارهای قابل‌رصد امشب، قدر ظاهری و روند تغییرات آن‌ها، برگرفته به‌صورت خودکار از پایگاه داده COBS.">
++<title>وضعیت دنباله‌دارها | ابزار رایگان نجومی گروه کاوش</title>
++<meta name="description" content="فهرست دنباله‌دارهای قابل‌رصد امشب، قدر ظاهری و روند تغییرات آن‌ها، برگرفته به‌صورت خودکار از پایگاه داده COBS — رایگان و بدون نیاز به ثبت‌نام.">
+ <link rel="canonical" href="https://kavosh-space.github.io/comets.html">
+ <meta property="og:type" content="website">
+-<meta property="og:title" content="وضعیت دنباله‌دارها | گروه نجوم کاوش">
++<meta property="og:title" content="وضعیت دنباله‌دارها | ابزار رایگان گروه نجوم کاوش">
+ <meta property="og:description" content="فهرست دنباله‌دارهای قابل‌رصد و قدر نوری آن‌ها، برگرفته از پایگاه داده COBS.">
+ <meta property="og:url" content="https://kavosh-space.github.io/comets.html">
+ <meta property="og:site_name" content="گروه نجوم کاوش">
+@@ -19,6 +19,21 @@
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "SoftwareApplication",
++  "name": "وضعیت دنباله‌دارها",
++  "description": "ابزار رایگان آنلاین برای پیگیری دنباله‌دارهای قابل‌رصد، قدر ظاهری و روند تغییرات آن‌ها.",
++  "url": "https://kavosh-space.github.io/comets.html",
++  "applicationCategory": "UtilitiesApplication",
++  "operatingSystem": "Web",
++  "inLanguage": "fa",
++  "isAccessibleForFree": true,
++  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++}
++</script>
+ 
+ <style>
+   .hero-comets h1{font-size:clamp(34px, 5vw, 58px);}
+diff --git a/iss-passes.html b/iss-passes.html
+index 6da1bce..6ead1ab 100644
+--- a/iss-passes.html
++++ b/iss-passes.html
+@@ -3,11 +3,11 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>گذر ایستگاه فضایی بین‌المللی از بالای سر شما | گروه نجوم کاوش</title>
+-<meta name="description" content="پیش‌بینی زمان و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی (ISS) از بالای سر شما — محاسبه‌شده در مرورگر بر پایه داده مداری زنده.">
++<title>گذر ایستگاه فضایی بین‌المللی | ابزار رایگان نجومی گروه کاوش</title>
++<meta name="description" content="پیش‌بینی زمان و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی (ISS) از بالای سر شما — رایگان، بدون نیاز به نصب یا ثبت‌نام.">
+ <link rel="canonical" href="https://kavosh-space.github.io/iss-passes.html">
+ <meta property="og:type" content="website">
+-<meta property="og:title" content="گذر ایستگاه فضایی بین‌المللی از بالای سر شما | گروه نجوم کاوش">
++<meta property="og:title" content="گذر ایستگاه فضایی بین‌المللی | ابزار رایگان گروه نجوم کاوش">
+ <meta property="og:description" content="زمان، ارتفاع و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی برای شهر یا موقعیت شما — محاسبه زنده در مرورگر.">
+ <meta property="og:url" content="https://kavosh-space.github.io/iss-passes.html">
+ <meta property="og:site_name" content="گروه نجوم کاوش">
+@@ -19,6 +19,21 @@
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "SoftwareApplication",
++  "name": "گذر ایستگاه فضایی بین‌المللی",
++  "description": "ابزار رایگان آنلاین برای پیش‌بینی زمان، ارتفاع و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی (ISS).",
++  "url": "https://kavosh-space.github.io/iss-passes.html",
++  "applicationCategory": "UtilitiesApplication",
++  "operatingSystem": "Web",
++  "inLanguage": "fa",
++  "isAccessibleForFree": true,
++  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++}
++</script>
+ 
+ <style>
+   .hero-iss h1{font-size:clamp(30px, 5vw, 54px);}
+diff --git a/jupiter-moons.html b/jupiter-moons.html
+index 8c2d0aa..346bc10 100644
+--- a/jupiter-moons.html
++++ b/jupiter-moons.html
+@@ -3,11 +3,11 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>وضعیت قمرهای مشتری | گروه نجوم کاوش</title>
+-<meta name="description" content="آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری — یو، اروپا، گانیمد و کالیستو — محاسبه‌شده به‌صورت محلی در مرورگر شما، ویژه رصد با تلسکوپ.">
++<title>وضعیت قمرهای مشتری | ابزار رایگان نجومی گروه کاوش</title>
++<meta name="description" content="آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری — یو، اروپا، گانیمد و کالیستو — محاسبه‌شده به‌صورت محلی در مرورگر شما، رایگان و بدون نیاز به نصب.">
+ <link rel="canonical" href="https://kavosh-space.github.io/jupiter-moons.html">
+ <meta property="og:type" content="website">
+-<meta property="og:title" content="وضعیت قمرهای مشتری | گروه نجوم کاوش">
++<meta property="og:title" content="وضعیت قمرهای مشتری | ابزار رایگان گروه نجوم کاوش">
+ <meta property="og:description" content="آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری نسبت به سیاره، محاسبه‌شده لحظه‌به‌لحظه در مرورگر شما.">
+ <meta property="og:url" content="https://kavosh-space.github.io/jupiter-moons.html">
+ <meta property="og:site_name" content="گروه نجوم کاوش">
+@@ -19,6 +19,21 @@
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "SoftwareApplication",
++  "name": "وضعیت قمرهای مشتری",
++  "description": "ابزار رایگان آنلاین برای مشاهده آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری، ویژه رصد با تلسکوپ.",
++  "url": "https://kavosh-space.github.io/jupiter-moons.html",
++  "applicationCategory": "UtilitiesApplication",
++  "operatingSystem": "Web",
++  "inLanguage": "fa",
++  "isAccessibleForFree": true,
++  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++}
++</script>
+ 
+ <style>
+   html{background:#05070a;}
+diff --git a/moon.html b/moon.html
+index 0496047..7541ed6 100644
+--- a/moon.html
++++ b/moon.html
+@@ -3,11 +3,11 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>وضعیت ماه | گروه نجوم کاوش</title>
+-<meta name="description" content="فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب برای شهر شما، عارضه‌ای از سطح ماه که امروز دیدنی است، و نمایی از مدار ماه به دور زمین — همه محاسبه‌شده به‌صورت لحظه‌ای.">
++<title>وضعیت ماه | ابزار رایگان نجومی گروه کاوش</title>
++<meta name="description" content="فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب برای شهر شما، عارضه‌ای از سطح ماه که امروز دیدنی است، و نمایی از مدار ماه به دور زمین — رایگان، بدون نیاز به نصب یا ثبت‌نام.">
+ <link rel="canonical" href="https://kavosh-space.github.io/moon.html">
+ <meta property="og:type" content="website">
+-<meta property="og:title" content="وضعیت ماه | گروه نجوم کاوش">
++<meta property="og:title" content="وضعیت ماه | ابزار رایگان گروه نجوم کاوش">
+ <meta property="og:description" content="فاز فعلی ماه، طلوع و غروب برای شهر شما، و مدار ماه به دور زمین — محاسبه‌شده لحظه‌به‌لحظه در مرورگر شما.">
+ <meta property="og:url" content="https://kavosh-space.github.io/moon.html">
+ <meta property="og:site_name" content="گروه نجوم کاوش">
+@@ -19,6 +19,21 @@
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "SoftwareApplication",
++  "name": "وضعیت ماه",
++  "description": "ابزار رایگان آنلاین برای مشاهده فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب و مدار ماه به دور زمین.",
++  "url": "https://kavosh-space.github.io/moon.html",
++  "applicationCategory": "UtilitiesApplication",
++  "operatingSystem": "Web",
++  "inLanguage": "fa",
++  "isAccessibleForFree": true,
++  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++}
++</script>
+ 
+ <style>
+   html{background:#05070a;}
+diff --git a/seeing.html b/seeing.html
+index fc462cc..d61254c 100644
+--- a/seeing.html
++++ b/seeing.html
+@@ -3,11 +3,11 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>شاخص دید و شفافیت آسمان | گروه نجوم کاوش</title>
+-<meta name="description" content="پیش‌بینی کیفیت دید (Seeing)، شفافیت جو و پوشش ابر برای ساعات پیش رو — برای انتخاب بهترین شب رصد، برگرفته از meteoblue.">
++<title>شاخص دید و شفافیت آسمان | ابزار رایگان نجومی گروه کاوش</title>
++<meta name="description" content="پیش‌بینی کیفیت دید (Seeing)، شفافیت جو و پوشش ابر برای ساعات پیش رو — برای انتخاب بهترین شب رصد، رایگان و بدون نیاز به ثبت‌نام.">
+ <link rel="canonical" href="https://kavosh-space.github.io/seeing.html">
+ <meta property="og:type" content="website">
+-<meta property="og:title" content="شاخص دید و شفافیت آسمان | گروه نجوم کاوش">
++<meta property="og:title" content="شاخص دید و شفافیت آسمان | ابزار رایگان گروه نجوم کاوش">
+ <meta property="og:description" content="پیش‌بینی کیفیت دید، شفافیت جو و پوشش ابر برای ساعات پیش رو، ویژه انتخاب بهترین شب رصد.">
+ <meta property="og:url" content="https://kavosh-space.github.io/seeing.html">
+ <meta property="og:site_name" content="گروه نجوم کاوش">
+@@ -19,6 +19,21 @@
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "SoftwareApplication",
++  "name": "شاخص دید و شفافیت آسمان",
++  "description": "ابزار رایگان آنلاین برای پیش‌بینی کیفیت دید، شفافیت جو و پوشش ابر، ویژه انتخاب بهترین شب رصد.",
++  "url": "https://kavosh-space.github.io/seeing.html",
++  "applicationCategory": "UtilitiesApplication",
++  "operatingSystem": "Web",
++  "inLanguage": "fa",
++  "isAccessibleForFree": true,
++  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++}
++</script>
+ 
+ <style>
+   .hero-seeing h1{font-size:clamp(34px, 5vw, 58px);}
+diff --git a/sitemap.xml b/sitemap.xml
+index a7190cf..925b0d0 100644
+--- a/sitemap.xml
++++ b/sitemap.xml
+@@ -1,19 +1,32 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+-  <url><loc>https://kavosh-space.github.io/</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/team.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/kosoof-hae-ayande-iran.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/corona-borealis-nova.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/shbahang.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/amateur-astronomers.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/persieds2026.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/perseids-2024.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/comet-tsuchinshan-atlas.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/earth-shadow-venus-belt.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/canopus-star.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/earthshine.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/how-many-stars-visible.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/k2-18b-life-signs.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavosh-space.github.io/news/two-comets-2025.html</loc><lastmod>2026-09-07</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/team.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/about.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/contact.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/tours.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/offerings.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/observatory.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/tools.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/sky-map-live.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/comets.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/moon.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/jupiter-moons.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/seeing.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/iss-passes.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/seeing-transparency-story.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/kosoof-hae-ayande-iran.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/corona-borealis-nova.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/shbahang.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/amateur-astronomers.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/persieds2026.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/perseids-2024.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/comet-tsuchinshan-atlas.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/earth-shadow-venus-belt.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/canopus-star.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/earthshine.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/how-many-stars-visible.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/k2-18b-life-signs.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavosh-space.github.io/news/two-comets-2025.html</loc><lastmod>2026-09-12</lastmod></url>
+ </urlset>
+\ No newline at end of file
+diff --git a/sky-map-live.html b/sky-map-live.html
+index c18e564..9c4c8e5 100644
+--- a/sky-map-live.html
++++ b/sky-map-live.html
+@@ -3,11 +3,11 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>نقشه تعاملی آسمان | گروه نجوم کاوش</title>
+-<meta name="description" content="نقشه تعاملی و زنده آسمان به زبان فارسی — موقعیت لحظه‌ای ستاره‌ها، سیارات و صورت‌های فلکی برای هر تاریخ، ساعت و شهر، با نام‌های فارسی.">
++<title>نقشه تعاملی آسمان | ابزار رایگان نجومی گروه کاوش</title>
++<meta name="description" content="نقشه تعاملی و زنده آسمان به زبان فارسی — موقعیت لحظه‌ای ستاره‌ها، سیارات و صورت‌های فلکی برای هر تاریخ، ساعت و شهر — رایگان و بدون نیاز به نصب.">
+ <link rel="canonical" href="https://kavosh-space.github.io/sky-map-live.html">
+ <meta property="og:type" content="website">
+-<meta property="og:title" content="نقشه تعاملی آسمان | گروه نجوم کاوش">
++<meta property="og:title" content="نقشه تعاملی آسمان | ابزار رایگان گروه نجوم کاوش">
+ <meta property="og:description" content="نقشه تعاملی و زنده آسمان به زبان فارسی — ستاره‌ها، سیارات و صورت‌های فلکی برای هر تاریخ، ساعت و شهر.">
+ <meta property="og:url" content="https://kavosh-space.github.io/sky-map-live.html">
+ <meta property="og:site_name" content="گروه نجوم کاوش">
+@@ -19,6 +19,21 @@
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "SoftwareApplication",
++  "name": "نقشه تعاملی آسمان",
++  "description": "ابزار رایگان آنلاین برای مشاهده نقشه تعاملی و زنده آسمان به زبان فارسی، شامل ستاره‌ها، سیارات و صورت‌های فلکی.",
++  "url": "https://kavosh-space.github.io/sky-map-live.html",
++  "applicationCategory": "UtilitiesApplication",
++  "operatingSystem": "Web",
++  "inLanguage": "fa",
++  "isAccessibleForFree": true,
++  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++}
++</script>
+ 
+ <!-- D3-Celestial (open-source sky map library) -->
+ <script src="https://d3js.org/d3.v3.min.js"></script>
+diff --git a/tools.html b/tools.html
+index 2f90724..0cbcf82 100644
+--- a/tools.html
++++ b/tools.html
+@@ -3,12 +3,12 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>ابزار | گروه نجوم کاوش</title>
+-<meta name="description" content="ابزارهای آنلاین نجومی گروه کاوش — نقشه تعاملی آسمان، وضعیت دنباله‌دارها، ماه، قمرهای مشتری، گذر ایستگاه فضایی و شاخص دید و شفافیت آسمان برای رصد.">
++<title>ابزارهای رایگان نجومی | گروه نجوم کاوش</title>
++<meta name="description" content="ابزارهای آنلاین و رایگان نجومی گروه کاوش، بدون نیاز به نصب یا ثبت‌نام — نقشه تعاملی آسمان، وضعیت دنباله‌دارها، ماه، قمرهای مشتری، گذر ایستگاه فضایی و شاخص دید و شفافیت آسمان برای رصد.">
+ <link rel="canonical" href="https://kavosh-space.github.io/tools.html">
+ <meta property="og:type" content="website">
+-<meta property="og:title" content="ابزار | گروه نجوم کاوش">
+-<meta property="og:description" content="ابزارهای آنلاین نجومی گروه کاوش — نقشه آسمان، دنباله‌دارها، ماه، قمرهای مشتری، گذر ایستگاه فضایی و شرایط رصد.">
++<meta property="og:title" content="ابزارهای رایگان نجومی | گروه نجوم کاوش">
++<meta property="og:description" content="ابزارهای آنلاین و رایگان نجومی گروه کاوش — نقشه آسمان، دنباله‌دارها، ماه، قمرهای مشتری، گذر ایستگاه فضایی و شرایط رصد، بدون هزینه و بدون نیاز به ثبت‌نام.">
+ <meta property="og:url" content="https://kavosh-space.github.io/tools.html">
+ <meta property="og:site_name" content="گروه نجوم کاوش">
+ <meta property="og:locale" content="fa_IR">
+@@ -19,6 +19,27 @@
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="style.css">
++<script type="application/ld+json">
++{
++  "@context": "https://schema.org",
++  "@type": "CollectionPage",
++  "name": "ابزارهای رایگان نجومی گروه نجوم کاوش",
++  "description": "مجموعه ابزارهای آنلاین و رایگان نجومی برای برنامه‌ریزی رصد، بدون نیاز به نصب یا ثبت‌نام.",
++  "url": "https://kavosh-space.github.io/tools.html",
++  "isPartOf": {"@type": "WebSite", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"},
++  "mainEntity": {
++    "@type": "ItemList",
++    "itemListElement": [
++      {"@type": "ListItem", "position": 1, "item": {"@type": "SoftwareApplication", "name": "نقشه تعاملی آسمان", "url": "https://kavosh-space.github.io/sky-map-live.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 2, "item": {"@type": "SoftwareApplication", "name": "وضعیت دنباله‌دارها", "url": "https://kavosh-space.github.io/comets.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 3, "item": {"@type": "SoftwareApplication", "name": "وضعیت ماه", "url": "https://kavosh-space.github.io/moon.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 4, "item": {"@type": "SoftwareApplication", "name": "وضعیت قمرهای مشتری", "url": "https://kavosh-space.github.io/jupiter-moons.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 5, "item": {"@type": "SoftwareApplication", "name": "شاخص دید و شفافیت آسمان", "url": "https://kavosh-space.github.io/seeing.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 6, "item": {"@type": "SoftwareApplication", "name": "گذر ایستگاه فضایی بین‌المللی", "url": "https://kavosh-space.github.io/iss-passes.html", "isAccessibleForFree": true}}
++    ]
++  }
++}
++</script>
+ 
+ <style>
+   /* ---------- Tools hero: same flexible type scale as contact/sky-map ---------- */
+@@ -42,7 +63,9 @@
+     border-bottom:1px solid var(--night-700);
+   }
+   .tool-visual svg{width:62%; height:62%; overflow:visible;}
++  .tool-visual img{width:100%; height:100%; object-fit:cover; display:block;}
+   .tool-card:hover .tool-visual svg{filter:brightness(1.08);}
++  .tool-card:hover .tool-visual img{filter:brightness(1.08);}
+ 
+   .tool-card-body{padding:24px 26px 26px; display:flex; flex-direction:column; gap:12px; flex:1;}
+   .tool-status{
+@@ -129,14 +152,17 @@
+     </g>
+   </svg>
+   <div class="hero-content wrap">
+-    <div class="eyebrow">ابزارهای آنلاین نجومی</div>
++    <div class="eyebrow">ابزارهای آنلاین و رایگان نجومی</div>
+     <h1>ابزار کاوش</h1>
+-    <p class="hero-tag">مجموعه‌ای از ابزارهای زنده و آنلاین برای برنامه‌ریزی رصد — از نقشه آسمان تا وضعیت دنباله‌دارها، ماه، قمرهای مشتری و شرایط جوی.</p>
++    <p class="hero-tag">مجموعه‌ای از ابزارهای زنده، آنلاین و کاملاً رایگان برای برنامه‌ریزی رصد — بدون نیاز به نصب یا ثبت‌نام — از نقشه آسمان تا وضعیت دنباله‌دارها، ماه، قمرهای مشتری و شرایط جوی.</p>
+   </div>
+ </header>
+ 
+ <section id="tools-page">
+   <div class="wrap">
++    <div class="kicker">دسترسی آزاد و رایگان</div>
++    <h2>ابزارهایی برای همه، بدون هزینه</h2>
++    <p class="lede">هدف ما این است که علاقه‌مندان به نجوم و رصد، بدون پرداخت هزینه و بدون نیاز به نصب اپلیکیشن یا ثبت‌نام، به داده‌های نجومی به‌روز دسترسی داشته باشند. همه‌ی ابزارهای زیر رایگان، مبتنی بر مرورگر و آزادانه در دسترس عموم هستند.</p>
+     <div class="tools-grid">
+ 
+       <a class="tool-card" href="sky-map-live.html">
+@@ -171,19 +197,7 @@
+ 
+       <a class="tool-card" href="comets.html">
+         <div class="tool-visual">
+-          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+-            <g fill="#f4f1ea" opacity="0.5">
+-              <circle cx="40" cy="30" r="1"/>
+-              <circle cx="70" cy="110" r="1.2"/>
+-              <circle cx="190" cy="35" r="1"/>
+-              <circle cx="205" cy="115" r="1.4"/>
+-              <circle cx="50" cy="70" r="1"/>
+-            </g>
+-            <path d="M50 115 Q100 90 152 66" fill="none" stroke="var(--ember-500)" stroke-width="10" stroke-linecap="round" opacity="0.16"/>
+-            <path d="M60 112 Q104 92 152 66" fill="none" stroke="var(--ember-400)" stroke-width="5" stroke-linecap="round" opacity="0.35"/>
+-            <circle cx="152" cy="66" r="6" fill="var(--ember-300)"/>
+-            <circle cx="152" cy="66" r="11" fill="none" stroke="var(--ember-400)" stroke-width="1" opacity="0.5"/>
+-          </svg>
++          <img src="comet-chasing-kavosh.gif" alt="دنباله‌دار در حال حرکت در آسمان شب — عکاسی گروه نجوم کاوش" loading="lazy" width="480" height="300">
+         </div>
+         <div class="tool-card-body">
+           <span class="tool-status live">فعال</span>
+@@ -195,15 +209,7 @@
+ 
+       <a class="tool-card" href="moon.html">
+         <div class="tool-visual">
+-          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+-            <circle cx="120" cy="75" r="42" fill="var(--night-600)"/>
+-            <path d="M120 33 A42 42 0 0 1 120 117 A26 42 0 0 0 120 33 Z" fill="var(--ember-300)"/>
+-            <g fill="var(--night-700)">
+-              <circle cx="108" cy="58" r="4"/>
+-              <circle cx="128" cy="70" r="6"/>
+-              <circle cx="112" cy="92" r="3.4"/>
+-            </g>
+-          </svg>
++          <img src="moon-phases-kavosh.jpg" alt="فازهای ماه — عکاسی گروه نجوم کاوش" loading="lazy" width="480" height="300">
+         </div>
+         <div class="tool-card-body">
+           <span class="tool-status live">فعال</span>
+@@ -215,19 +221,7 @@
+ 
+       <a class="tool-card" href="jupiter-moons.html">
+         <div class="tool-visual">
+-          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+-            <line x1="20" y1="75" x2="220" y2="75" stroke="var(--night-500)" stroke-width="1" opacity="0.4"/>
+-            <circle cx="120" cy="75" r="19" fill="var(--ember-400)"/>
+-            <path d="M101 68 Q120 62 139 68" stroke="var(--night-700)" stroke-width="2" fill="none" opacity="0.6"/>
+-            <path d="M103 82 Q120 88 137 82" stroke="var(--night-700)" stroke-width="2" fill="none" opacity="0.5"/>
+-            <ellipse cx="112" cy="78" rx="4.5" ry="3" fill="var(--ember-300)" opacity="0.7"/>
+-            <g fill="var(--star-300)">
+-              <circle cx="44" cy="75" r="2.4"/>
+-              <circle cx="76" cy="75" r="2"/>
+-              <circle cx="164" cy="75" r="2.2"/>
+-              <circle cx="202" cy="75" r="2.6"/>
+-            </g>
+-          </svg>
++          <img src="jupiters-moon-kavosh.jpg" alt="مشتری و قمرهای گالیله‌ای — عکاسی گروه نجوم کاوش" loading="lazy" width="480" height="300">
+         </div>
+         <div class="tool-card-body">
+           <span class="tool-status live">فعال</span>
+@@ -257,21 +251,7 @@
+ 
+       <a class="tool-card" href="iss-passes.html">
+         <div class="tool-visual">
+-          <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+-            <path d="M20 120 A100 100 0 0 1 220 120" fill="none" stroke="var(--night-500)" stroke-width="1" opacity="0.6"/>
+-            <path d="M40 118 Q120 30 200 92" fill="none" stroke="var(--ember-400)" stroke-width="1.6" stroke-dasharray="4 4" opacity="0.75"/>
+-            <g transform="translate(120,52) rotate(-28)">
+-              <rect x="-15" y="-4" width="10" height="8" fill="var(--star-300)"/>
+-              <rect x="5" y="-4" width="10" height="8" fill="var(--star-300)"/>
+-              <rect x="-5" y="-6" width="10" height="12" rx="2" fill="var(--ember-300)"/>
+-            </g>
+-            <g fill="#f4f1ea" opacity="0.6">
+-              <circle cx="55" cy="45" r="1"/>
+-              <circle cx="185" cy="50" r="1.2"/>
+-              <circle cx="70" cy="130" r="1"/>
+-              <circle cx="170" cy="128" r="1"/>
+-            </g>
+-          </svg>
++          <img src="iss-passing-over-iran-kavosh.jpg" alt="عبور ایستگاه فضایی بین‌المللی (ISS) بر فراز آسمان ایران — عکاسی گروه نجوم کاوش" loading="lazy" width="480" height="300">
+         </div>
+         <div class="tool-card-body">
+           <span class="tool-status live">فعال</span>
