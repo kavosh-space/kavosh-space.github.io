@@ -151,6 +151,110 @@ def render_body_block(p):
         )
     return f"<p style='margin-bottom:20px;'>{esc(p)}</p>"
 
+NEWS_DEFAULT_IMG = "perseids.jpg"
+
+def news_card_html(item):
+    """Static HTML for one card in the news.html full grid — mirrors kavosh.js'
+    newsCardHtml() exactly, plus a data-cat attribute so the (now optional)
+    client-side filter can show/hide pre-rendered cards without re-fetching JSON."""
+    image = esc(item.get("image") or NEWS_DEFAULT_IMG)
+    category = esc(item["category"])
+    return f"""    <article class="news-card" data-cat="{category}">
+      <img src="{image}" alt="" class="news-card-img" loading="lazy">
+      <div class="news-card-body">
+        <div class="news-meta">
+          <span class="news-tag">{category}</span>
+          <span>{fa_date(item["date"])}</span>
+        </div>
+        <h3>{esc(item["title"])}</h3>
+        <p>{esc(item["excerpt"])}</p>
+        <a class="news-link" href="news/{esc(item['id'])}.html">جزئیات بیشتر ↗</a>
+      </div>
+    </article>"""
+
+def news_featured_html(item):
+    """Static HTML for the single featured/latest item — mirrors kavosh.js' newsFeaturedHtml()."""
+    image = esc(item.get("image") or NEWS_DEFAULT_IMG)
+    category = esc(item["category"])
+    return f"""  <a class="news-featured" href="news/{esc(item['id'])}.html" data-cat="{category}">
+    <img src="{image}" alt="" class="news-featured-img" loading="lazy">
+    <div class="news-featured-body">
+      <div class="news-meta">
+        <span class="news-tag">{category}</span>
+        <span>{fa_date(item["date"])}</span>
+      </div>
+      <h3>{esc(item["title"])}</h3>
+      <p>{esc(item["excerpt"])}</p>
+      <span class="news-link">بیشتر بخوانید ↗</span>
+    </div>
+  </a>"""
+
+def news_filters_html(items):
+    categories = ["همه"]
+    for i in items:
+        if i["category"] not in categories:
+            categories.append(i["category"])
+    chips = []
+    for idx, c in enumerate(categories):
+        active = " active" if idx == 0 else ""
+        chips.append(f'<button class="filter-chip{active}" data-cat="{esc(c)}">{esc(c)}</button>')
+    return "\n    ".join(chips)
+
+def inject_between_markers(html_text, start_marker, end_marker, new_inner_html):
+    """Replace everything between two HTML comment markers, keeping the markers."""
+    start_idx = html_text.find(start_marker)
+    end_idx = html_text.find(end_marker)
+    if start_idx == -1 or end_idx == -1:
+        raise ValueError(f"markers {start_marker!r}/{end_marker!r} not found — is the template out of date?")
+    before = html_text[:start_idx + len(start_marker)]
+    after = html_text[end_idx:]
+    return f"{before}\n{new_inner_html}\n{after}"
+
+def build_news_listing_and_teaser(items_sorted):
+    """Pre-render the news.html full grid + filter chips, and the index.html
+    teaser (featured item + 3 more), so search engines and non-JS clients see
+    real content in the initial HTML instead of a JS-injected 'loading' state."""
+
+    # --- news.html: filter chips + full grid ---
+    news_html_path = os.path.join(ROOT, "news.html")
+    with open(news_html_path, encoding="utf-8") as f:
+        news_html = f.read()
+
+    news_html = inject_between_markers(
+        news_html, "<!--NEWS_FILTERS_START-->", "<!--NEWS_FILTERS_END-->",
+        "    " + news_filters_html(items_sorted)
+    )
+    full_grid = "\n".join(news_card_html(i) for i in items_sorted)
+    news_html = inject_between_markers(
+        news_html, "<!--NEWS_CARDS_START-->", "<!--NEWS_CARDS_END-->", full_grid
+    )
+
+    with open(news_html_path, "w", encoding="utf-8") as f:
+        f.write(news_html)
+    print("updated news.html (static filter chips + full grid)")
+
+    # --- index.html: teaser (latest item featured + next 3 as small cards) ---
+    index_html_path = os.path.join(ROOT, "index.html")
+    with open(index_html_path, encoding="utf-8") as f:
+        index_html = f.read()
+
+    if items_sorted:
+        latest, *rest = items_sorted[:4]
+        teaser_html = news_featured_html(latest)
+        if rest:
+            rest_cards = "\n".join(news_card_html(i) for i in rest)
+            teaser_html += f'\n  <div class="news-grid">\n{rest_cards}\n  </div>'
+    else:
+        teaser_html = '<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>'
+
+    index_html = inject_between_markers(
+        index_html, "<!--NEWS_TEASER_START-->", "<!--NEWS_TEASER_END-->", teaser_html
+    )
+
+    with open(index_html_path, "w", encoding="utf-8") as f:
+        f.write(index_html)
+    print("updated index.html (static news teaser)")
+
 def build():
     with open(os.path.join(ROOT, "news.json"), encoding="utf-8") as f:
         items = json.load(f)
@@ -225,6 +329,9 @@ def build():
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write("\n".join(sitemap))
     print("wrote sitemap.xml")
+
+    items_sorted = sorted(items, key=lambda i: i["date"], reverse=True)
+    build_news_listing_and_teaser(items_sorted)
 
 if __name__ == "__main__":
     build()

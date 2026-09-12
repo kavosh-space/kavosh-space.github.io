@@ -1,0 +1,476 @@
+diff --git a/.github/workflows/build-news.yml b/.github/workflows/build-news.yml
+index 806ae5c..ccb9eb6 100644
+--- a/.github/workflows/build-news.yml
++++ b/.github/workflows/build-news.yml
+@@ -29,4 +29,4 @@ jobs:
+         uses: stefanzweifel/git-auto-commit-action@v5
+         with:
+           commit_message: "chore: rebuild news pages + sitemap [auto]"
+-          file_pattern: "news/*.html sitemap.xml"
++          file_pattern: "news/*.html sitemap.xml news.html index.html"
+diff --git a/build_news.py b/build_news.py
+index c43769d..9d86ce1 100644
+--- a/build_news.py
++++ b/build_news.py
+@@ -151,6 +151,110 @@ def render_body_block(p):
+         )
+     return f"<p style='margin-bottom:20px;'>{esc(p)}</p>"
+ 
++NEWS_DEFAULT_IMG = "perseids.jpg"
++
++def news_card_html(item):
++    """Static HTML for one card in the news.html full grid — mirrors kavosh.js'
++    newsCardHtml() exactly, plus a data-cat attribute so the (now optional)
++    client-side filter can show/hide pre-rendered cards without re-fetching JSON."""
++    image = esc(item.get("image") or NEWS_DEFAULT_IMG)
++    category = esc(item["category"])
++    return f"""    <article class="news-card" data-cat="{category}">
++      <img src="{image}" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">{category}</span>
++          <span>{fa_date(item["date"])}</span>
++        </div>
++        <h3>{esc(item["title"])}</h3>
++        <p>{esc(item["excerpt"])}</p>
++        <a class="news-link" href="news/{esc(item['id'])}.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>"""
++
++def news_featured_html(item):
++    """Static HTML for the single featured/latest item — mirrors kavosh.js' newsFeaturedHtml()."""
++    image = esc(item.get("image") or NEWS_DEFAULT_IMG)
++    category = esc(item["category"])
++    return f"""  <a class="news-featured" href="news/{esc(item['id'])}.html" data-cat="{category}">
++    <img src="{image}" alt="" class="news-featured-img" loading="lazy">
++    <div class="news-featured-body">
++      <div class="news-meta">
++        <span class="news-tag">{category}</span>
++        <span>{fa_date(item["date"])}</span>
++      </div>
++      <h3>{esc(item["title"])}</h3>
++      <p>{esc(item["excerpt"])}</p>
++      <span class="news-link">بیشتر بخوانید ↗</span>
++    </div>
++  </a>"""
++
++def news_filters_html(items):
++    categories = ["همه"]
++    for i in items:
++        if i["category"] not in categories:
++            categories.append(i["category"])
++    chips = []
++    for idx, c in enumerate(categories):
++        active = " active" if idx == 0 else ""
++        chips.append(f'<button class="filter-chip{active}" data-cat="{esc(c)}">{esc(c)}</button>')
++    return "\n    ".join(chips)
++
++def inject_between_markers(html_text, start_marker, end_marker, new_inner_html):
++    """Replace everything between two HTML comment markers, keeping the markers."""
++    start_idx = html_text.find(start_marker)
++    end_idx = html_text.find(end_marker)
++    if start_idx == -1 or end_idx == -1:
++        raise ValueError(f"markers {start_marker!r}/{end_marker!r} not found — is the template out of date?")
++    before = html_text[:start_idx + len(start_marker)]
++    after = html_text[end_idx:]
++    return f"{before}\n{new_inner_html}\n{after}"
++
++def build_news_listing_and_teaser(items_sorted):
++    """Pre-render the news.html full grid + filter chips, and the index.html
++    teaser (featured item + 3 more), so search engines and non-JS clients see
++    real content in the initial HTML instead of a JS-injected 'loading' state."""
++
++    # --- news.html: filter chips + full grid ---
++    news_html_path = os.path.join(ROOT, "news.html")
++    with open(news_html_path, encoding="utf-8") as f:
++        news_html = f.read()
++
++    news_html = inject_between_markers(
++        news_html, "<!--NEWS_FILTERS_START-->", "<!--NEWS_FILTERS_END-->",
++        "    " + news_filters_html(items_sorted)
++    )
++    full_grid = "\n".join(news_card_html(i) for i in items_sorted)
++    news_html = inject_between_markers(
++        news_html, "<!--NEWS_CARDS_START-->", "<!--NEWS_CARDS_END-->", full_grid
++    )
++
++    with open(news_html_path, "w", encoding="utf-8") as f:
++        f.write(news_html)
++    print("updated news.html (static filter chips + full grid)")
++
++    # --- index.html: teaser (latest item featured + next 3 as small cards) ---
++    index_html_path = os.path.join(ROOT, "index.html")
++    with open(index_html_path, encoding="utf-8") as f:
++        index_html = f.read()
++
++    if items_sorted:
++        latest, *rest = items_sorted[:4]
++        teaser_html = news_featured_html(latest)
++        if rest:
++            rest_cards = "\n".join(news_card_html(i) for i in rest)
++            teaser_html += f'\n  <div class="news-grid">\n{rest_cards}\n  </div>'
++    else:
++        teaser_html = '<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>'
++
++    index_html = inject_between_markers(
++        index_html, "<!--NEWS_TEASER_START-->", "<!--NEWS_TEASER_END-->", teaser_html
++    )
++
++    with open(index_html_path, "w", encoding="utf-8") as f:
++        f.write(index_html)
++    print("updated index.html (static news teaser)")
++
+ def build():
+     with open(os.path.join(ROOT, "news.json"), encoding="utf-8") as f:
+         items = json.load(f)
+@@ -226,5 +330,8 @@ def build():
+         f.write("\n".join(sitemap))
+     print("wrote sitemap.xml")
+ 
++    items_sorted = sorted(items, key=lambda i: i["date"], reverse=True)
++    build_news_listing_and_teaser(items_sorted)
++
+ if __name__ == "__main__":
+     build()
+diff --git a/index.html b/index.html
+index 3337362..5c39515 100644
+--- a/index.html
++++ b/index.html
+@@ -131,9 +131,58 @@
+     <h2>خبرهای رصدی و نجومی</h2>
+     <p class="lede">رویدادهای نجومی نزدیک — بارش‌های شهابی، ماه‌گرفتگی‌ها — و گزارش‌های تازه‌ی گروه.</p>
+   </div>
+-  <div class="wrap" id="newsTeaser">
+-    <p class="news-empty">در حال بارگذاری اخبار…</p>
++  <div class="wrap" id="newsTeaser"><!--NEWS_TEASER_START-->
++  <a class="news-featured" href="news/kosoof-hae-ayande-iran.html" data-cat="پدیده‌های نجومی">
++    <img src="post-solar-eclipses-1-kavosh.jpg" alt="" class="news-featured-img" loading="lazy">
++    <div class="news-featured-body">
++      <div class="news-meta">
++        <span class="news-tag">پدیده‌های نجومی</span>
++        <span>16 شهریور 1405</span>
++      </div>
++      <h3>کسوف‌های آینده در ایران</h3>
++      <p>مروری بر پنج کسوف پیش رو در ایران، از گرفت جزئی سال آینده تا شگرف‌ترین خورشیدگرفتگی تاریخ ایران در ۱۴۱۲</p>
++      <span class="news-link">بیشتر بخوانید ↗</span>
++    </div>
++  </a>
++  <div class="news-grid">
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-persieds-2026.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>9 مرداد 1405</span>
++        </div>
++        <h3>بارش شهابی پرساووشی 1405</h3>
++        <p>میانه‌های تابستان دوباره از راه رسیده است و همین حالا که مشغول خواندن این کلمات هستید کره زمین مانند کودکی که از میان گندم‌های قد کشیده مزرعه‌ای تابستانی ‌می‌گذرد، در حال گذری پرسرعت از درون ذرات ریز‌دانه‌ای‌ست که بارش شهابی مشهورِ پرساووشی را موجب می‌گردند.</p>
++        <a class="news-link" href="news/persieds2026.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-lemon.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>27 مهر 1404</span>
++        </div>
++        <h3>دو دنباله‌دار در یک فصل</h3>
++        <p>این شب‌ها هم‌زمان با ورود نیم‌کره شمالی زمین به فصل پاییز دو دنباله‌دار نوظهور خود را خرامان به آسمان شمالی رسانده‌اند.</p>
++        <a class="news-link" href="news/two-comets-2025.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="نجوم">
++      <img src="post-planet.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">نجوم</span>
++          <span>24 اردیبهشت 1404</span>
++        </div>
++        <h3>بوی خوش دریاهای دوردست</h3>
++        <p>روزی گرم و آفتابی در کنار دریایی آرام مشغول قدم زدن هستید و هم‌زمان که نسیمِ مرطوب ساحل را در سینه فرو می‌دهید بوی خوش دریا را در ذهن خود مرور می‌کنید. این بوی خاطره‌انگیز از جمله نشانه‌های حیاتِ اولیه بر روی کره‌ی زمین است که از فعالیت میلیون‌ها باکتریِ حیات‌بخش و فیتوپلانگتون‌ها منشاء می‌گیرد.</p>
++        <a class="news-link" href="news/k2-18b-life-signs.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
+   </div>
++<!--NEWS_TEASER_END--></div>
+   <div class="wrap news-more">
+     <a class="btn btn-ghost" href="news.html">بیشتر</a>
+   </div>
+diff --git a/kavosh.js b/kavosh.js
+index 7822aae..f0ea871 100644
+--- a/kavosh.js
++++ b/kavosh.js
+@@ -122,53 +122,53 @@ async function loadNews(){
+   return items.sort((a,b) => new Date(b.date) - new Date(a.date));
+ }
+ 
+-async function initNewsTeaser(limit = 4){
+-  const mount = document.getElementById('newsTeaser');
+-  if(!mount) return;
+-  try{
+-    const items = await loadNews();
+-    const shown = items.slice(0, limit);
+-    if(shown.length === 0) throw new Error('no items');
+-    const [latest, ...rest] = shown;
+-    mount.innerHTML = newsFeaturedHtml(latest) + `<div class="news-grid">${rest.map(newsCardHtml).join('')}</div>`;
+-  }catch(e){
+-    mount.innerHTML = `<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>`;
+-  }
+-}
+-
+-async function initNewsFull(){
++/* News cards/teaser are now pre-rendered as static HTML by build_news.py at
++   build time (so search engines and non-JS clients see the real content
++   immediately — see news.html / index.html markers NEWS_CARDS_*, NEWS_TEASER_*).
++   This function no longer builds that HTML; it only wires up the category
++   filter on top of the cards that already exist in the page. */
++function initNewsFilters(){
+   const mount = document.getElementById('newsFull');
+-  if(!mount) return;
+-  try{
+-    const items = await loadNews();
+-    const categories = ['همه', ...new Set(items.map(i => i.category))];
+-
+-    const filterRow = document.getElementById('newsFilters');
+-    if(filterRow){
+-      filterRow.innerHTML = categories.map((c,i) =>
+-        `<button class="filter-chip${i===0 ? ' active' : ''}" data-cat="${c}">${c}</button>`
+-      ).join('');
+-      filterRow.addEventListener('click', (e) => {
+-        const btn = e.target.closest('.filter-chip');
+-        if(!btn) return;
+-        filterRow.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+-        btn.classList.add('active');
+-        const cat = btn.dataset.cat;
+-        const filtered = cat === 'همه' ? items : items.filter(i => i.category === cat);
+-        mount.innerHTML = filtered.map(newsCardHtml).join('');
++  const filterRow = document.getElementById('newsFilters');
++  if(!mount || !filterRow) return;
++
++  // Fallback for the rare case this page was opened before build_news.py
++  // ever ran (e.g. a fresh checkout) and no cards were pre-rendered yet.
++  if(!mount.querySelector('.news-card')){
++    loadNews()
++      .then(items => {
++        const categories = ['همه', ...new Set(items.map(i => i.category))];
++        filterRow.innerHTML = categories.map((c,i) =>
++          `<button class="filter-chip${i===0 ? ' active' : ''}" data-cat="${c}">${c}</button>`
++        ).join('');
++        mount.innerHTML = items.map(newsCardHtml).join('');
++        wireFilterClicks(filterRow, mount);
++      })
++      .catch(() => {
++        mount.innerHTML = `<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>`;
+       });
+-    }
+-
+-    mount.innerHTML = items.map(newsCardHtml).join('');
+-  }catch(e){
+-    mount.innerHTML = `<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>`;
++    return;
+   }
++
++  wireFilterClicks(filterRow, mount);
++}
++
++function wireFilterClicks(filterRow, mount){
++  filterRow.addEventListener('click', (e) => {
++    const btn = e.target.closest('.filter-chip');
++    if(!btn) return;
++    filterRow.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
++    btn.classList.add('active');
++    const cat = btn.dataset.cat;
++    mount.querySelectorAll('.news-card').forEach(card => {
++      card.style.display = (cat === 'همه' || card.dataset.cat === cat) ? '' : 'none';
++    });
++  });
+ }
+ 
+ document.addEventListener('DOMContentLoaded', () => {
+   initNightVision();
+   initMoonBadge();
+   initNavBurger();
+-  initNewsTeaser(4);
+-  initNewsFull();
++  initNewsFilters();
+ });
+diff --git a/news.html b/news.html
+index 9565fd9..735d745 100644
+--- a/news.html
++++ b/news.html
+@@ -81,10 +81,170 @@
+   <div class="wrap">
+     <div class="kicker">آرشیو اخبار</div>
+     <h3>همه‌ی اخبار و رویدادها</h3>
+-    <div class="filter-row" id="newsFilters"></div>
+-    <div class="news-full-grid" id="newsFull">
+-      <p class="news-empty">در حال بارگذاری اخبار…</p>
+-    </div>
++    <div class="filter-row" id="newsFilters"><!--NEWS_FILTERS_START-->
++    <button class="filter-chip active" data-cat="همه">همه</button>
++    <button class="filter-chip" data-cat="پدیده‌های نجومی">پدیده‌های نجومی</button>
++    <button class="filter-chip" data-cat="راهنمای رصد">راهنمای رصد</button>
++    <button class="filter-chip" data-cat="نجوم">نجوم</button>
++<!--NEWS_FILTERS_END--></div>
++    <div class="news-full-grid" id="newsFull"><!--NEWS_CARDS_START-->
++    <article class="news-card" data-cat="پدیده‌های نجومی">
++      <img src="post-solar-eclipses-1-kavosh.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">پدیده‌های نجومی</span>
++          <span>16 شهریور 1405</span>
++        </div>
++        <h3>کسوف‌های آینده در ایران</h3>
++        <p>مروری بر پنج کسوف پیش رو در ایران، از گرفت جزئی سال آینده تا شگرف‌ترین خورشیدگرفتگی تاریخ ایران در ۱۴۱۲</p>
++        <a class="news-link" href="news/kosoof-hae-ayande-iran.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-persieds-2026.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>9 مرداد 1405</span>
++        </div>
++        <h3>بارش شهابی پرساووشی 1405</h3>
++        <p>میانه‌های تابستان دوباره از راه رسیده است و همین حالا که مشغول خواندن این کلمات هستید کره زمین مانند کودکی که از میان گندم‌های قد کشیده مزرعه‌ای تابستانی ‌می‌گذرد، در حال گذری پرسرعت از درون ذرات ریز‌دانه‌ای‌ست که بارش شهابی مشهورِ پرساووشی را موجب می‌گردند.</p>
++        <a class="news-link" href="news/persieds2026.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-lemon.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>27 مهر 1404</span>
++        </div>
++        <h3>دو دنباله‌دار در یک فصل</h3>
++        <p>این شب‌ها هم‌زمان با ورود نیم‌کره شمالی زمین به فصل پاییز دو دنباله‌دار نوظهور خود را خرامان به آسمان شمالی رسانده‌اند.</p>
++        <a class="news-link" href="news/two-comets-2025.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="نجوم">
++      <img src="post-planet.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">نجوم</span>
++          <span>24 اردیبهشت 1404</span>
++        </div>
++        <h3>بوی خوش دریاهای دوردست</h3>
++        <p>روزی گرم و آفتابی در کنار دریایی آرام مشغول قدم زدن هستید و هم‌زمان که نسیمِ مرطوب ساحل را در سینه فرو می‌دهید بوی خوش دریا را در ذهن خود مرور می‌کنید. این بوی خاطره‌انگیز از جمله نشانه‌های حیاتِ اولیه بر روی کره‌ی زمین است که از فعالیت میلیون‌ها باکتریِ حیات‌بخش و فیتوپلانگتون‌ها منشاء می‌گیرد.</p>
++        <a class="news-link" href="news/k2-18b-life-signs.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-stars.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>25 بهمن 1403</span>
++        </div>
++        <h3>چند ستاره در آسمان شب پیداست؟</h3>
++        <p>آسمانی کاملاً تاریک واقعاً چند ستاره در خودش جا داده؟ عددی که شاید حدس نمی‌زدید، از زبان یک ستاره‌شناس.</p>
++        <a class="news-link" href="news/how-many-stars-visible.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-earhshine.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>18 بهمن 1403</span>
++        </div>
++        <h3>زمین‌تاب</h3>
++        <p>با آغاز هر ماهِ نو مشاهده‌ی هلال ماه بر بلندای افق غربی شاید پدیده‌ای عادی به‌نظر برسد. اما بار دیگر که هلال ماه را بر فراز خانه‌اتان یافتید با دقتی بیشتر ماه را نظاره کنید. در سوی تاریک ماه رد نوری را خواهید یافت که منشاء آن سیاره‌ی زندگی‌بخش خودمان ، زمین است.</p>
++        <a class="news-link" href="news/earthshine.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-starsoheyl01.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>6 بهمن 1403</span>
++        </div>
++        <h3>ستاره سهیل</h3>
++        <p>ستاره‌ی سهیل از اجرام تابناک آسمان شب است و به عنوان دومین ستاره‌ی درخشان بعد از شباهنگ شمرده می‌شود . اما رصد آن از ایران کاریست بس دشوار! به همین خاطر نماد دیریابی و دور از دسترس بودن است و در جغرافیای منطقه‌ی ما با فرهنگ و ادبیات عامه پیوندی دیرپا دارد.</p>
++        <a class="news-link" href="news/canopus-star.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-venusbelt1.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>27 دی 1403</span>
++        </div>
++        <h3>سایه زمین و کمربند زهره</h3>
++        <p>تصور کنید هنگام غروب خورشید کنار ساحلی در حال قدم زدن هستید و سایه‌ی شما هم روی شن‌های ساحل با شما هم‌قدم است و هرچه خورشید پایین‌تر می رود سایه‌ی شما هم کش‌دارتر می شود. شاید باورش دشوار باشد اما در همین لحظه می توانید سایه‌ای عظیم‌تر را هم در اطراف خود تشخیص دهید ؛ سایه‌ی سیاره‌ی زمین!</p>
++        <a class="news-link" href="news/earth-shadow-venus-belt.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-cometautmn.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>8 شهریور 1403</span>
++        </div>
++        <h3>دنباله‌داری در آسمان پاییزی</h3>
++        <p>ا نزدیک‌ شدن به روزهای پایانی این تابستان به غایت گرم ، آسمان تاریک شب های پاییز از حالا خود را برای میهمانی سرزده از اعماقِ منجمدِ منظومه ی شمسی آماده می کند.</p>
++        <a class="news-link" href="news/comet-tsuchinshan-atlas.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-perseids2024.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>13 مرداد 1403</span>
++        </div>
++        <h3>بارش شهابی پرساووشی</h3>
++        <p>فصل تابستان بهترین فرصت است برای شناختن طبیعت آسمان شب .شب هایی که کوتاه است اما پر بار و خاطره انگیز و بدور از سرمای طاقت فرسای فصول دیگر و البته مملو از رویدادهای شگفت.</p>
++        <a class="news-link" href="news/perseids-2024.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-northsn.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>6 تیر 1403</span>
++        </div>
++        <h3>راهنمای رصد نواختر تاج شمالی</h3>
++        <p>داستان کشف یک نواختر اسرار آمیز</p>
++        <a class="news-link" href="news/corona-borealis-nova.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="راهنمای رصد">
++      <img src="post-shabahang.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">راهنمای رصد</span>
++          <span>19 آذر 1402</span>
++        </div>
++        <h3>شباهنگ ، هیمه ای گدازان در آسمان زمستان</h3>
++        <p>با ورود به آخرین فصل سال ، آسمان شب واپسین پرده ی پر فروغ خود را به نمایش می گذارد. فوجی از درخشان ترین  ستارگانْ در پهنه ی آسمانی که احتمالا بارش های فصلی آن را از هر غباری شسته و سرما و بادهای زمستانی شفافیتی به آن بخشیده که بی هیچ اغراقی در هیچ زمانی از سال نمی توان چنین آسمان شفاف و پر ستاره ای را یافت. </p>
++        <a class="news-link" href="news/shbahang.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++    <article class="news-card" data-cat="نجوم">
++      <img src="supernov.jpg" alt="" class="news-card-img" loading="lazy">
++      <div class="news-card-body">
++        <div class="news-meta">
++          <span class="news-tag">نجوم</span>
++          <span>1 آذر 1402</span>
++        </div>
++        <h3>منجمان  آماتور ، پیشگامان  نجومِ  رصدی</h3>
++        <p>ممکن است برایتان سوال  پیش بیاید که چگونه می شود رصدگران غیرحرفه ای آسمان شب بتوانند  در این دوران با تلسکوپ هابل و جیمز وب و ناوگان پیشرفته ای که طی  یک دهه آینده به آنها اضافه خواهد شد رقابت کنند؟ </p>
++        <a class="news-link" href="news/amateur-astronomers.html">جزئیات بیشتر ↗</a>
++      </div>
++    </article>
++<!--NEWS_CARDS_END--></div>
+   </div>
+ </section>
+ 

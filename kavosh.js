@@ -122,53 +122,53 @@ async function loadNews(){
   return items.sort((a,b) => new Date(b.date) - new Date(a.date));
 }
 
-async function initNewsTeaser(limit = 4){
-  const mount = document.getElementById('newsTeaser');
-  if(!mount) return;
-  try{
-    const items = await loadNews();
-    const shown = items.slice(0, limit);
-    if(shown.length === 0) throw new Error('no items');
-    const [latest, ...rest] = shown;
-    mount.innerHTML = newsFeaturedHtml(latest) + `<div class="news-grid">${rest.map(newsCardHtml).join('')}</div>`;
-  }catch(e){
-    mount.innerHTML = `<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>`;
+/* News cards/teaser are now pre-rendered as static HTML by build_news.py at
+   build time (so search engines and non-JS clients see the real content
+   immediately — see news.html / index.html markers NEWS_CARDS_*, NEWS_TEASER_*).
+   This function no longer builds that HTML; it only wires up the category
+   filter on top of the cards that already exist in the page. */
+function initNewsFilters(){
+  const mount = document.getElementById('newsFull');
+  const filterRow = document.getElementById('newsFilters');
+  if(!mount || !filterRow) return;
+
+  // Fallback for the rare case this page was opened before build_news.py
+  // ever ran (e.g. a fresh checkout) and no cards were pre-rendered yet.
+  if(!mount.querySelector('.news-card')){
+    loadNews()
+      .then(items => {
+        const categories = ['همه', ...new Set(items.map(i => i.category))];
+        filterRow.innerHTML = categories.map((c,i) =>
+          `<button class="filter-chip${i===0 ? ' active' : ''}" data-cat="${c}">${c}</button>`
+        ).join('');
+        mount.innerHTML = items.map(newsCardHtml).join('');
+        wireFilterClicks(filterRow, mount);
+      })
+      .catch(() => {
+        mount.innerHTML = `<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>`;
+      });
+    return;
   }
+
+  wireFilterClicks(filterRow, mount);
 }
 
-async function initNewsFull(){
-  const mount = document.getElementById('newsFull');
-  if(!mount) return;
-  try{
-    const items = await loadNews();
-    const categories = ['همه', ...new Set(items.map(i => i.category))];
-
-    const filterRow = document.getElementById('newsFilters');
-    if(filterRow){
-      filterRow.innerHTML = categories.map((c,i) =>
-        `<button class="filter-chip${i===0 ? ' active' : ''}" data-cat="${c}">${c}</button>`
-      ).join('');
-      filterRow.addEventListener('click', (e) => {
-        const btn = e.target.closest('.filter-chip');
-        if(!btn) return;
-        filterRow.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const cat = btn.dataset.cat;
-        const filtered = cat === 'همه' ? items : items.filter(i => i.category === cat);
-        mount.innerHTML = filtered.map(newsCardHtml).join('');
-      });
-    }
-
-    mount.innerHTML = items.map(newsCardHtml).join('');
-  }catch(e){
-    mount.innerHTML = `<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>`;
-  }
+function wireFilterClicks(filterRow, mount){
+  filterRow.addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-chip');
+    if(!btn) return;
+    filterRow.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    mount.querySelectorAll('.news-card').forEach(card => {
+      card.style.display = (cat === 'همه' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initNightVision();
   initMoonBadge();
   initNavBurger();
-  initNewsTeaser(4);
-  initNewsFull();
+  initNewsFilters();
 });
