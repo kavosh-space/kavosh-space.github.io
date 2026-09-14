@@ -179,6 +179,7 @@ def news_mini_card_html(item):
     category = esc(item["category"])
     return f"""    <a class="news-mini-card" href="news/{esc(item['id'])}.html" data-cat="{category}">
       <img src="{image}" alt="" loading="lazy">
+      <span class="news-mini-tag">{category}</span>
       <span class="news-mini-title">{esc(item["title"])}</span>
     </a>"""
 

@@ -332,6 +332,12 @@ h2{font-size:clamp(24px, 3vw, 32px); font-weight:700; color:var(--star-100); mar
   background:linear-gradient(0deg, rgba(7,11,20,.95), rgba(7,11,20,.55) 55%, transparent 100%);
   color:var(--star-100); font-size:15px; line-height:1.6; font-weight:700;
 }
+.news-mini-tag{
+  position:absolute; top:12px; inset-inline-start:12px;
+  font-family:var(--font-data); font-size:10.5px; color:var(--ember-400);
+  background:rgba(7,11,20,.75); border:1px solid var(--ember-500);
+  padding:3px 10px; border-radius:999px; white-space:nowrap; backdrop-filter:blur(2px);
+}
 
 .filter-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:40px;}
 .filter-chip{
