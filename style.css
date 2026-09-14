@@ -466,11 +466,11 @@ article p{
 .hero-scrim{
   position:absolute;inset:0;z-index:1;
   
-.guide-item{
-  background:rgba(7,11,20,.3);
-  backdrop-filter:blur(3px);
-  -webkit-backdrop-filter:blur(3px);
-  border-radius:18px;
-  padding:22px 24px;
-  border:1px solid rgba(255,255,255,.06);
+#guide::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(6,8,20,.45) 0%, rgba(6,8,20,.35) 45%, rgba(6,8,20,.5) 100%);
+  z-index:0;
+}
 }
