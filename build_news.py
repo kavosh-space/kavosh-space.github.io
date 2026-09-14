@@ -172,22 +172,20 @@ def news_card_html(item):
       </div>
     </article>"""
 
-def news_featured_html(item):
-    """Static HTML for the single featured/latest item — mirrors kavosh.js' newsFeaturedHtml()."""
+def news_mini_card_html(item):
+    """Static HTML for one homepage teaser card — image + title only, no excerpt.
+    Used inside the horizontal-scrolling #newsTeaser strip on index.html."""
     image = esc(item.get("image") or NEWS_DEFAULT_IMG)
     category = esc(item["category"])
-    return f"""  <a class="news-featured" href="news/{esc(item['id'])}.html" data-cat="{category}">
-    <img src="{image}" alt="" class="news-featured-img" loading="lazy">
-    <div class="news-featured-body">
-      <div class="news-meta">
-        <span class="news-tag">{category}</span>
-        <span>{fa_date(item["date"])}</span>
-      </div>
-      <h3>{esc(item["title"])}</h3>
-      <p>{esc(item["excerpt"])}</p>
-      <span class="news-link">بیشتر بخوانید ↗</span>
-    </div>
-  </a>"""
+    return f"""    <a class="news-mini-card" href="news/{esc(item['id'])}.html" data-cat="{category}">
+      <img src="{image}" alt="" loading="lazy">
+      <span class="news-mini-title">{esc(item["title"])}</span>
+    </a>"""
+
+NEWS_MORE_CARD_HTML = """    <a class="news-mini-card news-more-card" href="news.html">
+      <span class="news-more-icon">↖</span>
+      <span class="news-mini-title">خبرهای بیشتر</span>
+    </a>"""
 
 def news_filters_html(items):
     categories = ["همه"]
@@ -233,17 +231,16 @@ def build_news_listing_and_teaser(items_sorted):
         f.write(news_html)
     print("updated news.html (static filter chips + full grid)")
 
-    # --- index.html: teaser (latest item featured + next 3 as small cards) ---
+    # --- index.html: teaser (latest 3 items as image+title cards, scrollable,
+    # with a 4th "خبرهای بیشتر" card reached by scrolling further) ---
     index_html_path = os.path.join(ROOT, "index.html")
     with open(index_html_path, encoding="utf-8") as f:
         index_html = f.read()
 
     if items_sorted:
-        latest, *rest = items_sorted[:4]
-        teaser_html = news_featured_html(latest)
-        if rest:
-            rest_cards = "\n".join(news_card_html(i) for i in rest)
-            teaser_html += f'\n  <div class="news-grid">\n{rest_cards}\n  </div>'
+        latest_three = items_sorted[:3]
+        cards = "\n".join(news_mini_card_html(i) for i in latest_three)
+        teaser_html = f'  <div class="news-scroll">\n{cards}\n{NEWS_MORE_CARD_HTML}\n  </div>'
     else:
         teaser_html = '<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>'
 

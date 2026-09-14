@@ -310,6 +310,34 @@ h2{font-size:clamp(24px, 3vw, 32px); font-weight:700; color:var(--star-100); mar
 .news-more{margin-top:40px; text-align:center;}
 .news-empty{color:var(--star-300); font-size:14.5px;}
 
+/* Homepage teaser: horizontal-scrolling image+title cards, 4th slide = "more" CTA */
+.news-scroll{
+  display:flex; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory;
+  margin-top:8px; padding-bottom:10px;
+  scrollbar-width:thin; scrollbar-color:var(--night-600) transparent;
+}
+.news-scroll::-webkit-scrollbar{height:6px;}
+.news-scroll::-webkit-scrollbar-track{background:transparent;}
+.news-scroll::-webkit-scrollbar-thumb{background:var(--night-600); border-radius:999px;}
+.news-mini-card{
+  position:relative; flex:0 0 auto; width:calc((100% - 36px)/3); min-width:240px;
+  aspect-ratio:4/5; border-radius:10px; overflow:hidden; scroll-snap-align:start;
+  background:var(--night-800); border:1px solid var(--night-700); display:block;
+  transition:border-color .25s ease, transform .25s ease;
+}
+.news-mini-card:hover{border-color:var(--ember-500); transform:translateY(-3px);}
+.news-mini-card img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.9) brightness(.8);}
+.news-mini-title{
+  position:absolute; inset:auto 0 0 0; padding:18px 18px 20px;
+  background:linear-gradient(0deg, rgba(7,11,20,.95), rgba(7,11,20,.55) 55%, transparent 100%);
+  color:var(--star-100); font-size:15px; line-height:1.6; font-weight:700;
+}
+.news-more-card{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+}
+.news-more-card .news-more-icon{font-size:28px; color:var(--ember-400); line-height:1;}
+.news-more-card .news-mini-title{position:static; background:none; padding:0; text-align:center;}
+
 .filter-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:40px;}
 .filter-chip{
   font-family:var(--font-data); font-size:12px; color:var(--star-300);
@@ -437,6 +465,7 @@ footer{padding:56px 0 44px; text-align:center; border-top:1px solid var(--night-
   .programs-grid{grid-template-columns:1fr; gap:32px;}
   .news-featured-body{padding:24px 22px 28px;}
   .news-card-body{padding:0 20px 22px;}
+  .news-mini-card{width:72vw; min-width:0;}
   .activity-row{grid-template-columns:40px 1fr;}
   .activity-status{justify-self:start;}
   .offering-row{grid-template-columns:40px 1fr; row-gap:12px;}
