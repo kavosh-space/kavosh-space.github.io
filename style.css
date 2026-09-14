@@ -476,7 +476,7 @@ article p{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg, rgba(6,8,20,.45) 0%, rgba(6,8,20,.35) 45%, rgba(6,8,20,.5) 100%);
+  
   z-index:0;
 }
 #guide > .wrap{
