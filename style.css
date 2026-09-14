@@ -476,7 +476,7 @@ article p{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg, rgba(6,8,20,.45) 0%, rgba(6,8,20,.35) 5%, rgba(6,8,20,.5) 30%);
+  background:linear-gradient(180deg, rgba(6,8,20,.45) 0%, rgba(6,8,20,.35) 45%, rgba(6,8,20,.5) 100%);
   z-index:0;
 }
 #guide > .wrap{
@@ -491,4 +491,47 @@ article p{
   border-radius:18px;
   padding:22px 24px;
   border:1px solid rgba(255,255,255,.06);
+}
+
+/* ---------- Nav dropdown: درباره ما ---------- */
+.nav-dropdown{ position:relative; }
+.nav-dropdown-toggle{
+  background:transparent; border:none; font:inherit; color:inherit;
+  cursor:pointer; padding:0; display:flex; align-items:center; gap:5px;
+}
+.nav-dropdown-toggle::after{
+  content:""; width:6px; height:6px;
+  border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg); margin-top:-3px; transition:transform .2s ease;
+}
+.nav-dropdown.open .nav-dropdown-toggle::after{ transform:rotate(225deg); margin-top:1px; }
+.nav-dropdown-toggle:hover,
+.nav-dropdown.open .nav-dropdown-toggle{ color:var(--star-100); }
+
+.nav-dropdown-menu{
+  position:absolute; top:calc(100% + 16px); right:0; min-width:170px;
+  background:var(--night-800); border:1px solid var(--night-700); border-radius:10px;
+  padding:8px; display:none; flex-direction:column;
+  box-shadow:0 14px 30px rgba(0,0,0,.4); z-index:60;
+}
+.nav-dropdown.open .nav-dropdown-menu{ display:flex; }
+.nav-dropdown-menu a{
+  padding:9px 12px; border-radius:6px; font-size:13.5px; color:var(--star-300);
+}
+.nav-dropdown-menu a:hover,
+.nav-dropdown-menu a.active{ color:var(--star-100); background:var(--night-700); }
+
+@media (max-width:760px){
+  .nav-dropdown-toggle{
+    width:100%; justify-content:space-between; flex-direction:row-reverse;
+    padding:16px 0; border-bottom:1px solid var(--night-700); font-size:1rem; color:var(--star-300);
+  }
+  .nav-dropdown.open .nav-dropdown-toggle{ border-bottom-color:var(--night-700); }
+  .nav-dropdown-menu{
+    position:static; border:none; background:transparent; box-shadow:none;
+    padding:0 0 0 16px; border-radius:0;
+  }
+  .nav-dropdown-menu a{
+    border-bottom:1px solid var(--night-700); padding:14px 0; font-size:.92rem;
+  }
 }

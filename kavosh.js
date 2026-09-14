@@ -37,6 +37,26 @@ function initNavBurger(){
   });
 }
 
+/* ---------- Nav dropdown: درباره ما ---------- */
+function initNavDropdown(){
+  const dd = document.getElementById('navAboutDropdown');
+  if(!dd) return;
+  const toggle = dd.querySelector('.nav-dropdown-toggle');
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = dd.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+
+  document.addEventListener('click', (e) => {
+    if(!dd.contains(e.target)){
+      dd.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
 /* ---------- Moon phase (pure client-side, no API) ---------- */
 function getMoonPhase(date){
   const synodic = 29.53058867;
@@ -170,5 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNightVision();
   initMoonBadge();
   initNavBurger();
+  initNavDropdown();
   initNewsFilters();
 });
