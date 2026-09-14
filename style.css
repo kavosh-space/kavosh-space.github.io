@@ -259,7 +259,7 @@ h1{
 /* ---------- Section shell ---------- */
 section{padding:120px 0; position:relative; border-top:1px solid var(--night-700);}
 .kicker{font-family:var(--font-data); font-size:12px; letter-spacing:.1em; color:var(--ember-400); margin-bottom:14px; text-transform:uppercase;}
-h2{font-size:clamp(28px, 4vw, 44px); font-weight:700; color:var(--star-100); margin-bottom:24px; max-width:640px;}
+h2{font-size:clamp(24px, 3vw, 32px); font-weight:700; color:var(--star-100); margin-bottom:24px; max-width:640px;}
 .lede{color:var(--star-300); font-size:17px; max-width:620px; margin-bottom:56px;}
 
 /* ---------- Highlights strip ---------- */
