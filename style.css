@@ -475,3 +475,19 @@ article p{
   color:rgba(244,241,234,.75);text-decoration:none;letter-spacing:.02em
 }
 .hero-credit:hover{color:#f4f1ea;text-decoration:underline}
+
+#guide{
+  position:relative;
+  background:url('guide-bg.jpg') center/cover no-repeat;
+}
+#guide::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(6,8,20,.9) 0%, rgba(6,8,20,.82) 45%, rgba(6,8,20,.92) 100%);
+  z-index:0;
+}
+#guide > .wrap{
+  position:relative;
+  z-index:1;
+}
