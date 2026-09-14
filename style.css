@@ -321,7 +321,7 @@ h2{font-size:clamp(24px, 3vw, 32px); font-weight:700; color:var(--star-100); mar
 .news-scroll::-webkit-scrollbar-thumb{background:var(--night-600); border-radius:999px;}
 .news-mini-card{
   position:relative; flex:0 0 auto; width:calc((100% - 36px)/3); min-width:240px;
-  aspect-ratio:4/5; border-radius:10px; overflow:hidden; scroll-snap-align:start;
+  aspect-ratio:16/10; border-radius:10px; overflow:hidden; scroll-snap-align:start;
   background:var(--night-800); border:1px solid var(--night-700); display:block;
   transition:border-color .25s ease, transform .25s ease;
 }
@@ -332,11 +332,6 @@ h2{font-size:clamp(24px, 3vw, 32px); font-weight:700; color:var(--star-100); mar
   background:linear-gradient(0deg, rgba(7,11,20,.95), rgba(7,11,20,.55) 55%, transparent 100%);
   color:var(--star-100); font-size:15px; line-height:1.6; font-weight:700;
 }
-.news-more-card{
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
-}
-.news-more-card .news-more-icon{font-size:28px; color:var(--ember-400); line-height:1;}
-.news-more-card .news-mini-title{position:static; background:none; padding:0; text-align:center;}
 
 .filter-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:40px;}
 .filter-chip{

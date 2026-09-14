@@ -182,11 +182,6 @@ def news_mini_card_html(item):
       <span class="news-mini-title">{esc(item["title"])}</span>
     </a>"""
 
-NEWS_MORE_CARD_HTML = """    <a class="news-mini-card news-more-card" href="news.html">
-      <span class="news-more-icon">↖</span>
-      <span class="news-mini-title">خبرهای بیشتر</span>
-    </a>"""
-
 def news_filters_html(items):
     categories = ["همه"]
     for i in items:
@@ -240,7 +235,7 @@ def build_news_listing_and_teaser(items_sorted):
     if items_sorted:
         latest_three = items_sorted[:3]
         cards = "\n".join(news_mini_card_html(i) for i in latest_three)
-        teaser_html = f'  <div class="news-scroll">\n{cards}\n{NEWS_MORE_CARD_HTML}\n  </div>'
+        teaser_html = f'  <div class="news-scroll">\n{cards}\n  </div>'
     else:
         teaser_html = '<p class="news-empty">فعلاً خبری ثبت نشده — تازه‌ترین رویدادها را در <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام کاوش</a> دنبال کنید.</p>'
 
