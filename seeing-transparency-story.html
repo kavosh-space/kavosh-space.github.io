@@ -175,6 +175,42 @@
       opacity:1; transform:none; transition:none;
     }
   }
+
+  /* ---------- Light-theme sample override (scoped to article content) ---------- */
+  .light-scope{
+    --night-900:#ffffff;
+    --night-800:#f5f4ef;
+    --night-700:#e6e3da;
+    --night-600:#d2cec1;
+    --night-500:#aca795;
+    --star-100:#1c1f26;
+    --star-300:#3d4452;
+    --star-500:#6b7280;
+    --ember-500:#b9761c;
+    --ember-400:#9c6316;
+    --ember-300:#7a4d10;
+  }
+
+  /* Photo-backed sections (hero / closing) keep light text regardless of theme */
+  .story-hero{color:#f5f2ea;}
+  .story-hero h1{color:#f5f2ea;}
+  .story-hero .eyebrow{color:#f0cf94;}
+  .story-hero .story-photo-credit{color:#7c86ab;}
+  .scroll-cue{color:#7c86ab;}
+  .scroll-cue .chevron{border-color:#7c86ab;}
+  .story-close h2{color:#f5f2ea;}
+  .story-close p{color:#b7bed8;}
+
+  /* The La Silla full-bleed photo figure keeps light captions even in light mode */
+  .story-figure .story-caption{color:#b7bed8;}
+  .story-figure .story-caption b{color:#f5f2ea;}
+  .story-figure .story-credit{color:#7c86ab;}
+  .story-figure .story-credit a{color:#7c86ab; border-bottom-color:#3a4a7d;}
+  .story-figure .story-credit a:hover{color:#b7bed8; border-color:#e6b563;}
+
+  /* Soften the decorative star dots against a light background */
+  .light-scope .bg-stars .stars{opacity:.5;}
+  .light-scope .bg-stars .stars g{fill:#cfcabb;}
 </style>
 </head>
 <body>
@@ -208,6 +244,7 @@
   </nav>
 </header>
 
+<div class="light-scope">
 <!-- HERO -->
 <header class="story-hero">
   <div class="wrap story-hero-inner">
@@ -400,6 +437,8 @@
     <h2>خود را محدود نکنید</h2>
     <p>اگر عزم عکاسی و رصد آسمان را دارید هرگز خود را به این دو شاخص محدود نکنید. آسمان ، آسمان است حتا اگر شفاف نبود و شاخص دید نامناسب بود به کارتان ادامه دهید شاید یکی از بهترین عکس‌های‌تان را در همین شرایط گرفتید.</p>
   </div>
+</div>
+
 </div>
 
 <footer>
