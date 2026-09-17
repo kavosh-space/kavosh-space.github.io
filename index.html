@@ -29,7 +29,7 @@
     align-items:center;
     justify-content:flex-end;
     gap:56px;
-    background:#1e1728;
+    background:#1a151f;
     border-radius:28px;
     padding:56px 64px;
     overflow:hidden;
@@ -70,6 +70,28 @@
     z-index:0;
   }
   .guide-col{position:relative; z-index:1;}
+
+  /* ---------- "فعالیت‌های کاوش" as vertical cards (matches site's card language) ---------- */
+  .programs-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; text-align:right;}
+  .program-card{
+    display:flex; flex-direction:column;
+    background:var(--night-800);
+    border:1px solid var(--night-600);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .program-card img{
+    width:100%; aspect-ratio:16/10; object-fit:cover; display:block;
+    filter:saturate(.9) brightness(.85); transition:transform .5s ease, filter .5s ease;
+  }
+  .program-card:hover img{transform:scale(1.05); filter:saturate(1) brightness(.95);}
+  .program-card-body{padding:22px 24px;}
+  .program-label{font-weight:700; font-size:16px; color:var(--star-100); margin-bottom:10px;}
+  .program-card p{margin:0; font-size:14.5px; line-height:1.85; color:var(--star-300);}
+
+  @media (max-width:720px){
+    .programs-grid{grid-template-columns:1fr;}
+  }
 </style>
 <script type="application/ld+json">
 {
@@ -257,25 +279,25 @@
   </div>
   <div class="wrap programs-grid">
     <div class="program-card">
-      <div class="program-circle">
-        <img src="skygazing.jpg" alt="شب‌های رصدی" loading="lazy">
+      <img src="skygazing.jpg" alt="شب‌های رصدی" loading="lazy">
+      <div class="program-card-body">
+        <div class="program-label">شب‌های رصدی</div>
+        <p>برگزاری شب‌های رصدی و گشت‌های رصدی بصورت خصوصی و نیمه خصوصی</p>
       </div>
-      <div class="program-label">شب‌های رصدی</div>
-      <p>برگزاری شب‌های رصدی و گشت‌های رصدی بصورت خصوصی و نیمه خصوصی</p>
     </div>
     <div class="program-card">
-      <div class="program-circle">
-        <img src="nightphotography.jpg" alt="عکاسی نجومی" loading="lazy">
+      <img src="nightphotography.jpg" alt="عکاسی نجومی" loading="lazy">
+      <div class="program-card-body">
+        <div class="program-label">عکاسی نجومی</div>
+        <p>کارگاه‌های آموزشی عکاسی آسمان شب و پردازش تصاویر نجومی</p>
       </div>
-      <div class="program-label">عکاسی نجومی</div>
-     <p>کارگاه‌های آموزشی عکاسی آسمان شب و پردازش تصاویر نجومی</p>
     </div>
     <div class="program-card">
-      <div class="program-circle">
-        <img src="worksops.jpg" alt="کارگاه‌های آموزشی" loading="lazy">
+      <img src="worksops.jpg" alt="کارگاه‌های آموزشی" loading="lazy">
+      <div class="program-card-body">
+        <div class="program-label">کارگاه‌های آموزشی</div>
+        <p>کارگاه‌های آموزشی نجوم رصدی بصورت حضوری و دوره‌های آنلاین و آفلاین آموزشی نجوم برای کودکان و بزرگسالان</p>
       </div>
-      <div class="program-label">کارگاه‌های آموزشی</div>
-      <p> کارگاه‌های آموزشی نجوم رصدی بصورت حضوری و دوره‌های آنلاین و آفلاین آموزشی نجوم برای کودکان و بزرگسالان </p>
     </div>
   </div>
 </section>
