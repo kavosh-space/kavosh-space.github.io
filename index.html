@@ -20,6 +20,46 @@
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="hero-desktop-1280.webp" fetchpriority="high">
 <link rel="stylesheet" href="style.css">
+<style>
+  /* ---------- About-teaser card (Photoshop mockup) ---------- */
+  #about-teaser{padding:80px 0;}
+  .about-card{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:56px;
+    background:#2b2139;
+    border-radius:28px;
+    padding:56px 64px;
+    overflow:hidden;
+  }
+  .about-card-text{max-width:600px; text-align:right;}
+  .about-card-text h4{font-size:22px; font-weight:700; color:#f5f2ea; margin-bottom:18px;}
+  .about-card-text p{color:#cfc9dd; font-size:16px; line-height:2; margin-bottom:26px;}
+  .btn-about{
+    display:inline-block; padding:10px 28px; border:1.5px solid #ffa801; border-radius:999px;
+    color:#ffa801; font-weight:700; font-size:15px; font-family:var(--font-display);
+    transition:background .25s ease, color .25s ease;
+  }
+  .btn-about:hover{background:#ffa801; color:#2b2139;}
+
+  .about-card-badge{display:flex; flex-direction:column; align-items:center; gap:16px; flex-shrink:0;}
+  .about-orbit{
+    width:150px; height:150px; border-radius:50%;
+    background:radial-gradient(circle at 38% 34%, #c9a0ca 0%, #9a4f9f 42%, #6b2f70 78%, #572760 100%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .about-orbit svg{width:78%; height:78%;}
+  .orbit-ring{fill:none; stroke:#fff; stroke-width:2; opacity:.9;}
+  .orbit-moon, .orbit-star{fill:#fff;}
+  .about-card-label{font-size:15px; font-weight:700; color:#f5f2ea; white-space:nowrap;}
+
+  @media (max-width:720px){
+    .about-card{flex-direction:column; justify-content:center; text-align:center; padding:44px 28px; gap:32px;}
+    .about-card-text{text-align:center; max-width:none;}
+  }
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -109,7 +149,7 @@
 
     <div class="kicker">اخبار</div>
     <h2>خبرهای رصدی و نجومی</h2>
-    <p class="lede">رویدادهای مهم آسمان شب ، راهنمای رصدی وقایع نجومی و برنامه‌های عمومی کاوش</p>
+    <p class="lede">آگاهی از رویدادهای مهم آسمان شب ، راهنمای رصدی وقایع نجومی و برنامه‌های عمومی</p>
   </div>
   <div class="wrap" id="newsTeaser"><!--NEWS_TEASER_START-->
   <div class="news-scroll">
@@ -166,7 +206,7 @@
           <img src="location-for-observing.jpg" alt="" class="guide-thumb" loading="lazy">
           <h3>ابزارهای آنلاین رصد</h3>
         </div>
-        <p>شش ابزار آنلاین برای رصدگران پیگیر آسمان : از جدول به‌روز دنباله‌دارهای قابل رصد هفته تا محاسبه گذر ایستگاه فضایی بین‌المللی براساس موقعیت مکانی شما. </p>
+        <p>محسابه گذر ایستگاه فضایی بین‌المللی از آسمان شهرهای ایران ، اطلاع از آخرین وضعیت دنباله‌دارهای قابل مشاهده، نقشه تعاملی آسمان ، وضعیت لحظه‌ای قمرهای سیاره مشتری و ابزارهای کاربردی دیگر. </p>
         <a class="guide-link" href="tools.html">ورود به ابزارها ↗</a>
       </div>
       <div class="guide-item">
@@ -184,12 +224,28 @@
 
 
 <section id="about-teaser">
-  <div class="wrap about-teaser-inner">
-    <h4>درباره گروه نجوم کاوش</h4>
-    <br>
-    <p>آشنایی با کاوش ، اهداف و برنامه‌های علمی و ترویجی ، زمینه‌های فعالیت‌ و شرایط همکاری با این گروه مستقل آماتوری </p>
-    <br>
-    <a class="btn btn-white" href="about.html">بیشتر بخوانید</a>
+  <div class="wrap">
+    <div class="about-card">
+      <div class="about-card-text">
+        <h4>درباره گروه نجوم کاوش</h4>
+        <p>آشنایی با کاوش ، اهداف و برنامه‌های علمی و ترویجی ، زمینه‌های فعالیت‌ و شرایط همکاری با این گروه مستقل آماتوری</p>
+        <a class="btn-about" href="about.html">بیش‌تر...</a>
+      </div>
+      <div class="about-card-badge">
+        <div class="about-orbit">
+          <svg viewBox="0 0 160 160" aria-hidden="true">
+            <circle class="orbit-ring" cx="80" cy="80" r="58"/>
+            <circle class="orbit-ring" cx="80" cy="80" r="34"/>
+            <circle class="orbit-moon" cx="126" cy="46" r="6"/>
+            <circle class="orbit-moon" cx="102" cy="58" r="3.4"/>
+            <g class="orbit-star" transform="translate(80,80)">
+              <path d="M0,-11 L2.4,-2.4 L11,0 L2.4,2.4 L0,11 L-2.4,2.4 L-11,0 L-2.4,-2.4 Z"/>
+            </g>
+          </svg>
+        </div>
+        <div class="about-card-label">گروه نجوم کاوش</div>
+      </div>
+    </div>
   </div>
 </section>
 
