@@ -1,127 +1,225 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اعضای گروه | گروه نجوم کاوش</title>
-<meta name="description" content="معرفی اعضای گروه نجوم کاوش — پدرام محمدطاهری و حمیدرضا حمید، فعال در تهران و دماوند">
-<link rel="canonical" href="https://kavosh-space.github.io/team.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="اعضای گروه نجوم کاوش">
-<meta property="og:description" content="معرفی اعضای گروه نجوم کاوش — پدرام محمدطاهری و حمیدرضا حمید.">
-<meta property="og:url" content="https://kavosh-space.github.io/team.html">
-<meta property="og:site_name" content="گروه نجوم کاوش">
-<meta property="og:locale" content="fa_IR">
-<meta property="og:image" content="https://kavosh-space.github.io/logo.png">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اعضای گروه | گروه نجوم کاوش</title>
+    <style>
+        /* استایل‌های پایه و عمومی صفحه */
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-section {
+            text-align: center;
+            padding: 60px 20px 20px;
+            background: linear-gradient(to bottom, #161b22, #0d1117);
+        }
+
+        .header-section h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header-section p {
+            color: #8b949e;
+            font-size: 1.1rem;
+        }
+
+        /* استایل کانتینر و کارت‌های اعضا */
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .member-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            width: 340px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* افکت انیمیشن و تغییر رنگ نئونی هنگام حرکت ماوس */
+        .member-card:hover {
+            transform: translateY(-10px);
+            border-color: #58a6ff;
+            box-shadow: 0 10px 25px rgba(88, 166, 255, 0.15);
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #30363d;
+            margin: 0 auto 20px;
+            background: #21262d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: border-color 0.3s;
+        }
+
+        .member-card:hover .member-avatar {
+            border-color: #58a6ff;
+        }
+
+        .member-card h3 {
+            color: #ffffff;
+            margin: 10px 0 5px 0;
+            font-size: 1.5rem;
+        }
+
+        .member-role {
+            display: inline-block;
+            background: rgba(88, 166, 255, 0.1);
+            color: #58a6ff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .member-bio {
+            font-size: 0.95rem;
+            color: #8b949e;
+            line-height: 1.7;
+            text-align: justify;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .member-links {
+            border-top: 1px solid #30363d;
+            padding-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .member-links a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .member-links a:hover {
+            color: #1f6feb;
+            text-decoration: underline;
+        }
+
+        /* بخش تجاری و پتانسیل درآمدزایی (Call to Action) */
+        .cta-box {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            max-width: 750px;
+            margin: 60px auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-box h2 {
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .cta-box p {
+            color: #8b949e;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .cta-btn {
+            background-color: #238636;
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background-color: #2ea44f;
+        }
+    </style>
 </head>
 <body>
 
-<header class="site-nav">
-  <a href="index.html" class="nav-brand">
-    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
-    <span>گروه نجوم کاوش</span>
-  </a>
-
-  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-
-  <nav class="nav-links" id="navLinks">
-    <a href="index.html">خانه</a>
-    <a href="news.html">اخبار</a>
-    <a href="team.html" class="active">اعضا</a>
-    <a href="about.html">درباره</a>
-    <a href="tours.html">گشت رصدی</a>
-    <a href="offerings.html">کارگاه‌ها</a>
-    <a href="contact.html">تماس با ما</a>
-    <a href="tools.html">ابزار</a>
-    <a href="observatory.html">رصدگاه</a>
-    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
-      <span class="nv-dot"></span>
-      <span id="nvLabel">حالت شب</span>
-    </button>
-  </nav>
-</header>
-
-<header class="hero hero-lite hero-mini">
-  <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMin slice" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#f4f1ea">
-      <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
-      <circle cx="180" cy="150" r="1" opacity="0.5"/>
-      <circle cx="280" cy="50" r="1.6" opacity="0.9"/>
-      <circle cx="380" cy="120" r="1" opacity="0.4"/>
-      <circle cx="480" cy="40" r="1.2" opacity="0.7"/>
-      <circle cx="560" cy="100" r="1.8" opacity="1"/>
-      <circle cx="640" cy="60" r="1" opacity="0.5"/>
-      <circle cx="740" cy="140" r="1.3" opacity="0.8"/>
-      <circle cx="840" cy="50" r="1" opacity="0.4"/>
-      <circle cx="940" cy="120" r="1.5" opacity="0.9"/>
-      <circle cx="1000" cy="60" r="1" opacity="0.5"/>
-      <circle cx="150" cy="230" r="1" opacity="0.4"/>
-      <circle cx="450" cy="220" r="1.5" opacity="0.8"/>
-      <circle cx="750" cy="230" r="1.2" opacity="0.6"/>
-    </g>
-  </svg>
-  <div class="hero-content wrap">
-    <h1>اعضای گروه</h1>
-  </div>
-</header>
-
-<section id="members">
-  <div class="wrap">
-    <div class="kicker">معرفی اعضا</div>
-  </div>
-  <div class="member-grid">
-    
-    <div class="member-card">
-      <div class="member-photo">
-        <img src="hamidreza-hamid.jpg" alt="حمیدرضا حمید، رصدگر و مدرس نجوم گروه کاوش" loading="lazy">
-      </div>
-      <h3>حمیدرضا حمید</h3>
-      <div class="member-role">منجم آماتور و رصدگر</div>
-      <p>کارشناس فیزیک ، رصدگر باسابقه آسمان شب ، مدرس نجوم برای کودکان و نوجوانان ، پژوهشگر نجوم رادیویی ، طراح ابزار آموزشی نجوم برای کودکان و یکی از بنیان‌گذاران گروه نجوم کاوش | فعال در دماوند.</p>
-      <div class="member-links">
-        <a href="https://instagram.com/puye123" target="_blank" rel="noopener">اینستاگرام / جستجوگر دانش ↗</a>
-      </div>
+    <!-- بخش سربرگ صفحه -->
+    <div class="header-section">
+        <h1>اعضای گروه</h1>
+        <p>آشنایی با بنیان‌گذاران و متخصصان گروه نجوم کاوش</p>
     </div>
-    <div class="member-card">
-      <div class="member-photo">
-        <img src="pedram-mohammad-taheri.jpg" alt="پدرام محمدطاهری، عکاس آسمان شب و هنرمند تجسمی گروه کاوش" loading="lazy">
-      </div>
-      <h3>پدرام محمدطاهری</h3>
-      <div class="member-role">منجم آماتور و رصدگر</div>
-      <p>هنرمند تجسمی و عکاس آسمان شب ، عکاس برگزیده از سوی بنیاد آسمان تاریک ، مدرس عکاسی آسمان شب ، رصدگر اجرام اعماق آسمان و یکی از بنیان‌گذاران گروه نجوم کاوش | فعال در تهران .</p>
-      <div class="member-links">
-        <a href="https://pedramtaheri.com" target="_blank" rel="noopener">سایت شخصی ↗</a>
-        <a href="https://instagram.com/pedram.m.taheri" target="_blank" rel="noopener">اینستاگرام ↗</a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<footer>
-  <div class="wrap footer-inner">
-    <div class="footer-links">
-      <a href="index.html">خانه</a>
-      <a href="news.html">اخبار</a>
-      <a href="team.html">اعضا</a>
-      <a href="about.html">درباره</a>
-      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
-    </div>
-    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
-    <p class="footer-credit">تصاویر آسمان: پدرام محمدطاهری</p>
-  </div>
-</footer>
+    <!-- کانتینر کارت‌های اعضا -->
+    <div class="team-container">
+        
+        <!-- کارت حمیدرضا حمید -->
+        <div class="member-card">
+            <div>
+                <div class="member-avatar">🪐</div>
+                <h3>حمیدرضا حمید</h3>
+                <span class="member-role">منجم آماتور و رصدگر</span>
+                <p class="member-bio">
+                    کارشناس فیزیک، رصدگر باسابقه آسمان شب، مدرس نجوم برای کودکان و نوجوانان، پژوهشگر نجوم رادیویی، طراح ابزار آموزشی نجوم برای کودکان و یکی از بنیان‌گذاران گروه نجوم کاوش (فعال در دماوند).
+                </p>
+            </div>
+            <div class="member-links">
+                <a href="https://instagram.com" target="_blank">اینستاگرام ↗</a>
+                <a href="#" target="_blank">جستجوگر دانش ↗</a>
+            </div>
+        </div>
 
-<script src="kavosh.js"></script>
+        <!-- کارت پدرام محمدطاهری -->
+        <div class="member-card">
+            <div>
+                <div class="member-avatar">📷</div>
+                <h3>پدرام محمدطاهری</h3>
+                <span class="member-role">هنرمند تجسمی و عکاس آسمان شب</span>
+                <p class="member-bio">
+                    هنرمند تجسمی و عکاس آسمان شب، عکاس برگزیده از سوی بنیاد بین‌المللی آسمان تاریک، مدرس عکاسی آسمان شب، رصدگر اجرام اعماق آسمان و یکی از بنیان‌گذاران گروه نجوم کاوش (فعال در تهران).
+                </p>
+            </div>
+            <div class="member-links">
+                <a href="#" target="_blank">سایت شخصی ↗</a>
+                <a href="https://instagram.com" target="_blank">اینستاگرام ↗</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- بخش درآمدزایی و جذب پروژه -->
+    <div class="cta-box">
+        <h2>همکاری علمی و آموزشی با اساتید کاوش</h2>
+        <p>آیا مایلید کارگاه‌های تخصصی نجوم، دوره‌های جذاب عکاسی شب یا گشت‌های رصدی اختصاصی را برای مدارس، دانشگاه‌ها، مجموعه‌های گردشگری یا سازمان خود برگزار کنید؟ کارشناسان ما آماده همکاری هستند.</p>
+        <a href="contact.html" class="cta-btn">درخواست برگزاری رویداد و کارگاه</a>
+    </div>
 
 </body>
 </html>
