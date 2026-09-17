@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-17T16:36:02Z",
+  "fetched_at": "2026-09-17T21:07:51Z",
   "location": {
     "name": "Crni Vrh",
     "lat": 45.945905,
@@ -116,6 +116,21 @@
       "sun_elongation": 97.0,
       "moon_elongation": 75.0,
       "trend": "steady"
+    },
+    {
+      "type": "C",
+      "name": "C/2026 A2",
+      "fullname": "C/2026 A2 (Bok)",
+      "mpc_name": "CK26A020",
+      "magnitude": 14.3,
+      "constellation": "Draco",
+      "best_time": "2026-09-17 20:18",
+      "best_alt": 60.9,
+      "rise_time": "2026-09-17 20:18",
+      "set_time": "2026-09-18 05:38",
+      "sun_elongation": 86.0,
+      "moon_elongation": 100.0,
+      "trend": "bright"
     },
     {
       "type": "P",
