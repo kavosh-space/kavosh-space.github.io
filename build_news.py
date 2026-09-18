@@ -7,6 +7,9 @@ automatically on every push.
 
 Usage:
     python3 build_news.py
+git add news/ sitemap.xml
+git commit -m "apply new nav + light theme to all news articles"
+git push
 """
 import json
 import os
