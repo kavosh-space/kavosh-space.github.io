@@ -14,7 +14,37 @@
 <meta property="og:locale" content="fa_IR">
 <meta property="og:image" content="https://kavosh-space.github.io/seeing-story-1-startrails.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="دید و شفافیت در عکاسی نجومی">
+<meta name="twitter:description" content="چرا یک شب کاملا صاف همیشه برای عکاسی نجومی ایده‌آل نیست؟ مروری روایت‌گونه بر دو شاخص «دید نجومی» و «شفافیت جوی».">
+<meta name="twitter:image" content="https://kavosh-space.github.io/seeing-story-1-startrails.jpg">
 <link rel="icon" href="logo.png">
+<link rel="preload" as="image" href="seeing-story-1-startrails.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "دید و شفافیت در عکاسی نجومی",
+  "description": "چرا یک شب کاملا صاف همیشه برای عکاسی نجومی ایده‌آل نیست؟ مروری روایت‌گونه بر دو شاخص «دید نجومی» و «شفافیت جوی».",
+  "inLanguage": "fa-IR",
+  "image": ["https://kavosh-space.github.io/seeing-story-1-startrails.jpg"],
+  "author": {
+    "@type": "Person",
+    "name": "پدرام محمدطاهری"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "گروه نجوم کاوش",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://kavosh-space.github.io/logo.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://kavosh-space.github.io/seeing-transparency-story.html"
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -28,10 +58,6 @@
     position:relative; min-height:100vh; display:flex; align-items:flex-end;
     background:#000 url('seeing-story-1-startrails.jpg') center 30%/cover no-repeat;
   }
-  .story-hero::before{
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(7,11,20,.35) 0%, rgba(7,11,20,.55) 55%, var(--night-900) 96%);
-  }
   .story-hero-inner{position:relative; z-index:1; padding:0 0 72px;}
   .story-hero .eyebrow{color:var(--ember-300);}
   .story-hero h1{
@@ -42,17 +68,6 @@
   .story-hero .story-photo-credit{
     margin-top:22px; font-family:var(--font-data); font-size:11px; color:var(--star-500);
   }
-  .scroll-cue{
-    position:absolute; bottom:22px; right:50%; transform:translateX(50%);
-    z-index:1; display:flex; flex-direction:column; align-items:center; gap:6px;
-    font-family:var(--font-data); font-size:11px; color:var(--star-500); letter-spacing:.08em;
-  }
-  .scroll-cue .chevron{
-    width:9px; height:9px; border-left:1.5px solid var(--star-500); border-bottom:1.5px solid var(--star-500);
-    transform:rotate(-45deg); animation:cueBounce 1.8s ease-in-out infinite;
-  }
-  @keyframes cueBounce{0%,100%{opacity:.3; transform:rotate(-45deg) translateY(0);} 50%{opacity:1; transform:rotate(-45deg) translateY(4px);}}
-
   .story-section{
     position:relative; padding:96px 0;
   }
@@ -89,10 +104,6 @@
     background:radial-gradient(ellipse at 50% 50%, var(--night-700) 0%, var(--night-900) 70%);
   }
   .chapter-card{position:relative; z-index:1; padding:0 28px;}
-  .chapter-letter{
-    font-family:var(--font-data); font-size:clamp(64px,12vw,140px); font-weight:500;
-    color:var(--night-600); line-height:1; margin-bottom:6px; user-select:none;
-  }
   .chapter-open h2{
     font-size:clamp(26px,4.4vw,44px); margin-bottom:10px;
   }
@@ -144,6 +155,7 @@
 
   /* CTA box linking to the tools page */
   .cta-box{
+    position:relative; z-index:2;
     max-width:660px; margin:0 auto; padding:30px 30px;
     border:1px solid var(--night-700); border-radius:10px; background:var(--night-800);
     display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;
@@ -196,8 +208,6 @@
   .story-hero h1{color:#f5f2ea;}
   .story-hero .eyebrow{color:#f0cf94;}
   .story-hero .story-photo-credit{color:#7c86ab;}
-  .scroll-cue{color:#7c86ab;}
-  .scroll-cue .chevron{border-color:#7c86ab;}
   .story-close h2{color:#f5f2ea;}
   .story-close p{color:#b7bed8;}
 
@@ -211,6 +221,31 @@
   /* Soften the decorative star dots against a light background */
   .light-scope .bg-stars .stars{opacity:.5;}
   .light-scope .bg-stars .stars g{fill:#cfcabb;}
+
+  /* ---------- Slim replacement nav (shown once the article body starts) ---------- */
+  .site-nav{transition:transform .3s ease, box-shadow .3s ease;}
+  .site-nav.story-nav-hidden{transform:translateY(-100%); box-shadow:none;}
+
+  .story-sticky-nav{
+    position:fixed; top:0; left:0; right:0; z-index:45;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:9px 24px;
+    background:rgba(255,255,255,.86);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(0,0,0,.06);
+    transform:translateY(-100%); opacity:0; pointer-events:none;
+    transition:transform .3s ease, opacity .3s ease;
+  }
+  .story-sticky-nav.is-visible{transform:translateY(0); opacity:1; pointer-events:auto;}
+  .story-sticky-brand{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#a0a0a0;}
+  .story-sticky-logo{width:24px; height:24px; border-radius:50%; object-fit:cover;}
+  .story-sticky-links{display:flex; align-items:center; gap:18px; font-size:12.5px;}
+  .story-sticky-links a{color:#a0a0a0; border-bottom:1px solid transparent; padding-bottom:2px; transition:color .2s ease, border-color .2s ease;}
+  .story-sticky-links a:hover{color:#7a7a7a; border-color:#a0a0a0;}
+  @media (max-width:600px){
+    .story-sticky-nav{padding:8px 16px;}
+    .story-sticky-brand span{display:none;}
+  }
 </style>
 </head>
 <body>
@@ -230,19 +265,37 @@
   <nav class="nav-links" id="navLinks">
     <a href="index.html">خانه</a>
     <a href="news.html">اخبار</a>
-    <a href="team.html">اعضا</a>
-    <a href="about.html">درباره</a>
+    <a href="tools.html">ابزار رصد</a>
     <a href="tours.html">گشت رصدی</a>
-    <a href="offerings.html">کارگاه‌ها</a>
+
+    <div class="nav-dropdown" id="navAboutDropdown">
+      <button class="nav-dropdown-toggle" aria-expanded="false">درباره ما</button>
+      <div class="nav-dropdown-menu">
+        <a href="about.html">درباره کاوش</a>
+        <a href="team.html">اعضا</a>
+        <a href="offerings.html">کارگاه‌ها</a>
+      </div>
+    </div>
+
     <a href="contact.html">تماس با ما</a>
-    <a href="tools.html">ابزار</a>
-    <a href="observatory.html">رصدگاه</a>
+
     <button class="nv-toggle" id="nvToggle" aria-pressed="false">
       <span class="nv-dot"></span>
-      <span id="nvLabel">حالت شب</span>
+      <span id="nvLabel">حالت رصد</span>
     </button>
   </nav>
 </header>
+
+<nav class="story-sticky-nav" id="storyStickyNav" aria-label="فهرست کوتاه صفحه">
+  <a href="index.html" class="story-sticky-brand">
+    <img src="logo.png" alt="" class="story-sticky-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
+  <div class="story-sticky-links">
+    <a href="index.html">خانه</a>
+    <a href="tools.html">ابزار رصد</a>
+  </div>
+</nav>
 
 <div class="light-scope">
 <!-- HERO -->
@@ -253,11 +306,10 @@
     <p class="hero-tag">چرا صاف و بی‌ابر بودن آسمان به‌تنهایی کافی نیست؟ مروری بر دو شاخصی که کیفیت واقعی یک شب رصد را رقم می‌زنند.</p>
     <p class="story-photo-credit">نوشته: پدرام محمدطاهری</p>
   </div>
-  <div class="scroll-cue"><span>اسکرول کنید</span><span class="chevron"></span></div>
 </header>
 
 <!-- INTRO -->
-<section class="story-section bg-stars">
+<section class="story-section bg-stars" id="storyIntro">
   <svg class="stars" viewBox="0 0 1080 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <g fill="#f4f1ea">
       <circle cx="80" cy="70" r="1.4" opacity="0.8"/>
@@ -306,7 +358,6 @@
 <!-- CHAPTER ALEF -->
 <div class="chapter-open">
   <div class="chapter-card reveal">
-    <div class="chapter-letter">الف</div>
     <h2>شاخص دیدِ نجومی</h2>
     <div class="chapter-en">Astronomical Seeing</div>
   </div>
@@ -359,7 +410,6 @@
 <!-- CHAPTER BE -->
 <div class="chapter-open">
   <div class="chapter-card reveal">
-    <div class="chapter-letter">ب</div>
     <h2>شاخص شفافیت</h2>
     <div class="chapter-en">Transparency</div>
   </div>
@@ -478,6 +528,23 @@
     setTimeout(function(){
       items.forEach(function(el){ el.classList.add('in-view'); });
     }, 4000);
+  })();
+
+  // Swap the main dark nav for a slim, low-contrast sticky nav once the
+  // article body (the intro text box) starts scrolling under it.
+  (function(){
+    var mainNav = document.querySelector('header.site-nav');
+    var miniNav = document.getElementById('storyStickyNav');
+    var sentinel = document.getElementById('storyIntro');
+    if(!mainNav || !miniNav || !sentinel || !('IntersectionObserver' in window)) return;
+
+    var io = new IntersectionObserver(function(entries){
+      var pastPoint = entries[0].boundingClientRect.top < 0;
+      mainNav.classList.toggle('story-nav-hidden', pastPoint);
+      miniNav.classList.toggle('is-visible', pastPoint);
+    }, { threshold: 0 });
+
+    io.observe(sentinel);
   })();
 </script>
 
