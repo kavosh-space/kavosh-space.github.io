@@ -66,7 +66,7 @@
   }
   .story-hero .hero-tag{max-width:640px; font-size:clamp(15px,2vw,18px);}
   .story-hero .story-photo-credit{
-    margin-top:22px; font-family:var(--font-data); font-size:11px; color:var(--star-500);
+    margin-top:22px; font-family:var(--font-data); font-size:13px; color:var(--star-500);
   }
   .story-section{
     position:relative; padding:96px 0;
@@ -530,21 +530,23 @@
     }, 4000);
   })();
 
-  // Swap the main dark nav for a slim, low-contrast sticky nav once the
-  // article body (the intro text box) starts scrolling under it.
+  // Swap the main dark nav for a slim, low-contrast sticky nav as soon as
+  // the hero photo scrolls out of view (i.e. the intro text is reaching
+  // the top of the page), rather than waiting for the whole intro section
+  // to scroll past.
   (function(){
     var mainNav = document.querySelector('header.site-nav');
     var miniNav = document.getElementById('storyStickyNav');
-    var sentinel = document.getElementById('storyIntro');
-    if(!mainNav || !miniNav || !sentinel || !('IntersectionObserver' in window)) return;
+    var hero = document.querySelector('.story-hero');
+    if(!mainNav || !miniNav || !hero || !('IntersectionObserver' in window)) return;
 
     var io = new IntersectionObserver(function(entries){
-      var pastPoint = entries[0].boundingClientRect.top < 0;
-      mainNav.classList.toggle('story-nav-hidden', pastPoint);
-      miniNav.classList.toggle('is-visible', pastPoint);
+      var heroVisible = entries[0].isIntersecting;
+      mainNav.classList.toggle('story-nav-hidden', !heroVisible);
+      miniNav.classList.toggle('is-visible', !heroVisible);
     }, { threshold: 0 });
 
-    io.observe(sentinel);
+    io.observe(hero);
   })();
 </script>
 
