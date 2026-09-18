@@ -565,3 +565,42 @@ article p{
     border-bottom:1px solid var(--night-700); padding:14px 0; font-size:.92rem;
   }
 }
+
+/* ---------- Shared: light-theme scope (used on news.html, article pages, seeing-transparency-story.html) ---------- */
+.light-scope{
+  --night-900:#ffffff;
+  --night-800:#f5f4ef;
+  --night-700:#e7e4da;
+  --night-600:#d8d4c6;
+  --night-500:#c3bda9;
+  --star-100:#20242c;
+  --star-300:#4b5160;
+  --star-500:#7b8190;
+  background:var(--night-900);
+}
+
+/* ---------- Shared: slim low-contrast nav that replaces the main dark nav
+   once the reader has scrolled into the article/page body ---------- */
+.site-nav{transition:transform .3s ease, box-shadow .3s ease;}
+.site-nav.story-nav-hidden{transform:translateY(-100%); box-shadow:none;}
+
+.story-sticky-nav{
+  position:fixed; top:0; left:0; right:0; z-index:45;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:9px 24px;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(0,0,0,.06);
+  transform:translateY(-100%); opacity:0; pointer-events:none;
+  transition:transform .3s ease, opacity .3s ease;
+}
+.story-sticky-nav.is-visible{transform:translateY(0); opacity:1; pointer-events:auto;}
+.story-sticky-brand{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#a0a0a0;}
+.story-sticky-logo{width:24px; height:24px; border-radius:50%; object-fit:cover;}
+.story-sticky-links{display:flex; align-items:center; gap:18px; font-size:12.5px;}
+.story-sticky-links a{color:#a0a0a0; border-bottom:1px solid transparent; padding-bottom:2px; transition:color .2s ease, border-color .2s ease;}
+.story-sticky-links a:hover{color:#7a7a7a; border-color:#a0a0a0;}
+@media (max-width:600px){
+  .story-sticky-nav{padding:8px 16px;}
+  .story-sticky-brand span{display:none;}
+}
