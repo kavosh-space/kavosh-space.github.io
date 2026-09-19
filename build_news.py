@@ -10,6 +10,7 @@ python3 build_news.py
 git add news/ sitemap.xml
 git commit -m "apply new nav + light theme to all news articles"
 git push
+"""
 
 import json
 import os
@@ -163,19 +164,19 @@ PAGE_TMPL = """<!DOCTYPE html>
   // Swap the main dark nav for the slim sticky nav shortly after the reader
   // starts scrolling through the article body (there's no hero photo on
   // article pages to use as a scroll trigger, so a fixed offset is used).
-  (function(){
+  (function(){{
     var mainNav = document.querySelector('header.site-nav');
     var miniNav = document.getElementById('storyStickyNav');
     if(!mainNav || !miniNav) return;
     var THRESHOLD = 180;
-    function onScroll(){
+    function onScroll(){{
       var past = window.scrollY > THRESHOLD;
       mainNav.classList.toggle('story-nav-hidden', past);
       miniNav.classList.toggle('is-visible', past);
-    }
-    document.addEventListener('scroll', onScroll, { passive: true });
+    }}
+    document.addEventListener('scroll', onScroll, {{ passive: true }});
     onScroll();
-  })();
+  }})();
 </script>
 
 </body>
