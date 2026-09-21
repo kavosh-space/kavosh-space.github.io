@@ -113,19 +113,26 @@
     <span></span>
   </button>
 
-  <nav class="nav-links" id="navLinks">
+   <nav class="nav-links" id="navLinks">
     <a href="index.html">خانه</a>
     <a href="news.html">اخبار</a>
-    <a href="team.html">اعضا</a>
-    <a href="about.html">درباره</a>
+    <a href="tools.html">ابزار رصد</a>
     <a href="tours.html">گشت رصدی</a>
-    <a href="offerings.html">کارگاه‌ها</a>
+
+    <div class="nav-dropdown" id="navAboutDropdown">
+      <button class="nav-dropdown-toggle" aria-expanded="false">درباره ما</button>
+      <div class="nav-dropdown-menu">
+        <a href="about.html">درباره کاوش</a>
+        <a href="team.html">اعضا</a>
+        <a href="workshops.html">کارگاه‌ها</a>
+      </div>
+    </div>
+
     <a href="contact.html" class="active">تماس با ما</a>
-    <a href="tools.html">ابزار</a>
-    <a href="observatory.html">رصدگاه</a>
+
     <button class="nv-toggle" id="nvToggle" aria-pressed="false">
       <span class="nv-dot"></span>
-      <span id="nvLabel">حالت شب</span>
+      <span id="nvLabel">حالت رصد</span>
     </button>
   </nav>
 </header>
