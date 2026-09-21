@@ -498,6 +498,20 @@ article p{
   
 }
 
+.hero-credit{
+  position:absolute;
+  z-index:2;
+  bottom:14px;
+  left:20px;
+  font-family:var(--font-data);
+  font-size:11px;
+  color:var(--star-300);
+  text-decoration:none;
+  opacity:.8;
+  transition:opacity .25s ease, color .25s ease;
+}
+.hero-credit:hover{opacity:1; color:var(--star-100);}
+
 #guide{
   position:relative;
   background:url('guide-bg.jpg') center/cover no-repeat;
