@@ -42,48 +42,39 @@
 </script>
 
 <style>
-  /* ---------- Tools: row-list cards (distinct from news-card grid) ---------- */
-  .tools-list{
-    display:grid; gap:1px; background:var(--night-700);
-    border-top:1px solid var(--night-700); border-bottom:1px solid var(--night-700);
-    margin-top:8px;
-  }
-  .tool-row{
-    background:var(--night-900); padding:22px 8px; display:grid;
-    grid-template-columns:64px 1fr auto; align-items:center; gap:24px;
-    transition:background .25s ease;
-  }
-  .tool-row:hover{background:var(--night-800);}
-  .tool-icon{
-    width:64px; height:64px; border-radius:50%; flex-shrink:0;
-    background:var(--night-800); border:1px solid var(--night-600);
-    display:flex; align-items:center; justify-content:center; overflow:hidden;
-  }
-  .tool-icon svg{width:58%; height:58%; overflow:visible;}
-  .tool-icon img{width:100%; height:100%; object-fit:cover; display:block;}
-  .tool-row:hover .tool-icon{border-color:var(--ember-500);}
+  /* ---------- Tools: horizontal image cards (distinct from news-card grid) ---------- */
+  .tools-list{display:grid; gap:18px; margin-top:8px;}
 
-  .tool-row-body h3{font-size:16.5px; margin-bottom:6px; line-height:1.5;}
-  .tool-row-body p{font-size:13.5px; color:var(--star-300);}
-
-  .tool-row-side{display:flex; flex-direction:column; align-items:flex-end; gap:10px;}
-  .tool-status{
-    font-family:var(--font-data); font-size:11px; letter-spacing:.04em;
-    color:var(--star-500); border:1px solid var(--night-500);
-    padding:4px 11px; border-radius:999px; white-space:nowrap;
+  .tool-card{
+    display:grid; grid-template-columns:200px 1fr; gap:26px;
+    padding:22px; border:1px solid var(--night-700); border-radius:10px;
+    background:var(--night-800);
+    transition:border-color .25s ease, transform .25s ease;
   }
-  .tool-status.live{color:var(--ember-400); border-color:var(--ember-500);}
+  .tool-card:hover{border-color:var(--ember-500); transform:translateY(-3px);}
+
+  .tool-card-media{
+    border-radius:8px; overflow:hidden; aspect-ratio:4/3;
+    background:var(--night-900); border:1px solid var(--night-600);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tool-card-media img{width:100%; height:100%; object-fit:cover; display:block;}
+  .tool-card-media svg{width:72%; height:72%;}
+
+  .tool-card-body{display:flex; flex-direction:column; gap:10px;}
+  .tool-card-body h3{font-size:18.5px; color:var(--star-100); line-height:1.4;}
+  .tool-card-body p{font-size:14.5px; color:var(--star-300); line-height:1.9; flex:1;}
+
   .tool-link{
-    font-family:var(--font-data); font-size:12px; color:var(--star-300);
-    border-bottom:1px solid var(--night-500); padding-bottom:2px; white-space:nowrap;
-    transition:color .25s ease, border-color .25s ease;
+    font-family:var(--font-data); font-size:12.5px; color:var(--star-300);
+    border-bottom:1px solid var(--night-500); align-self:flex-start; padding-bottom:2px;
+    margin-top:10px; transition:color .25s ease, border-color .25s ease;
   }
-  .tool-row:hover .tool-link{color:var(--star-100); border-color:var(--ember-500);}
+  .tool-card:hover .tool-link{color:var(--star-100); border-color:var(--ember-500);}
 
   @media (max-width:640px){
-    .tool-row{grid-template-columns:48px 1fr; row-gap:12px; padding:20px 4px;}
-    .tool-icon{width:48px; height:48px;}
-    .tool-row-side{grid-column:1/-1; flex-direction:row; justify-content:space-between; align-items:center;}
+    .tool-card{grid-template-columns:1fr; padding:18px;}
+    .tool-card-media{aspect-ratio:16/9;}
   }
 </style>
 </head>
@@ -140,98 +131,88 @@
 
       <div class="tools-list">
 
-        <a class="tool-row" href="sky-map-live.html">
-          <div class="tool-icon">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24" r="17" fill="none" stroke="var(--night-500)" stroke-width="2"/>
-              <path d="M24 5v7M24 36v7M5 24h7M36 24h7" stroke="var(--night-500)" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="24" cy="24" r="2.2" fill="var(--ember-400)"/>
-              <circle cx="30" cy="17" r="1.4" fill="var(--ember-400)"/>
-              <circle cx="16" cy="30" r="1.2" fill="var(--ember-400)"/>
+        <a class="tool-card" href="sky-map-live.html">
+          <div class="tool-card-media">
+            <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="120" cy="90" r="62" fill="none" stroke="var(--night-500)" stroke-width="1.4"/>
+              <circle cx="120" cy="90" r="42" fill="none" stroke="var(--night-500)" stroke-width="1" opacity="0.7"/>
+              <circle cx="120" cy="90" r="22" fill="none" stroke="var(--night-500)" stroke-width="1" opacity="0.5"/>
+              <line x1="58" y1="90" x2="182" y2="90" stroke="var(--night-500)" stroke-width="1" opacity="0.6"/>
+              <line x1="120" y1="28" x2="120" y2="152" stroke="var(--night-500)" stroke-width="1" opacity="0.6"/>
+              <g fill="var(--ember-400)">
+                <circle cx="88" cy="62" r="2.2"/>
+                <circle cx="142" cy="50" r="1.8"/>
+                <circle cx="156" cy="100" r="2.4"/>
+                <circle cx="96" cy="112" r="1.6"/>
+                <circle cx="132" cy="124" r="2"/>
+              </g>
+              <path d="M88 62 142 50 156 100" fill="none" stroke="var(--ember-400)" stroke-width="1" opacity="0.55"/>
             </svg>
           </div>
-          <div class="tool-row-body">
+          <div class="tool-card-body">
             <h3>نقشه تعاملی آسمان</h3>
-            <p>موقعیت لحظه‌ای ستاره‌ها، سیارات و صورت‌های فلکی بالای سر شما.</p>
-          </div>
-          <div class="tool-row-side">
-            <span class="tool-status live">فعال</span>
-            <span class="tool-link">ورود ↗</span>
+            <p>موقعیت لحظه‌ای ستاره‌ها، سیارات و صورت‌های فلکی بالای سر شما، به زبان فارسی و قابل تنظیم برای هر شهر ایران یا هر نقطه‌ی دیگر جهان. با انتخاب تاریخ و ساعت دلخواه می‌توانید آسمان هر شب را از پیش ببینید و برای رصد برنامه‌ریزی کنید.</p>
+            <span class="tool-link">ورود به ابزار ↗</span>
           </div>
         </a>
 
-        <a class="tool-row" href="comets.html">
-          <div class="tool-icon">
-            <img src="comet-chasing-kavosh.gif" alt="دنباله‌دار در حال حرکت در آسمان شب" loading="lazy">
+        <a class="tool-card" href="comets.html">
+          <div class="tool-card-media">
+            <img src="comet-chasing-kavosh.gif" alt="دنباله‌دار در حال حرکت در آسمان شب — عکاسی گروه نجوم کاوش" loading="lazy">
           </div>
-          <div class="tool-row-body">
+          <div class="tool-card-body">
             <h3>وضعیت دنباله‌دارها</h3>
-            <p>فهرست دنباله‌دارهای قابل رصد امروز، قدر ظاهری فعلی و روند تغییرات — داده زنده از COBS.</p>
-          </div>
-          <div class="tool-row-side">
-            <span class="tool-status live">فعال</span>
-            <span class="tool-link">ورود ↗</span>
+            <p>فهرست دنباله‌دارهای قابل رصد امروز، قدر ظاهری فعلی هرکدام و روند تغییرات آن‌ها در روزهای اخیر — داده‌ای زنده و به‌روز که مستقیماً از پایگاه COBS (Comet Observation Database) دریافت می‌شود.</p>
+            <span class="tool-link">ورود به ابزار ↗</span>
           </div>
         </a>
 
-        <a class="tool-row" href="moon.html">
-          <div class="tool-icon">
-            <img src="moon-phases-kavosh.jpg" alt="فازهای ماه" loading="lazy">
+        <a class="tool-card" href="moon.html">
+          <div class="tool-card-media">
+            <img src="moon-phases-kavosh.jpg" alt="فازهای ماه — عکاسی گروه نجوم کاوش" loading="lazy">
           </div>
-          <div class="tool-row-body">
+          <div class="tool-card-body">
             <h3>وضعیت ماه</h3>
-            <p>فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب و تقویم ماهانه فازهای ماه.</p>
-          </div>
-          <div class="tool-row-side">
-            <span class="tool-status live">فعال</span>
-            <span class="tool-link">ورود ↗</span>
+            <p>فاز فعلی ماه، درصد روشنایی، زمان دقیق طلوع و غروب برای موقعیت مکانی شما، همراه با تقویم ماهانه‌ی فازهای ماه و محاسبه‌ی سمت و ارتفاع آن در هر لحظه.</p>
+            <span class="tool-link">ورود به ابزار ↗</span>
           </div>
         </a>
 
-        <a class="tool-row" href="jupiter-moons.html">
-          <div class="tool-icon">
-            <img src="jupiters-moon-kavosh.jpg" alt="مشتری و قمرهای گالیله‌ای" loading="lazy">
+        <a class="tool-card" href="jupiter-moons.html">
+          <div class="tool-card-media">
+            <img src="jupiters-moon-kavosh.jpg" alt="مشتری و قمرهای گالیله‌ای — عکاسی گروه نجوم کاوش" loading="lazy">
           </div>
-          <div class="tool-row-body">
+          <div class="tool-card-body">
             <h3>وضعیت قمرهای مشتری</h3>
-            <p>آرایش لحظه‌ای چهار قمر گالیله‌ای — یو، اروپا، گانیمد و کالیستو — نسبت به مشتری.</p>
-          </div>
-          <div class="tool-row-side">
-            <span class="tool-status live">فعال</span>
-            <span class="tool-link">ورود ↗</span>
+            <p>آرایش لحظه‌ای چهار قمر گالیله‌ای — یو، اروپا، گانیمد و کالیستو — نسبت به سیاره‌ی مشتری، محاسبه‌شده برای هر تاریخ و ساعت دلخواه؛ ابزاری مناسب برای رصد این قمرها با تلسکوپ.</p>
+            <span class="tool-link">ورود به ابزار ↗</span>
           </div>
         </a>
 
-        <a class="tool-row" href="seeing.html">
-          <div class="tool-icon">
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 34a15 15 0 0 1 30 0" fill="none" stroke="var(--night-500)" stroke-width="5" stroke-linecap="round"/>
-              <path d="M9 34a15 15 0 0 1 21-13.5" fill="none" stroke="var(--ember-500)" stroke-width="5" stroke-linecap="round"/>
-              <line x1="24" y1="34" x2="31.5" y2="20.5" stroke="var(--ember-300)" stroke-width="2.4" stroke-linecap="round"/>
-              <circle cx="24" cy="34" r="2.6" fill="var(--ember-300)"/>
+        <a class="tool-card" href="seeing.html">
+          <div class="tool-card-media">
+            <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+              <path d="M50 130 A70 70 0 0 1 190 130" fill="none" stroke="var(--night-500)" stroke-width="12" stroke-linecap="round"/>
+              <path d="M50 130 A70 70 0 0 1 150 67" fill="none" stroke="var(--ember-500)" stroke-width="12" stroke-linecap="round"/>
+              <line x1="120" y1="130" x2="158" y2="83" stroke="var(--ember-300)" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="120" cy="130" r="7" fill="var(--ember-300)"/>
             </svg>
           </div>
-          <div class="tool-row-body">
+          <div class="tool-card-body">
             <h3>شاخص دید و شفافیت آسمان</h3>
-            <p>پیش‌بینی کیفیت دید (Seeing)، شفافیت جو و پوشش ابر برای ساعات پیش رو.</p>
-          </div>
-          <div class="tool-row-side">
-            <span class="tool-status live">فعال</span>
-            <span class="tool-link">ورود ↗</span>
+            <p>پیش‌بینی کیفیت دید (Seeing)، شفافیت جو و میزان پوشش ابر برای ساعات پیش رو در موقعیت مکانی شما — ابزاری کاربردی برای انتخاب بهترین شب برای رصد یا عکاسی نجومی.</p>
+            <span class="tool-link">ورود به ابزار ↗</span>
           </div>
         </a>
 
-        <a class="tool-row" href="iss-passes.html">
-          <div class="tool-icon">
-            <img src="iss-passing-over-iran-kavosh.jpg" alt="عبور ایستگاه فضایی بین‌المللی بر فراز آسمان ایران" loading="lazy">
+        <a class="tool-card" href="iss-passes.html">
+          <div class="tool-card-media">
+            <img src="iss-passing-over-iran-kavosh.jpg" alt="عبور ایستگاه فضایی بین‌المللی (ISS) بر فراز آسمان ایران — عکاسی گروه نجوم کاوش" loading="lazy">
           </div>
-          <div class="tool-row-body">
+          <div class="tool-card-body">
             <h3>گذر ایستگاه فضایی بین‌المللی</h3>
-            <p>آگاهی از آخرین زمان عبور ایستگاه فضایی بین‌المللی از آسمان شهر شما.</p>
-          </div>
-          <div class="tool-row-side">
-            <span class="tool-status live">فعال</span>
-            <span class="tool-link">ورود ↗</span>
+            <p>آگاهی از زمان دقیق عبورهای بعدی ایستگاه فضایی بین‌المللی (ISS) از آسمان شهر شما، همراه با جهت و ارتفاع گذر برای رصد آن با چشم غیرمسلح.</p>
+            <span class="tool-link">ورود به ابزار ↗</span>
           </div>
         </a>
 
