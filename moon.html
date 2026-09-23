@@ -37,9 +37,16 @@
   body.moon-page .site-nav{ background:#000000; }
 
   .moon-header-banner{
-    width:100%; height:clamp(200px,32vw,340px); overflow:hidden; display:block; background:#000;
+    position:relative; width:100%; height:clamp(240px,36vw,400px); overflow:hidden; display:block; background:#000;
   }
   .moon-header-banner img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .moon-header-overlay{
+    position:absolute; inset:0; display:flex; align-items:flex-end;
+    background:linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.05) 100%);
+  }
+  .moon-header-overlay .wrap{ width:100%; padding:0 0 26px; }
+  .moon-header-overlay h1{ font-size:clamp(28px,4.5vw,44px); margin-bottom:8px; color:#fff; }
+  .moon-header-overlay p{ color:#dcd8d0; font-size:clamp(14px,2vw,17px); max-width:640px; margin:0 0 12px; }
 
   .moon-hero-data{
     display:flex; gap:40px; align-items:flex-start; flex-wrap:wrap; margin-top:6px;
@@ -144,16 +151,17 @@
 
 <div class="moon-header-banner">
   <img src="moon-phases-header.jpg" alt="نمای نزدیک از سطح ماه" loading="eager">
-</div>
-
-<div class="wrap" style="padding:40px 0 8px;">
-  <h1 style="font-size:clamp(30px,4.5vw,46px); margin-bottom:10px; color:#f2efe9;">وضعیت ماه</h1>
-  <p style="color:#c9c4ba; font-size:clamp(15px,2vw,18px); max-width:640px; margin:0;">فاز لحظه‌ای، فاصله، مختصات و زمان طلوع و غروب ماه — به‌صورت زنده و به‌روزشونده در هر بار باز کردن این صفحه</p>
-  <a href="tools.html" class="moon-back-link">→ بازگشت به ابزارها</a>
+  <div class="moon-header-overlay">
+    <div class="wrap">
+      <h1>وضعیت ماه</h1>
+      <p>فاز لحظه‌ای، فاصله، مختصات و زمان طلوع و غروب ماه — به‌صورت زنده و به‌روزشونده در هر بار باز کردن این صفحه</p>
+      <a href="tools.html" class="moon-back-link">→ بازگشت به ابزارها</a>
+    </div>
+  </div>
 </div>
 
 <section id="moon-page">
-  <div class="wrap">
+  <div class="wrap" style="margin-top:36px;">
 
     <div class="moon-hero-data">
       <div class="moon-image-col">
@@ -288,11 +296,27 @@
     return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
   }
 
+  // svs.gsfc.nasa.gov does not send Access-Control-Allow-Origin headers, so a
+  // direct cross-origin fetch() from the browser fails silently (it works fine
+  // from a server, which is why it looked fine while testing the URL directly).
+  // Try the direct request first, and fall back to a CORS proxy if it fails.
+  function fetchJSON(url){
+    return fetch(url).then(function(res){
+      if(!res.ok) throw new Error('bad status '+res.status);
+      return res.json();
+    }).catch(function(){
+      return fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url))
+        .then(function(res){
+          if(!res.ok) throw new Error('proxy bad status '+res.status);
+          return res.json();
+        });
+    });
+  }
+
   function loadMoonData(){
     var now = new Date();
     var timeParam = isoLocal(now);
-    fetch('https://svs.gsfc.nasa.gov/api/dialamoon/'+timeParam)
-      .then(function(res){ return res.json(); })
+    fetchJSON('https://svs.gsfc.nasa.gov/api/dialamoon/'+timeParam)
       .then(function(data){
         document.getElementById('moonImg').src = data.image.url;
         document.getElementById('moonImg').alt = data.image.alt_text || 'تصویر لحظه‌ای ماه';
@@ -306,7 +330,10 @@
         document.getElementById('valSubearth').textContent = data.subearth_lon.toFixed(3)+'\u00B0, '+data.subearth_lat.toFixed(3)+'\u00B0';
         document.getElementById('valPosAngle').textContent = data.posangle.toFixed(3)+'\u00B0';
       })
-      .catch(function(err){ console.error('dial-a-moon fetch failed', err); });
+      .catch(function(err){
+        console.error('dial-a-moon fetch failed', err);
+        document.getElementById('valTime').textContent = 'خطا در دریافت اطلاعات — لطفاً صفحه را رفرش کنید';
+      });
   }
 
   function updateRiseSet(){
