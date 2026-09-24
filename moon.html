@@ -104,10 +104,34 @@
   }
   .moon-back-link:hover{ opacity:0.8; }
 
+  /* ---------- Monthly moon-phase calendar ---------- */
+  .moon-cal-scroll{ overflow-x:auto; }
+  .moon-calendar-wrap{ direction:ltr; min-width:560px; }
+  .moon-cal-head-row{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px; }
+  .moon-cal-head-row div{
+    text-align:center; font-weight:700; color:#f2efe9; font-size:13px;
+    padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.18);
+  }
+  .moon-cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+  .moon-cal-cell{
+    min-height:96px; border:1px solid rgba(255,255,255,0.18); border-radius:8px;
+    padding:6px; display:flex; flex-direction:column; align-items:center;
+    justify-content:flex-start; background:rgba(255,255,255,0.03);
+  }
+  .moon-cal-cell.empty{ border-color:transparent; background:transparent; }
+  .moon-cal-daynum{
+    align-self:flex-start; font-size:12px; color:#c9c4ba;
+    font-family:var(--font-data, 'JetBrains Mono', monospace);
+  }
+  .moon-cal-cell img{ width:42px; height:42px; object-fit:contain; margin-top:4px; }
+  .moon-cal-illum{ font-size:10px; color:#8f8b83; margin-top:2px; }
+
   @media (max-width:640px){
     .moon-hero-data{ flex-direction:column; }
     .moon-image-col{ width:100%; max-width:280px; margin:0 auto; }
     .moon-card{ padding:20px 18px; }
+    .moon-cal-cell{ min-height:82px; }
+    .moon-cal-cell img{ width:34px; height:34px; }
   }
 </style>
 </head>
@@ -228,6 +252,19 @@
         <li><strong>دهانه کلاویوس (Clavius)</strong> — یکی از بزرگ‌ترین دهانه‌های سطح ماه، با زنجیره‌ای زیبا از دهانه‌های کوچک‌تر در کف آن.</li>
         <li><strong>دهانه آریستارخوس (Aristarchus)</strong> — درخشان‌ترین ناحیه سطح ماه؛ آن‌قدر روشن که گاهی حتی در نور خاکستری زمین (Earthshine) هم قابل تشخیص است.</li>
       </ul>
+    </div>
+
+    <div class="moon-card">
+      <h2>تقویم ماهانه فازهای ماه (میلادی) — <span id="calMonthLabel">—</span></h2>
+      <div class="moon-cal-scroll">
+        <div class="moon-calendar-wrap">
+          <div class="moon-cal-head-row">
+            <div>یکشنبه</div><div>دوشنبه</div><div>سه‌شنبه</div><div>چهارشنبه</div>
+            <div>پنجشنبه</div><div>جمعه</div><div>شنبه</div>
+          </div>
+          <div class="moon-cal-grid" id="moonCalendarGrid"></div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -430,10 +467,70 @@
     }
   }
 
+  // ---------- Monthly moon-phase calendar (Gregorian, current month) ----------
+  var GREGORIAN_MONTH_NAMES_FA = ['ژانویه','فوریه','مارس','آوریل','مه','ژوئن',
+                                   'ژوئیه','اوت','سپتامبر','اکتبر','نوامبر','دسامبر'];
+
+  function renderMoonCalendar(baseDate){
+    if(typeof Astronomy === 'undefined') return;
+    var year = baseDate.getFullYear(), month = baseDate.getMonth();
+    var startWeekday = new Date(year, month, 1).getDay(); // 0 = Sunday
+    var daysInMonth = new Date(year, month+1, 0).getDate();
+
+    var label = document.getElementById('calMonthLabel');
+    if(label) label.textContent = GREGORIAN_MONTH_NAMES_FA[month] + ' ' + year;
+
+    var grid = document.getElementById('moonCalendarGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+
+    for(var i=0; i<startWeekday; i++){
+      var lead = document.createElement('div');
+      lead.className = 'moon-cal-cell empty';
+      grid.appendChild(lead);
+    }
+
+    for(var day=1; day<=daysInMonth; day++){
+      var cellDate = new Date(year, month, day, 12, 0, 0);
+      var cell = document.createElement('div');
+      cell.className = 'moon-cal-cell';
+
+      var num = document.createElement('div');
+      num.className = 'moon-cal-daynum';
+      num.textContent = String(day);
+      cell.appendChild(num);
+
+      var img = document.createElement('img');
+      img.src = getMoonPhaseImagePath(cellDate);
+      img.alt = 'فاز ماه - ' + day + ' ' + GREGORIAN_MONTH_NAMES_FA[month];
+      cell.appendChild(img);
+
+      var illumPct = Astronomy.Illumination(Astronomy.Body.Moon, cellDate).phase_fraction * 100;
+      var illumEl = document.createElement('div');
+      illumEl.className = 'moon-cal-illum';
+      illumEl.textContent = Math.round(illumPct) + '%';
+      cell.appendChild(illumEl);
+
+      grid.appendChild(cell);
+    }
+
+    var totalCells = startWeekday + daysInMonth;
+    var remainder = totalCells % 7;
+    if(remainder !== 0){
+      var trailingCount = 7 - remainder;
+      for(var j=0; j<trailingCount; j++){
+        var trail = document.createElement('div');
+        trail.className = 'moon-cal-cell empty';
+        grid.appendChild(trail);
+      }
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function(){
     updateMoonPhaseImage();
     loadMoonData();
     updateRiseSet();
+    renderMoonCalendar(new Date());
     document.getElementById('citySelect').addEventListener('change', updateRiseSet);
     setInterval(function(){
       updateMoonPhaseImage();
