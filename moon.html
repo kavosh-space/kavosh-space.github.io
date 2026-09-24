@@ -165,8 +165,8 @@
 
     <div class="moon-hero-data">
       <div class="moon-image-col">
-        <img id="moonImg" src="" alt="تصویر لحظه‌ای ماه">
-        <p class="moon-credit">تصویر: <a href="https://svs.gsfc.nasa.gov/4955" target="_blank" rel="noopener">NASA / SVS — Dial-a-Moon</a></p>
+        <img id="moonImg" src="" alt="تصویر فاز کنونی ماه">
+        <p class="moon-credit">تصویر: پدرام محمدطاهری — گروه نجوم کاوش</p>
       </div>
       <div class="moon-data-col">
         <div class="moon-row"><span class="moon-label">زمان</span><span class="moon-value" id="valTime">—</span></div>
@@ -296,10 +296,40 @@
     return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
   }
 
+  // ---------- Local moon-phase image (no external service, no CORS) ----------
+  // Uses the same Astronomy Engine library already loaded on this page.
+  // Astronomy.MoonPhase(date) returns the phase angle in degrees (0..360):
+  //   0 = new moon, 90 = first quarter, 180 = full moon, 270 = last quarter.
+  // The 30 images (assets/moon-phases/moon-phase-01.jpg .. -30.jpg) were
+  // generated so that frame d corresponds to phase p = (d-1)/30 of the cycle;
+  // frame 16 is the group's own unmodified full-moon photo.
+  var MOON_PHASE_IMG_BASE = 'assets/moon-phases/';
+  var MOON_PHASE_FRAME_COUNT = 30;
+
+  function getMoonPhaseImagePath(date){
+    if(typeof Astronomy === 'undefined') return null;
+    date = date || new Date();
+    var phaseDeg = Astronomy.MoonPhase(date); // 0..360
+    var p = phaseDeg / 360;
+    var frame = Math.floor(p * MOON_PHASE_FRAME_COUNT) + 1;
+    if(frame > MOON_PHASE_FRAME_COUNT) frame = MOON_PHASE_FRAME_COUNT;
+    if(frame < 1) frame = 1;
+    return MOON_PHASE_IMG_BASE + 'moon-phase-' + pad(frame) + '.jpg';
+  }
+
+  function updateMoonPhaseImage(){
+    var path = getMoonPhaseImagePath();
+    if(!path) return;
+    var img = document.getElementById('moonImg');
+    img.src = path;
+  }
+
   // svs.gsfc.nasa.gov does not send Access-Control-Allow-Origin headers, so a
   // direct cross-origin fetch() from the browser fails silently (it works fine
   // from a server, which is why it looked fine while testing the URL directly).
   // Try the direct request first, and fall back to a CORS proxy if it fails.
+  // (This is only used for the numeric data below now - the moon image itself
+  // no longer depends on this fetch at all.)
   function fetchJSON(url){
     return fetch(url).then(function(res){
       if(!res.ok) throw new Error('bad status '+res.status);
@@ -315,12 +345,11 @@
 
   function loadMoonData(){
     var now = new Date();
+    document.getElementById('valTime').textContent = fmtDateTime(now);
+
     var timeParam = isoLocal(now);
     fetchJSON('https://svs.gsfc.nasa.gov/api/dialamoon/'+timeParam)
       .then(function(data){
-        document.getElementById('moonImg').src = data.image.url;
-        document.getElementById('moonImg').alt = data.image.alt_text || 'تصویر لحظه‌ای ماه';
-        document.getElementById('valTime').textContent = fmtDateTime(now);
         document.getElementById('valPhase').textContent = data.phase.toFixed(2)+'% ('+ageToDHM(data.age)+')';
         document.getElementById('valDiameter').textContent = data.diameter.toFixed(1)+' arcseconds';
         var earthDiameters = (data.distance / 12756).toFixed(2);
@@ -332,7 +361,6 @@
       })
       .catch(function(err){
         console.error('dial-a-moon fetch failed', err);
-        document.getElementById('valTime').textContent = 'خطا در دریافت اطلاعات — لطفاً صفحه را رفرش کنید';
       });
   }
 
@@ -355,10 +383,14 @@
   }
 
   document.addEventListener('DOMContentLoaded', function(){
+    updateMoonPhaseImage();
     loadMoonData();
     updateRiseSet();
     document.getElementById('citySelect').addEventListener('change', updateRiseSet);
-    setInterval(loadMoonData, 5*60*1000);
+    setInterval(function(){
+      updateMoonPhaseImage();
+      loadMoonData();
+    }, 5*60*1000);
   });
 })();
 </script>
