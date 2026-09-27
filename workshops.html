@@ -100,7 +100,7 @@
   .workshop-hero img{width:100%; display:block; object-fit:cover; height:clamp(320px,44vw,560px);}
   .workshop-hero-text{
     position:absolute; top:0; right:0; height:100%; width:100%;
-    display:flex; flex-direction:column; justify-content:center; align-items:flex-end;
+    display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
     padding:0 6vw; box-sizing:border-box; text-align:right;
   }
   .workshop-hero-text h1{
@@ -114,14 +114,22 @@
 
   /* ---------- Two-column offer strip (tours / offline courses) ---------- */
   .offer-strip{display:grid; grid-template-columns:1fr 1fr; gap:40px; padding:52px 0 10px;}
-  .offer-block h2{font-size:clamp(20px,2.4vw,26px); color:var(--star-100); margin-bottom:16px;}
+  .offer-block h2{
+    font-size:clamp(20px,2.4vw,26px); color:var(--star-100); margin-bottom:16px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .offer-block h2::before{
+    content:""; flex:none; width:9px; height:9px; border-radius:2px;
+    background:var(--ember-500); transform:rotate(45deg);
+  }
   .offer-line{color:var(--star-300); font-size:15px; line-height:2.1;}
   .offer-register{
-    display:inline-block; margin-top:14px; font-family:var(--font-data); font-size:13px;
-    color:var(--star-300); border-bottom:1px solid var(--night-500); padding-bottom:2px;
-    transition:color .25s ease, border-color .25s ease;
+    display:inline-block; margin-top:16px; font-family:var(--font-data); font-size:13.5px;
+    color:var(--star-200,var(--star-300)); background:var(--night-800); border:1px solid var(--night-600);
+    border-radius:8px; padding:9px 22px;
+    transition:color .25s ease, border-color .25s ease, background .25s ease;
   }
-  .offer-register:hover{color:var(--star-100); border-color:var(--ember-500);}
+  .offer-register:hover{color:var(--star-100); border-color:var(--ember-500); background:var(--night-700,var(--night-800));}
 
   @media (max-width:720px){
     .offer-strip{grid-template-columns:1fr; gap:28px;}
@@ -132,11 +140,10 @@
   .middle-banner{position:relative; width:100%; margin:40px 0; overflow:hidden;}
   .middle-banner img{width:100%; display:block; height:clamp(260px,38vw,460px); object-fit:cover;}
   .middle-banner-caption{
-    position:absolute; bottom:22px; right:22px; max-width:min(86%,520px);
-    background:rgba(10,14,20,.55); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
-    border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:16px 22px;
+    position:absolute; bottom:0; right:0; left:0; width:100%;
+    background:var(--night-900,#0b0e13); padding:18px 6vw;
   }
-  .middle-banner-caption p{color:#f4f1ea; font-size:clamp(15px,1.9vw,19px); line-height:1.9; margin:0;}
+  .middle-banner-caption p{color:#f4f1ea; font-size:clamp(15px,1.9vw,19px); line-height:1.9; margin:0; text-align:center;}
 
   /* ---------- Bio section ---------- */
   .bio-section{padding:8px 0 44px;}
@@ -167,11 +174,11 @@
   }
 
   /* ---------- Registration / contact section ---------- */
-  .register-section{padding:8px 0 60px; scroll-margin-top:90px;}
+  .register-section{padding:8px 0 60px; scroll-margin-top:90px; text-align:center;}
   .register-section h2{font-size:clamp(20px,2.4vw,26px); color:var(--star-100); margin-bottom:16px;}
   .register-section p{color:var(--star-300); font-size:15.5px; line-height:2.1; margin:0 0 6px;}
   .register-section .email-link{color:var(--ember-400); font-family:var(--font-data); border-bottom:1px solid var(--ember-500);}
-  .social-icons{display:flex; gap:16px; margin-top:20px;}
+  .social-icons{display:flex; justify-content:center; gap:16px; margin-top:20px;}
   .social-icons a{
     display:flex; align-items:center; justify-content:center; width:42px; height:42px;
     border-radius:50%; border:1px solid var(--night-600); background:var(--night-800);
@@ -239,14 +246,14 @@
         <h2>ورکشاپ‌ها و تورهای بعدی</h2>
         <p class="offer-line">چهاردهم آبان ۱۴۰۵ - ارتفاعات البرز جنوبی</p>
         <p class="offer-line">دوازدهم آذر ۱۴۰۵ - کویر سمنان</p>
-        <a class="offer-register" href="#register">ثبت نام ↓</a>
+        <a class="offer-register" href="#register">ثبت نام</a>
       </div>
 
       <div class="offer-block">
         <h2>دوره‌های آموزشی آفلاین</h2>
         <p class="offer-line">مبانی عکاسی آسمان شب با ابزار حداقلی عکاسی</p>
         <p class="offer-line">پردازش تصاویر نجومی</p>
-        <a class="offer-register" href="#register">ثبت نام ↓</a>
+        <a class="offer-register" href="#register">ثبت نام</a>
       </div>
 
     </div>
