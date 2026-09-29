@@ -18,7 +18,7 @@ import html
 from datetime import datetime, date
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-SITE_URL = "https://kavosh-space.github.io"
+SITE_URL = "https://kavoshspace.ir"
 SITE_NAME = "گروه نجوم کاوش"
 
 FA_MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور",

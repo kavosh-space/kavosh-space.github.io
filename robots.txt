@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kavosh-space.github.io/sitemap.xml
+Sitemap: https://kavoshspace.ir/sitemap.xml
