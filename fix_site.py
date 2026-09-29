@@ -10,7 +10,7 @@ Run it from the repo's root folder (next to index.html):
 (On Windows, if "python" is not found, use:  py fix_site.py)
 
 What it does (exact text replacement, line endings and everything else untouched):
-  1. https://kavosh-space.github.io  ->  https://kavoshspace.ir   (canonical, og:url, og:image, JSON-LD, ...)
+  1. https://kavoshspace.ir  ->  https://kavoshspace.ir   (canonical, og:url, og:image, JSON-LD, ...)
   2. Nav links to offerings.html  ->  workshops.html   (only if workshops.html exists)
   3. Old flat nav (no "About" dropdown, e.g. in sky-map.html) -> the current site nav
 It skips .git / .github and never touches the GitHub repo link.
@@ -29,7 +29,7 @@ DRY = "--dry-run" in sys.argv
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SELF = os.path.basename(__file__)
 
-OLD_HOST = b"https://kavosh-space.github.io"
+OLD_HOST = b"https://kavoshspace.ir"
 NEW_HOST = b"https://kavoshspace.ir"
 TEXT_EXT = (".html", ".xml", ".txt", ".py", ".js", ".json", ".css", ".md")
 SKIP_DIRS = {".git", ".github", "node_modules"}
@@ -82,10 +82,10 @@ for folder, dirs, files in os.walk(ROOT):
 
         # 2) offerings.html -> workshops.html (links only)
         if is_html and has_workshops:
-            n = data.count(b'href="offerings.html"') + data.count(b'href="../offerings.html"')
+            n = data.count(b'href="workshops.html"') + data.count(b'href="workshops.html"')
             if n:
-                data = data.replace(b'href="offerings.html"', b'href="workshops.html"')
-                data = data.replace(b'href="../offerings.html"', b'href="../workshops.html"')
+                data = data.replace(b'href="workshops.html"', b'href="workshops.html"')
+                data = data.replace(b'href="workshops.html"', b'href="../workshops.html"')
                 report["offerings"].append((rel, n))
 
         # 3) stale flat nav (root-level pages only; news/ pages are rebuilt by build_news.py)
@@ -104,7 +104,7 @@ for folder, dirs, files in os.walk(ROOT):
                 f.write(data)
 
         for i, line in enumerate(data.split(b"\n"), 1):
-            if b"kavosh-space.github.io" in line and b"github.com/kavosh-space/kavosh-space.github.io" not in line:
+            if b"https://kavoshspace.ir" in line and b"github.com/kavosh-space/https://kavoshspace.ir" not in line:
                 leftovers.append((rel, i, line.strip()[:110].decode("utf-8", "replace")))
 
 print(("DRY RUN - nothing was written\n" if DRY else "") + "=== summary ===")

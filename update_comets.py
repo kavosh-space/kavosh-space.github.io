@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 # Observatory" table shown on the COBS homepage.
 API_URL = "https://cobs.si/api/planner.api?loc=106"
 OUTPUT_PATH = "data/comets.json"
-USER_AGENT = "kavosh-space.github.io (astronomy club site; contact: kavosh.space@gmail.com)"
+USER_AGENT = "https://kavoshspace.ir (astronomy club site; contact: kavosh.space@gmail.com)"
 
 
 def fetch_planner_data():

@@ -154,12 +154,12 @@ index 302c6b1..7d495aa 100644
 -<meta name="description" content="فهرست دنباله‌دارهای قابل‌رصد امشب، قدر ظاهری و روند تغییرات آن‌ها، برگرفته به‌صورت خودکار از پایگاه داده COBS.">
 +<title>وضعیت دنباله‌دارها | ابزار رایگان نجومی گروه کاوش</title>
 +<meta name="description" content="فهرست دنباله‌دارهای قابل‌رصد امشب، قدر ظاهری و روند تغییرات آن‌ها، برگرفته به‌صورت خودکار از پایگاه داده COBS — رایگان و بدون نیاز به ثبت‌نام.">
- <link rel="canonical" href="https://kavosh-space.github.io/comets.html">
+ <link rel="canonical" href="https://kavoshspace.ir/comets.html">
  <meta property="og:type" content="website">
 -<meta property="og:title" content="وضعیت دنباله‌دارها | گروه نجوم کاوش">
 +<meta property="og:title" content="وضعیت دنباله‌دارها | ابزار رایگان گروه نجوم کاوش">
  <meta property="og:description" content="فهرست دنباله‌دارهای قابل‌رصد و قدر نوری آن‌ها، برگرفته از پایگاه داده COBS.">
- <meta property="og:url" content="https://kavosh-space.github.io/comets.html">
+ <meta property="og:url" content="https://kavoshspace.ir/comets.html">
  <meta property="og:site_name" content="گروه نجوم کاوش">
 @@ -19,6 +19,21 @@
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -171,13 +171,13 @@ index 302c6b1..7d495aa 100644
 +  "@type": "SoftwareApplication",
 +  "name": "وضعیت دنباله‌دارها",
 +  "description": "ابزار رایگان آنلاین برای پیگیری دنباله‌دارهای قابل‌رصد، قدر ظاهری و روند تغییرات آن‌ها.",
-+  "url": "https://kavosh-space.github.io/comets.html",
++  "url": "https://kavoshspace.ir/comets.html",
 +  "applicationCategory": "UtilitiesApplication",
 +  "operatingSystem": "Web",
 +  "inLanguage": "fa",
 +  "isAccessibleForFree": true,
 +  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
-+  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"}
 +}
 +</script>
  
@@ -195,12 +195,12 @@ index 6da1bce..6ead1ab 100644
 -<meta name="description" content="پیش‌بینی زمان و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی (ISS) از بالای سر شما — محاسبه‌شده در مرورگر بر پایه داده مداری زنده.">
 +<title>گذر ایستگاه فضایی بین‌المللی | ابزار رایگان نجومی گروه کاوش</title>
 +<meta name="description" content="پیش‌بینی زمان و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی (ISS) از بالای سر شما — رایگان، بدون نیاز به نصب یا ثبت‌نام.">
- <link rel="canonical" href="https://kavosh-space.github.io/iss-passes.html">
+ <link rel="canonical" href="https://kavoshspace.ir/iss-passes.html">
  <meta property="og:type" content="website">
 -<meta property="og:title" content="گذر ایستگاه فضایی بین‌المللی از بالای سر شما | گروه نجوم کاوش">
 +<meta property="og:title" content="گذر ایستگاه فضایی بین‌المللی | ابزار رایگان گروه نجوم کاوش">
  <meta property="og:description" content="زمان، ارتفاع و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی برای شهر یا موقعیت شما — محاسبه زنده در مرورگر.">
- <meta property="og:url" content="https://kavosh-space.github.io/iss-passes.html">
+ <meta property="og:url" content="https://kavoshspace.ir/iss-passes.html">
  <meta property="og:site_name" content="گروه نجوم کاوش">
 @@ -19,6 +19,21 @@
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -212,13 +212,13 @@ index 6da1bce..6ead1ab 100644
 +  "@type": "SoftwareApplication",
 +  "name": "گذر ایستگاه فضایی بین‌المللی",
 +  "description": "ابزار رایگان آنلاین برای پیش‌بینی زمان، ارتفاع و جهت گذرهای قابل‌رؤیت ایستگاه فضایی بین‌المللی (ISS).",
-+  "url": "https://kavosh-space.github.io/iss-passes.html",
++  "url": "https://kavoshspace.ir/iss-passes.html",
 +  "applicationCategory": "UtilitiesApplication",
 +  "operatingSystem": "Web",
 +  "inLanguage": "fa",
 +  "isAccessibleForFree": true,
 +  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
-+  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"}
 +}
 +</script>
  
@@ -236,12 +236,12 @@ index 8c2d0aa..346bc10 100644
 -<meta name="description" content="آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری — یو، اروپا، گانیمد و کالیستو — محاسبه‌شده به‌صورت محلی در مرورگر شما، ویژه رصد با تلسکوپ.">
 +<title>وضعیت قمرهای مشتری | ابزار رایگان نجومی گروه کاوش</title>
 +<meta name="description" content="آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری — یو، اروپا، گانیمد و کالیستو — محاسبه‌شده به‌صورت محلی در مرورگر شما، رایگان و بدون نیاز به نصب.">
- <link rel="canonical" href="https://kavosh-space.github.io/jupiter-moons.html">
+ <link rel="canonical" href="https://kavoshspace.ir/jupiter-moons.html">
  <meta property="og:type" content="website">
 -<meta property="og:title" content="وضعیت قمرهای مشتری | گروه نجوم کاوش">
 +<meta property="og:title" content="وضعیت قمرهای مشتری | ابزار رایگان گروه نجوم کاوش">
  <meta property="og:description" content="آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری نسبت به سیاره، محاسبه‌شده لحظه‌به‌لحظه در مرورگر شما.">
- <meta property="og:url" content="https://kavosh-space.github.io/jupiter-moons.html">
+ <meta property="og:url" content="https://kavoshspace.ir/jupiter-moons.html">
  <meta property="og:site_name" content="گروه نجوم کاوش">
 @@ -19,6 +19,21 @@
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,13 +253,13 @@ index 8c2d0aa..346bc10 100644
 +  "@type": "SoftwareApplication",
 +  "name": "وضعیت قمرهای مشتری",
 +  "description": "ابزار رایگان آنلاین برای مشاهده آرایش لحظه‌ای چهار قمر گالیله‌ای مشتری، ویژه رصد با تلسکوپ.",
-+  "url": "https://kavosh-space.github.io/jupiter-moons.html",
++  "url": "https://kavoshspace.ir/jupiter-moons.html",
 +  "applicationCategory": "UtilitiesApplication",
 +  "operatingSystem": "Web",
 +  "inLanguage": "fa",
 +  "isAccessibleForFree": true,
 +  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
-+  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"}
 +}
 +</script>
  
@@ -277,12 +277,12 @@ index 0496047..7541ed6 100644
 -<meta name="description" content="فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب برای شهر شما، عارضه‌ای از سطح ماه که امروز دیدنی است، و نمایی از مدار ماه به دور زمین — همه محاسبه‌شده به‌صورت لحظه‌ای.">
 +<title>وضعیت ماه | ابزار رایگان نجومی گروه کاوش</title>
 +<meta name="description" content="فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب برای شهر شما، عارضه‌ای از سطح ماه که امروز دیدنی است، و نمایی از مدار ماه به دور زمین — رایگان، بدون نیاز به نصب یا ثبت‌نام.">
- <link rel="canonical" href="https://kavosh-space.github.io/moon.html">
+ <link rel="canonical" href="https://kavoshspace.ir/moon.html">
  <meta property="og:type" content="website">
 -<meta property="og:title" content="وضعیت ماه | گروه نجوم کاوش">
 +<meta property="og:title" content="وضعیت ماه | ابزار رایگان گروه نجوم کاوش">
  <meta property="og:description" content="فاز فعلی ماه، طلوع و غروب برای شهر شما، و مدار ماه به دور زمین — محاسبه‌شده لحظه‌به‌لحظه در مرورگر شما.">
- <meta property="og:url" content="https://kavosh-space.github.io/moon.html">
+ <meta property="og:url" content="https://kavoshspace.ir/moon.html">
  <meta property="og:site_name" content="گروه نجوم کاوش">
 @@ -19,6 +19,21 @@
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -294,13 +294,13 @@ index 0496047..7541ed6 100644
 +  "@type": "SoftwareApplication",
 +  "name": "وضعیت ماه",
 +  "description": "ابزار رایگان آنلاین برای مشاهده فاز فعلی ماه، درصد روشنایی، زمان طلوع و غروب و مدار ماه به دور زمین.",
-+  "url": "https://kavosh-space.github.io/moon.html",
++  "url": "https://kavoshspace.ir/moon.html",
 +  "applicationCategory": "UtilitiesApplication",
 +  "operatingSystem": "Web",
 +  "inLanguage": "fa",
 +  "isAccessibleForFree": true,
 +  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
-+  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"}
 +}
 +</script>
  
@@ -318,12 +318,12 @@ index fc462cc..d61254c 100644
 -<meta name="description" content="پیش‌بینی کیفیت دید (Seeing)، شفافیت جو و پوشش ابر برای ساعات پیش رو — برای انتخاب بهترین شب رصد، برگرفته از meteoblue.">
 +<title>شاخص دید و شفافیت آسمان | ابزار رایگان نجومی گروه کاوش</title>
 +<meta name="description" content="پیش‌بینی کیفیت دید (Seeing)، شفافیت جو و پوشش ابر برای ساعات پیش رو — برای انتخاب بهترین شب رصد، رایگان و بدون نیاز به ثبت‌نام.">
- <link rel="canonical" href="https://kavosh-space.github.io/seeing.html">
+ <link rel="canonical" href="https://kavoshspace.ir/seeing.html">
  <meta property="og:type" content="website">
 -<meta property="og:title" content="شاخص دید و شفافیت آسمان | گروه نجوم کاوش">
 +<meta property="og:title" content="شاخص دید و شفافیت آسمان | ابزار رایگان گروه نجوم کاوش">
  <meta property="og:description" content="پیش‌بینی کیفیت دید، شفافیت جو و پوشش ابر برای ساعات پیش رو، ویژه انتخاب بهترین شب رصد.">
- <meta property="og:url" content="https://kavosh-space.github.io/seeing.html">
+ <meta property="og:url" content="https://kavoshspace.ir/seeing.html">
  <meta property="og:site_name" content="گروه نجوم کاوش">
 @@ -19,6 +19,21 @@
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -335,13 +335,13 @@ index fc462cc..d61254c 100644
 +  "@type": "SoftwareApplication",
 +  "name": "شاخص دید و شفافیت آسمان",
 +  "description": "ابزار رایگان آنلاین برای پیش‌بینی کیفیت دید، شفافیت جو و پوشش ابر، ویژه انتخاب بهترین شب رصد.",
-+  "url": "https://kavosh-space.github.io/seeing.html",
++  "url": "https://kavoshspace.ir/seeing.html",
 +  "applicationCategory": "UtilitiesApplication",
 +  "operatingSystem": "Web",
 +  "inLanguage": "fa",
 +  "isAccessibleForFree": true,
 +  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
-+  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"}
 +}
 +</script>
  
@@ -354,51 +354,51 @@ index a7190cf..925b0d0 100644
 @@ -1,19 +1,32 @@
  <?xml version="1.0" encoding="UTF-8"?>
  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
--  <url><loc>https://kavosh-space.github.io/</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/team.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/kosoof-hae-ayande-iran.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/corona-borealis-nova.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/shbahang.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/amateur-astronomers.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/persieds2026.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/perseids-2024.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/comet-tsuchinshan-atlas.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/earth-shadow-venus-belt.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/canopus-star.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/earthshine.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/how-many-stars-visible.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/k2-18b-life-signs.html</loc><lastmod>2026-09-07</lastmod></url>
--  <url><loc>https://kavosh-space.github.io/news/two-comets-2025.html</loc><lastmod>2026-09-07</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/team.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/about.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/contact.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/tours.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/offerings.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/observatory.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/tools.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/sky-map-live.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/comets.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/moon.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/jupiter-moons.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/seeing.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/iss-passes.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/seeing-transparency-story.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/kosoof-hae-ayande-iran.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/corona-borealis-nova.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/shbahang.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/amateur-astronomers.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/persieds2026.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/perseids-2024.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/comet-tsuchinshan-atlas.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/earth-shadow-venus-belt.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/canopus-star.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/earthshine.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/how-many-stars-visible.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/k2-18b-life-signs.html</loc><lastmod>2026-09-12</lastmod></url>
-+  <url><loc>https://kavosh-space.github.io/news/two-comets-2025.html</loc><lastmod>2026-09-12</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/team.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/kosoof-hae-ayande-iran.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/corona-borealis-nova.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/shbahang.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/amateur-astronomers.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/persieds2026.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/perseids-2024.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/comet-tsuchinshan-atlas.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/earth-shadow-venus-belt.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/canopus-star.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/earthshine.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/how-many-stars-visible.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/k2-18b-life-signs.html</loc><lastmod>2026-09-07</lastmod></url>
+-  <url><loc>https://kavoshspace.ir/news/two-comets-2025.html</loc><lastmod>2026-09-07</lastmod></url>
++  <url><loc>https://kavoshspace.ir/</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/team.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/about.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/contact.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/tours.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/offerings.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/observatory.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/tools.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/sky-map-live.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/comets.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/moon.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/jupiter-moons.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/seeing.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/iss-passes.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/seeing-transparency-story.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/kosoof-hae-ayande-iran.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/corona-borealis-nova.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/shbahang.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/amateur-astronomers.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/persieds2026.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/perseids-2024.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/comet-tsuchinshan-atlas.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/earth-shadow-venus-belt.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/canopus-star.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/earthshine.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/how-many-stars-visible.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/k2-18b-life-signs.html</loc><lastmod>2026-09-12</lastmod></url>
++  <url><loc>https://kavoshspace.ir/news/two-comets-2025.html</loc><lastmod>2026-09-12</lastmod></url>
  </urlset>
 \ No newline at end of file
 diff --git a/sky-map-live.html b/sky-map-live.html
@@ -413,12 +413,12 @@ index c18e564..9c4c8e5 100644
 -<meta name="description" content="نقشه تعاملی و زنده آسمان به زبان فارسی — موقعیت لحظه‌ای ستاره‌ها، سیارات و صورت‌های فلکی برای هر تاریخ، ساعت و شهر، با نام‌های فارسی.">
 +<title>نقشه تعاملی آسمان | ابزار رایگان نجومی گروه کاوش</title>
 +<meta name="description" content="نقشه تعاملی و زنده آسمان به زبان فارسی — موقعیت لحظه‌ای ستاره‌ها، سیارات و صورت‌های فلکی برای هر تاریخ، ساعت و شهر — رایگان و بدون نیاز به نصب.">
- <link rel="canonical" href="https://kavosh-space.github.io/sky-map-live.html">
+ <link rel="canonical" href="https://kavoshspace.ir/sky-map-live.html">
  <meta property="og:type" content="website">
 -<meta property="og:title" content="نقشه تعاملی آسمان | گروه نجوم کاوش">
 +<meta property="og:title" content="نقشه تعاملی آسمان | ابزار رایگان گروه نجوم کاوش">
  <meta property="og:description" content="نقشه تعاملی و زنده آسمان به زبان فارسی — ستاره‌ها، سیارات و صورت‌های فلکی برای هر تاریخ، ساعت و شهر.">
- <meta property="og:url" content="https://kavosh-space.github.io/sky-map-live.html">
+ <meta property="og:url" content="https://kavoshspace.ir/sky-map-live.html">
  <meta property="og:site_name" content="گروه نجوم کاوش">
 @@ -19,6 +19,21 @@
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -430,13 +430,13 @@ index c18e564..9c4c8e5 100644
 +  "@type": "SoftwareApplication",
 +  "name": "نقشه تعاملی آسمان",
 +  "description": "ابزار رایگان آنلاین برای مشاهده نقشه تعاملی و زنده آسمان به زبان فارسی، شامل ستاره‌ها، سیارات و صورت‌های فلکی.",
-+  "url": "https://kavosh-space.github.io/sky-map-live.html",
++  "url": "https://kavoshspace.ir/sky-map-live.html",
 +  "applicationCategory": "UtilitiesApplication",
 +  "operatingSystem": "Web",
 +  "inLanguage": "fa",
 +  "isAccessibleForFree": true,
 +  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "IRR"},
-+  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"}
++  "provider": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"}
 +}
 +</script>
  
@@ -454,13 +454,13 @@ index 2f90724..0cbcf82 100644
 -<meta name="description" content="ابزارهای آنلاین نجومی گروه کاوش — نقشه تعاملی آسمان، وضعیت دنباله‌دارها، ماه، قمرهای مشتری، گذر ایستگاه فضایی و شاخص دید و شفافیت آسمان برای رصد.">
 +<title>ابزارهای رایگان نجومی | گروه نجوم کاوش</title>
 +<meta name="description" content="ابزارهای آنلاین و رایگان نجومی گروه کاوش، بدون نیاز به نصب یا ثبت‌نام — نقشه تعاملی آسمان، وضعیت دنباله‌دارها، ماه، قمرهای مشتری، گذر ایستگاه فضایی و شاخص دید و شفافیت آسمان برای رصد.">
- <link rel="canonical" href="https://kavosh-space.github.io/tools.html">
+ <link rel="canonical" href="https://kavoshspace.ir/tools.html">
  <meta property="og:type" content="website">
 -<meta property="og:title" content="ابزار | گروه نجوم کاوش">
 -<meta property="og:description" content="ابزارهای آنلاین نجومی گروه کاوش — نقشه آسمان، دنباله‌دارها، ماه، قمرهای مشتری، گذر ایستگاه فضایی و شرایط رصد.">
 +<meta property="og:title" content="ابزارهای رایگان نجومی | گروه نجوم کاوش">
 +<meta property="og:description" content="ابزارهای آنلاین و رایگان نجومی گروه کاوش — نقشه آسمان، دنباله‌دارها، ماه، قمرهای مشتری، گذر ایستگاه فضایی و شرایط رصد، بدون هزینه و بدون نیاز به ثبت‌نام.">
- <meta property="og:url" content="https://kavosh-space.github.io/tools.html">
+ <meta property="og:url" content="https://kavoshspace.ir/tools.html">
  <meta property="og:site_name" content="گروه نجوم کاوش">
  <meta property="og:locale" content="fa_IR">
 @@ -19,6 +19,27 @@
@@ -473,17 +473,17 @@ index 2f90724..0cbcf82 100644
 +  "@type": "CollectionPage",
 +  "name": "ابزارهای رایگان نجومی گروه نجوم کاوش",
 +  "description": "مجموعه ابزارهای آنلاین و رایگان نجومی برای برنامه‌ریزی رصد، بدون نیاز به نصب یا ثبت‌نام.",
-+  "url": "https://kavosh-space.github.io/tools.html",
-+  "isPartOf": {"@type": "WebSite", "name": "گروه نجوم کاوش", "url": "https://kavosh-space.github.io"},
++  "url": "https://kavoshspace.ir/tools.html",
++  "isPartOf": {"@type": "WebSite", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"},
 +  "mainEntity": {
 +    "@type": "ItemList",
 +    "itemListElement": [
-+      {"@type": "ListItem", "position": 1, "item": {"@type": "SoftwareApplication", "name": "نقشه تعاملی آسمان", "url": "https://kavosh-space.github.io/sky-map-live.html", "isAccessibleForFree": true}},
-+      {"@type": "ListItem", "position": 2, "item": {"@type": "SoftwareApplication", "name": "وضعیت دنباله‌دارها", "url": "https://kavosh-space.github.io/comets.html", "isAccessibleForFree": true}},
-+      {"@type": "ListItem", "position": 3, "item": {"@type": "SoftwareApplication", "name": "وضعیت ماه", "url": "https://kavosh-space.github.io/moon.html", "isAccessibleForFree": true}},
-+      {"@type": "ListItem", "position": 4, "item": {"@type": "SoftwareApplication", "name": "وضعیت قمرهای مشتری", "url": "https://kavosh-space.github.io/jupiter-moons.html", "isAccessibleForFree": true}},
-+      {"@type": "ListItem", "position": 5, "item": {"@type": "SoftwareApplication", "name": "شاخص دید و شفافیت آسمان", "url": "https://kavosh-space.github.io/seeing.html", "isAccessibleForFree": true}},
-+      {"@type": "ListItem", "position": 6, "item": {"@type": "SoftwareApplication", "name": "گذر ایستگاه فضایی بین‌المللی", "url": "https://kavosh-space.github.io/iss-passes.html", "isAccessibleForFree": true}}
++      {"@type": "ListItem", "position": 1, "item": {"@type": "SoftwareApplication", "name": "نقشه تعاملی آسمان", "url": "https://kavoshspace.ir/sky-map-live.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 2, "item": {"@type": "SoftwareApplication", "name": "وضعیت دنباله‌دارها", "url": "https://kavoshspace.ir/comets.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 3, "item": {"@type": "SoftwareApplication", "name": "وضعیت ماه", "url": "https://kavoshspace.ir/moon.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 4, "item": {"@type": "SoftwareApplication", "name": "وضعیت قمرهای مشتری", "url": "https://kavoshspace.ir/jupiter-moons.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 5, "item": {"@type": "SoftwareApplication", "name": "شاخص دید و شفافیت آسمان", "url": "https://kavoshspace.ir/seeing.html", "isAccessibleForFree": true}},
++      {"@type": "ListItem", "position": 6, "item": {"@type": "SoftwareApplication", "name": "گذر ایستگاه فضایی بین‌المللی", "url": "https://kavoshspace.ir/iss-passes.html", "isAccessibleForFree": true}}
 +    ]
 +  }
 +}
