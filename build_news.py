@@ -113,7 +113,7 @@ PAGE_TMPL = """<!DOCTYPE html>
       <div class="nav-dropdown-menu">
         <a href="../about.html">درباره کاوش</a>
         <a href="../team.html">اعضا</a>
-        <a href="../offerings.html">کارگاه‌ها</a>
+        <a href="../workshops.html">کارگاه‌ها</a>
       </div>
     </div>
 
@@ -311,7 +311,7 @@ def build():
 
     STATIC_PAGES = [
         "news.html", "team.html", "about.html", "contact.html", "tours.html",
-        "offerings.html", "observatory.html",
+        "workshops.html", "observatory.html", "gallery.html", "sky-map.html",
         "tools.html", "sky-map-live.html", "comets.html", "moon.html",
         "jupiter-moons.html", "seeing.html", "iss-passes.html",
         "seeing-transparency-story.html",
