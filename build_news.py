@@ -213,15 +213,17 @@ def news_card_html(item):
     client-side filter can show/hide pre-rendered cards without re-fetching JSON."""
     image = esc(item.get("image") or NEWS_DEFAULT_IMG)
     category = esc(item["category"])
+    title = esc(item["title"])
+    excerpt = esc(item["excerpt"])
     return f"""    <article class="news-card" data-cat="{category}">
-      <img src="{image}" alt="" class="news-card-img" loading="lazy">
+      <img src="{image}" alt="{title}" class="news-card-img" loading="lazy">
       <div class="news-card-body">
         <div class="news-meta">
           <span class="news-tag">{category}</span>
           <span>{fa_date(item["date"])}</span>
         </div>
-        <h3>{esc(item["title"])}</h3>
-        <p>{esc(item["excerpt"])}</p>
+        <h3>{title}</h3>
+        <p>{excerpt}</p>
         <a class="news-link" href="news/{esc(item['id'])}.html">جزئیات بیشتر ↗</a>
       </div>
     </article>"""
@@ -231,10 +233,11 @@ def news_mini_card_html(item):
     Used inside the horizontal-scrolling #newsTeaser strip on index.html."""
     image = esc(item.get("image") or NEWS_DEFAULT_IMG)
     category = esc(item["category"])
+    title = esc(item["title"])
     return f"""    <a class="news-mini-card" href="news/{esc(item['id'])}.html" data-cat="{category}">
-      <img src="{image}" alt="" loading="lazy">
+      <img src="{image}" alt="{title}" loading="lazy">
       <span class="news-mini-tag">{category}</span>
-      <span class="news-mini-title">{esc(item["title"])}</span>
+      <span class="news-mini-title">{title}</span>
     </a>"""
 
 def news_filters_html(items):
@@ -316,11 +319,15 @@ def build():
         "jupiter-moons.html", "seeing.html", "iss-passes.html",
         "seeing-transparency-story.html",
     ]
-    urls = [f"{SITE_URL}/"] + [f"{SITE_URL}/{p}" for p in STATIC_PAGES]
+    today = date.today().isoformat()
+
+    # (url, lastmod) pairs. Static pages get today's date; each news article
+    # gets its own publication date, so Google sees an honest lastmod.
+    urls = [(f"{SITE_URL}/", today)] + [(f"{SITE_URL}/{p}", today) for p in STATIC_PAGES]
 
     for item in items:
         url = f"{SITE_URL}/news/{item['id']}.html"
-        urls.append(url)
+        urls.append((url, item["date"]))
         body_html = "\n      ".join(
             render_body_block(p) for p in item.get("body", [item.get("excerpt","")])
         )
@@ -328,16 +335,19 @@ def build():
         og_image = f"{SITE_URL}/{item['image']}" if item.get("image") else f"{SITE_URL}/logo.png"
         twitter_card = "summary_large_image" if item.get("image") else "summary"
 
+        # Every news item is a NewsArticle. (Astronomical phenomena are not
+        # attendable events, so no Event markup is generated here; real
+        # attendable events live as Event JSON-LD on workshops.html.)
         jsonld = {
             "@context": "https://schema.org",
-            "@type": "Event" if item["category"] == "رویداد آسمانی" else "NewsArticle",
-            "name": item["title"],
+            "@type": "NewsArticle",
             "headline": item["title"],
             "description": item["excerpt"],
             "image": og_image,
             "datePublished": item["date"],
-            "url": url,
-            "author": {"@type": "Organization", "name": SITE_NAME},
+            "dateModified": item["date"],
+            "mainEntityOfPage": url,
+            "author": {"@type": "Organization", "name": SITE_NAME, "url": SITE_URL},
             "publisher": {
                 "@type": "Organization",
                 "name": SITE_NAME,
@@ -345,11 +355,6 @@ def build():
                 "logo": {"@type": "ImageObject", "url": f"{SITE_URL}/logo.png"}
             }
         }
-        if item["category"] == "رویداد آسمانی":
-            jsonld["startDate"] = item["date"]
-            jsonld["eventAttendanceMode"] = "https://schema.org/OfflineEventAttendanceMode"
-            jsonld["location"] = {"@type": "Place", "name": "دماوند / تهران، ایران"}
-            jsonld["organizer"] = {"@type": "Organization", "name": SITE_NAME, "url": SITE_URL}
 
         ig_block = ""
         if item.get("instagramLink"):
@@ -374,11 +379,10 @@ def build():
         print(f"wrote {out_path}")
 
     # sitemap.xml
-    today = date.today().isoformat()
     sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for u in urls:
-        sitemap.append(f"  <url><loc>{u}</loc><lastmod>{today}</lastmod></url>")
+    for u, lastmod in urls:
+        sitemap.append(f"  <url><loc>{u}</loc><lastmod>{lastmod}</lastmod></url>")
     sitemap.append("</urlset>")
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write("\n".join(sitemap))
