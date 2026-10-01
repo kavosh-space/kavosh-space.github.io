@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>گروه نجوم کاوش | تهران و دماوند</title>
-<meta name="description" content="گروه نجوم کاوش — رصد آسمان شب، عکاسی نجومی و کارگاه‌های آموزشی آماتوری در تهران و دماوند. با نام «کاوش (Kavosh Astronomy Group)»  kavosh.space.">
+<title>گروه نجوم کاوش | رصد آسمان، ابزارهای نجومی و اخبار نجوم در تهران و دماوند</title>
+<meta name="description" content="گروه نجوم کاوش (Kavosh Astronomy Group)؛ شب‌های رصد، تورهای رصدی، کارگاه‌های عکاسی آسمان شب، نقشه‌ی آسمان و ابزارهای رصدی فارسی، همراه با اخبار و مقالات نجوم در تهران و دماوند.">
 <link rel="canonical" href="https://kavoshspace.ir/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="گروه نجوم کاوش | تهران و دماوند">
-<meta property="og:description" content="رصد آسمان شب، عکاسی نجومی و کارگاه‌های آموزشی آماتوری در تهران و دماوند.">
+<meta property="og:title" content="گروه نجوم کاوش | رصد آسمان، ابزارهای نجومی و اخبار نجوم">
+<meta property="og:description" content="شب‌های رصد، تورهای رصدی، کارگاه‌های عکاسی آسمان شب و ابزارهای رصدی فارسی در تهران و دماوند.">
 <meta property="og:url" content="https://kavoshspace.ir/">
 <meta property="og:site_name" content="گروه نجوم کاوش">
 <meta property="og:locale" content="fa_IR">
@@ -97,17 +97,35 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "گروه نجوم کاوش",
-  "alternateName": "Kavosh Astronomy Group",
-  "url": "https://kavoshspace.ir",
-  "logo": "https://kavoshspace.ir/logo.png",
-  "description": "گروه نجوم آماتوری و رصدی فعال در تهران و دماوند، با هدف آموزش نجوم و رصد آسمان شب به عموم مردم.",
-  "areaServed": ["تهران", "دماوند"],
-  "sameAs": ["https://instagram.com/kavosh.space"],
-  "member": [
-    { "@type": "Person", "name": "پدرام محمدطاهری" },
-    { "@type": "Person", "name": "حمیدرضا حمید" }
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://kavoshspace.ir/#organization",
+      "name": "گروه نجوم کاوش",
+      "alternateName": ["کاوش", "Kavosh Astronomy Group", "Kavosh Space"],
+      "url": "https://kavoshspace.ir/",
+      "logo": "https://kavoshspace.ir/logo.png",
+      "description": "گروه نجوم آماتوری و رصدی فعال در تهران و دماوند، برگزارکننده‌ی شب‌های رصد، تورهای رصدی و کارگاه‌های آموزشی و ارائه‌دهنده‌ی ابزارهای رصدی فارسی، با هدف آموزش نجوم و رصد آسمان شب به عموم مردم.",
+      "email": "kavosh.space@gmail.com",
+      "areaServed": ["تهران", "دماوند"],
+      "sameAs": [
+        "https://instagram.com/kavosh.space",
+        "https://t.me/kavoshAstronomy"
+      ],
+      "member": [
+        { "@type": "Person", "name": "پدرام محمدطاهری" },
+        { "@type": "Person", "name": "حمیدرضا حمید" }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://kavoshspace.ir/#website",
+      "url": "https://kavoshspace.ir/",
+      "name": "گروه نجوم کاوش",
+      "alternateName": "Kavosh Space",
+      "inLanguage": "fa",
+      "publisher": { "@id": "https://kavoshspace.ir/#organization" }
+    }
   ]
 }
 </script>
