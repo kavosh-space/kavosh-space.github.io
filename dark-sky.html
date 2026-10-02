@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>آسمان تاریک و آلودگی نوری در ایران | گروه نجوم کاوش</title>
 <meta name="description" content="نقشه‌ی آلودگی نوری ایران، راهنمای خواندن نقشه (مقیاس بورتل و SQM) و راه پیدا کردن آسمان تاریک برای رصد؛ همراه با مقاله‌هایی درباره‌ی آلودگی نوری، محیط زیست و اقتصاد.">
 <link rel="canonical" href="https://kavoshspace.ir/dark-sky.html">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="fa_IR">
-<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:type" content="website">
 <meta property="og:title" content="آسمان تاریک و آلودگی نوری در ایران | گروه نجوم کاوش">
 <meta property="og:description" content="نقشه‌ی آلودگی نوری ایران و راهنمای پیدا کردن آسمان تاریک برای رصد.">
 <meta property="og:url" content="https://kavoshspace.ir/dark-sky.html">
-<meta property="og:image" content="https://kavoshspace.ir/iran-light-pollution-map.jpg">
-<meta name="twitter:card" content="summary_large_image">
-
-<!-- لینک style.css و فونت‌ها را از tools.html کپی کنید (همان خطوط <link> بخش head) -->
+<meta property="og:site_name" content="گروه نجوم کاوش">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:image" content="https://kavoshspace.ir/logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -25,140 +26,180 @@
   "name": "آسمان تاریک و آلودگی نوری در ایران",
   "url": "https://kavoshspace.ir/dark-sky.html",
   "inLanguage": "fa",
-  "isPartOf": { "@type": "WebSite", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir/" },
-  "publisher": { "@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir/" }
+  "isPartOf": {"@type": "WebSite", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"},
+  "publisher": {"@type": "Organization", "name": "گروه نجوم کاوش", "url": "https://kavoshspace.ir"}
 }
 </script>
 
 <style>
-  .ds-banner{
-    min-height:300px; display:flex; flex-direction:column; justify-content:flex-end;
-    padding:90px 24px 36px; background:#101018 url("lightpolution.jpg") center/cover no-repeat;
-    color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.85);
-  }
-  .ds-banner-inner{max-width:1000px; width:100%; margin:0 auto;}
-  .ds-banner h1{margin:0 0 8px; font-size:clamp(28px,5vw,46px); line-height:1.4;}
-  .ds-banner p{margin:0 0 12px; font-size:clamp(15px,2vw,18px); line-height:1.9; max-width:640px;}
-  .ds-banner a{color:#fff; font-weight:700;}
+  .ds-text{color:var(--star-300); font-size:16px; line-height:2.1; max-width:760px; text-align:justify; margin-bottom:16px;}
+  .ds-note{color:var(--star-500); font-size:13.5px; line-height:1.9; max-width:760px; margin-top:12px;}
+  .ds-sub{margin-top:64px;}
 
-  .ds-wrap{max-width:1000px; margin:0 auto; padding:40px 24px 64px;}
-  .ds-wrap h2{font-size:clamp(22px,3vw,30px); margin:48px 0 14px; color:var(--star-100,#1a1a24);}
-  .ds-wrap h2:first-child{margin-top:0;}
-  .ds-wrap p{line-height:2.1; text-align:justify; max-width:760px;}
+  .ds-map{margin:28px 0 0; border:1px solid var(--night-600); border-radius:10px; overflow:hidden; background:var(--night-800);}
+  .ds-map img{display:block; width:100%; height:auto;}
+  .ds-map figcaption{padding:14px 18px; font-size:13.5px; line-height:1.9; color:var(--star-500);}
+  .ds-map figcaption a{color:var(--star-300); border-bottom:1px solid var(--night-500);}
 
-  .ds-map{margin:24px 0 0;}
-  .ds-map img{display:block; width:100%; height:auto; border-radius:14px; background:#0b0b12;}
-  .ds-map figcaption{margin-top:10px; font-size:14px; line-height:1.9; opacity:.75;}
   .ds-btn{
-    display:inline-block; margin-top:18px; padding:12px 26px; border-radius:10px; font-weight:700;
-    background:var(--ember-500,#df8b14); color:#1a1208; text-decoration:none;
+    display:inline-block; margin-top:20px; padding:12px 26px; border-radius:6px; font-weight:700; font-size:15px;
+    background:var(--ember-500); color:#fff; transition:transform .25s ease, box-shadow .25s ease;
   }
-  .ds-btn:hover,.ds-btn:focus-visible{filter:brightness(1.08); outline:2px solid currentColor; outline-offset:3px;}
+  .ds-btn:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(213,155,60,.35);}
 
-  .ds-layers{margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;}
-  .ds-layers div{padding:18px 20px; border:1px solid rgba(0,0,0,.14); border-radius:14px;}
-  .ds-layers dt{font-weight:700; margin-bottom:6px;}
-  .ds-layers dd{margin:0; line-height:2; font-size:15px;}
+  .ds-layers{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-top:24px;}
+  .ds-layer{padding:22px; border:1px solid var(--night-700); border-radius:10px; background:var(--night-800);}
+  .ds-layer h3{font-size:17px; color:var(--star-100); margin-bottom:8px; line-height:1.5;}
+  .ds-layer p{font-size:14.5px; color:var(--star-300); line-height:1.95;}
 
-  .ds-table-scroll{overflow-x:auto; margin-top:16px;}
-  .ds-table{width:100%; border-collapse:collapse; min-width:520px;}
-  .ds-table th,.ds-table td{padding:10px 14px; text-align:right; border-bottom:1px solid rgba(0,0,0,.12); line-height:1.8;}
-  .ds-table th{font-weight:700; background:rgba(0,0,0,.04);}
-  .ds-dot{display:inline-block; width:12px; height:12px; border-radius:50%; margin-left:8px; vertical-align:middle; border:1px solid rgba(0,0,0,.25);}
-  .ds-note{font-size:14px; opacity:.75;}
+  .ds-table-scroll{overflow-x:auto; margin-top:20px; border:1px solid var(--night-700); border-radius:10px;}
+  .ds-table{width:100%; border-collapse:collapse; min-width:520px; background:var(--night-800);}
+  .ds-table th,.ds-table td{padding:12px 16px; text-align:right; border-bottom:1px solid var(--night-700); line-height:1.8; color:var(--star-300); font-size:14.5px;}
+  .ds-table th{color:var(--star-100); font-weight:700; background:var(--night-700);}
+  .ds-table tr:last-child td{border-bottom:none;}
+  .ds-dot{display:inline-block; width:12px; height:12px; border-radius:50%; margin-left:10px; vertical-align:middle; border:1px solid rgba(0,0,0,.25);}
 
-  .ds-soon{margin-top:48px; padding:26px 28px; border:1px dashed rgba(0,0,0,.3); border-radius:14px;}
-  .ds-soon h2{margin-top:0;}
-  .ds-soon ul{margin:12px 0 0; padding:0 22px 0 0; line-height:2.2;}
-  .ds-credit{margin-top:40px; font-size:13px; line-height:2; opacity:.7;}
-  @media (prefers-reduced-motion:no-preference){ .ds-btn{transition:filter .2s;} }
+  .ds-soon{margin-top:64px; padding:28px 30px; border:1px dashed var(--night-500); border-radius:10px; background:var(--night-800);}
+  .ds-soon h2{margin-bottom:12px;}
+  .ds-soon ul{margin:10px 0 18px; padding:0 22px 0 0; color:var(--star-300); line-height:2.3; font-size:15.5px;}
+  .ds-soon a, .ds-credit a{color:var(--star-100); border-bottom:1px solid var(--ember-500);}
+  .ds-credit{margin-top:40px; font-size:12.5px; line-height:2; color:var(--star-500); max-width:760px;}
 </style>
 </head>
 <body>
 
-<!-- ▼ منوی بالای سایت (site-nav) را عیناً از tools.html اینجا کپی کنید ▼ -->
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <img src="logo.png" alt="لوگوی گروه نجوم کاوش" class="nav-logo">
+    <span>گروه نجوم کاوش</span>
+  </a>
 
+  <button class="nav-burger" id="navBurger" aria-label="منو" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
-<header class="ds-banner">
-  <div class="ds-banner-inner">
-    <h1>آسمان تاریک و آلودگی نوری در ایران</h1>
-    <p>حفظ طبیعت آسمان شب ایران؛ نقشه‌ی آلودگی نوری و راهنمای پیدا کردن آسمان تاریک برای رصد.</p>
-  </div>
+ <nav class="nav-links" id="navLinks">
+    <a href="index.html">خانه</a>
+    <a href="news.html">اخبار</a>
+    <a href="tools.html">ابزار رصد</a>
+    <a href="tours.html">گشت رصدی</a>
+
+    <div class="nav-dropdown" id="navAboutDropdown">
+      <button class="nav-dropdown-toggle" aria-expanded="false">درباره ما</button>
+      <div class="nav-dropdown-menu">
+        <a href="about.html">درباره کاوش</a>
+        <a href="team.html">اعضا</a>
+        <a href="workshops.html">کارگاه‌ها</a>
+      </div>
+    </div>
+
+    <a href="contact.html">تماس با ما</a>
+
+    <button class="nv-toggle" id="nvToggle" aria-pressed="false">
+      <span class="nv-dot"></span>
+      <span id="nvLabel">حالت رصد</span>
+    </button>
+  </nav>
 </header>
 
-<main class="light-scope">
-  <div class="ds-wrap">
+<div class="light-scope">
 
-    <h2>چرا آسمان تاریک مهم است؟</h2>
-    <p>آسمان پرستاره تنها مورد علاقه انسان‌های کنجکاو نیست بل‌که مناطقِ آسمان تاریک زیستگاه بسیاری از جانداران است که به تاریکی آسمان شب برای بقای خود نیاز دارند. تلاش برای مبارزه با آلودگی نوری نه تنها برای امور علمی اهمیت دارد که نوعی فعالیت در راستای حفظ محیط زیست نیز محسوب می شود.</p>
-    <p>برای رصدگر، پیدا کردن جای تاریک اولین قدم است: در آسمان شهر ده‌ها هزار ستاره دیده نمی‌شود و کهکشان راه شیری و اجرام کم‌نور کاملاً محو می‌شوند. نقشه‌ی زیر نشان می‌دهد نور شبانه در کدام بخش‌های ایران بیشتر و در کدام بخش‌ها کمتر است.</p>
-
-    <h2>نقشه‌ی آلودگی نوری ایران</h2>
-    <figure class="ds-map">
-      <!-- عکس صفحه‌ی نقشه را با نام iran-light-pollution-map.jpg در ریشه‌ی مخزن بگذارید -->
-      <img src="iran-light-pollution-map.jpg" alt="نقشه‌ی آلودگی نوری ایران بر پایه‌ی داده‌ی ماهواره‌ای VIIRS؛ هرچه رنگ روشن‌تر و گرم‌تر باشد آلودگی نوری بیشتر است" loading="lazy">
-      <figcaption>نقشه‌ی آلودگی نوری ایران. منبع: <a href="https://www.lightpollutionmap.info/" target="_blank" rel="noopener">lightpollutionmap.info</a>؛ داده‌ی VIIRS (NASA / NOAA). نقاط روشن‌تر یعنی نور شبانه‌ی بیشتر.</figcaption>
-    </figure>
-    <a class="ds-btn" href="https://www.lightpollutionmap.info/#zoom=5.5&amp;lat=32.4&amp;lon=53.7" target="_blank" rel="noopener">باز کردن نقشه‌ی تعاملی</a>
-    <p class="ds-note">نقشه‌ی تعاملی در سایت دیگری و به زبان انگلیسی باز می‌شود. در بخش بعد توضیح داده‌ایم کدام لایه‌ها برای رصدگر مفید است.</p>
-
-    <h2>کدام لایه‌ها به کار رصدگر می‌آید؟</h2>
-    <dl class="ds-layers">
-      <div>
-        <dt>VIIRS</dt>
-        <dd>نور شبانه‌ی اندازه‌گیری‌شده توسط ماهواره. بهترین لایه برای دیدن اینکه شهرها، جاده‌ها و صنایع چقدر نور به آسمان می‌فرستند. می‌توانید سال‌های مختلف را مقایسه کنید.</dd>
-      </div>
-      <div>
-        <dt>Sky Brightness</dt>
-        <dd>درخشندگی تخمینی آسمان بر حسب SQM. این لایه نشان می‌دهد آسمان یک منطقه در عمل چقدر تاریک است، نه فقط چقدر نور روی زمین هست.</dd>
-      </div>
-      <div>
-        <dt>Find closest dark site</dt>
-        <dd>در بخش Tools؛ نزدیک‌ترین نقطه‌ی تاریک‌تر از آستانه‌ای که انتخاب می‌کنید را از محل شما پیدا می‌کند. برای برنامه‌ریزی گشت رصدی مفید است.</dd>
-      </div>
-      <div>
-        <dt>SQM و Dark sky parks</dt>
-        <dd>اندازه‌گیری‌های واقعی رصدگران در نقاط مختلف و پارک‌های آسمان تاریک ثبت‌شده. اگر در منطقه‌ی شما اندازه‌گیری ثبت شده، قابل‌اعتمادتر از تخمین ماهواره‌ای است.</dd>
-      </div>
-    </dl>
-
-    <h2>مقیاس بورتل و SQM یعنی چه؟</h2>
-    <p>SQM عددی است که تاریکی آسمان را بر حسب قدر بر ثانیه‌ی قوسی مربع می‌سنجد؛ هرچه عدد بزرگ‌تر باشد آسمان تاریک‌تر است. مقیاس بورتل (Bortle) همین را به نه رده تقسیم می‌کند.</p>
-    <div class="ds-table-scroll">
-      <table class="ds-table">
-        <thead>
-          <tr><th>رده‌ی بورتل</th><th>وضعیت آسمان</th><th>SQM تقریبی</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><span class="ds-dot" style="background:#111"></span>۱ و ۲</td><td>آسمان کاملاً تاریک؛ راه شیری سایه می‌اندازد</td><td>بیش از ۲۱٫۵</td></tr>
-          <tr><td><span class="ds-dot" style="background:#2e5aa8"></span>۳</td><td>روستایی؛ فقط افق‌ها کمی روشن است</td><td>۲۱٫۳ تا ۲۱٫۵</td></tr>
-          <tr><td><span class="ds-dot" style="background:#3a9a4a"></span>۴</td><td>حومه‌ی روستایی؛ راه شیری هنوز پرجزئیات است</td><td>۲۰٫۸ تا ۲۱٫۳</td></tr>
-          <tr><td><span class="ds-dot" style="background:#d6c636"></span>۵</td><td>حومه‌ی شهر؛ راه شیری ضعیف شده</td><td>۲۰٫۳ تا ۲۰٫۸</td></tr>
-          <tr><td><span class="ds-dot" style="background:#e08a1e"></span>۶</td><td>حومه‌ی روشن؛ راه شیری فقط نزدیک سرسو دیده می‌شود</td><td>۱۹٫۵ تا ۲۰٫۳</td></tr>
-          <tr><td><span class="ds-dot" style="background:#d63a2e"></span>۷</td><td>مرز شهر و حومه؛ آسمان خاکستری</td><td>۱۸٫۹ تا ۱۹٫۵</td></tr>
-          <tr><td><span class="ds-dot" style="background:#fff"></span>۸ و ۹</td><td>آسمان شهر؛ فقط روشن‌ترین ستاره‌ها دیده می‌شوند</td><td>کمتر از ۱۸٫۹</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="ds-note">این بازه‌ها تقریبی است و در منابع مختلف کمی تفاوت دارد؛ آن‌ها را به عنوان راهنما در نظر بگیرید. رنگ‌ها هم فقط برای شناسایی آسانِ ردیف‌ها آمده‌اند و ممکن است با رنگ لایه‌های نقشه یکی نباشند.</p>
-
-    <section class="ds-soon" aria-labelledby="ds-soon-title">
-      <h2 id="ds-soon-title">مقاله‌های آسمان تاریک در دست تهیه است</h2>
-      <p>در حال جمع‌آوری و نوشتن مقاله‌هایی هستیم که به این موضوع‌ها می‌پردازند:</p>
-      <ul>
-        <li>دلایل گسترش آلودگی نوری</li>
-        <li>راهکارهای کاهش آلودگی نوری</li>
-        <li>آلودگی نوری و محیط زیست</li>
-        <li>آلودگی نوری و اقتصاد</li>
-      </ul>
-      <p>هر مقاله که آماده شد در <a href="news.html">بخش اخبار</a> منتشر و از همین صفحه لینک می‌شود. برای اطلاع از انتشار می‌توانید ما را در <a href="https://t.me/kavoshAstronomy" target="_blank" rel="noopener">تلگرام</a> و <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a> دنبال کنید.</p>
-    </section>
-
-    <p class="ds-credit">منبع نقشه و داده‌ها: lightpollutionmap.info (ساخته‌ی یوری استاره)، داده‌ی شبانه‌ی ماهواره‌ای VIIRS از NASA و NOAA و اطلس جهانی درخشندگی مصنوعی آسمان شب (Falchi و همکاران، ۲۰۱۶). گروه نجوم کاوش مالک این داده‌ها نیست و فقط آن‌ها را معرفی می‌کند.</p>
+  <div class="wrap" style="padding:56px 0 8px;">
+    <h1 style="font-size:clamp(30px,4.5vw,46px); margin-bottom:10px;">آسمان تاریک</h1>
+    <p style="color:var(--star-300); font-size:clamp(15px,2vw,18px); max-width:640px; margin:0;">حفظ طبیعت آسمان شب ایران؛ نقشه‌ی آلودگی نوری و راهنمای پیدا کردن آسمان تاریک برای رصد</p>
   </div>
-</main>
 
-<!-- ▼ فوتر سایت را عیناً از tools.html اینجا کپی کنید ▼ -->
+  <section id="dark-sky-page">
+    <div class="wrap">
+
+      <h5 style="color:#df8b14;">آلودگی نوری</h5>
+      <h2>چرا آسمان تاریک مهم است؟</h2>
+      <p class="ds-text">آسمان پرستاره تنها مورد علاقه انسان‌های کنجکاو نیست بل‌که مناطقِ آسمان تاریک زیستگاه بسیاری از جانداران است که به تاریکی آسمان شب برای بقای خود نیاز دارند. تلاش برای مبارزه با آلودگی نوری نه تنها برای امور علمی اهمیت دارد که نوعی فعالیت در راستای حفظ محیط زیست نیز محسوب می شود.</p>
+      <p class="ds-text">برای رصدگر، پیدا کردن جای تاریک اولین قدم است: در آسمان شهر بیشتر ستاره‌ها دیده نمی‌شوند و کهکشان راه شیری و اجرام کم‌نور کاملاً محو می‌شوند. نقشه‌ی زیر نشان می‌دهد نور شبانه در کدام بخش‌های ایران بیشتر و در کدام بخش‌ها کمتر است.</p>
+
+      <h2 class="ds-sub">نقشه‌ی آلودگی نوری ایران</h2>
+      <figure class="ds-map">
+        <img src="iran-light-pollution-map.jpg" alt="نقشه‌ی آلودگی نوری ایران بر پایه‌ی داده‌ی ماهواره‌ای VIIRS؛ هرچه رنگ روشن‌تر و گرم‌تر باشد آلودگی نوری بیشتر است" loading="lazy">
+        <figcaption>نقشه‌ی آلودگی نوری ایران. منبع: <a href="https://www.lightpollutionmap.info/" target="_blank" rel="noopener">lightpollutionmap.info</a>؛ داده‌ی VIIRS (NASA / NOAA). نقاط روشن‌تر یعنی نور شبانه‌ی بیشتر.</figcaption>
+      </figure>
+      <a class="ds-btn" href="https://www.lightpollutionmap.info/#zoom=5.5&amp;lat=32.4&amp;lon=53.7" target="_blank" rel="noopener">باز کردن نقشه‌ی تعاملی ↗</a>
+      <p class="ds-note">نقشه‌ی تعاملی در سایت دیگری و به زبان انگلیسی باز می‌شود. در بخش بعد توضیح داده‌ایم کدام لایه‌ها برای رصدگر مفید است.</p>
+
+      <h2 class="ds-sub">کدام لایه‌ها به کار رصدگر می‌آید؟</h2>
+      <div class="ds-layers">
+        <div class="ds-layer">
+          <h3>VIIRS</h3>
+          <p>نور شبانه‌ی اندازه‌گیری‌شده توسط ماهواره. بهترین لایه برای دیدن اینکه شهرها، جاده‌ها و صنایع چقدر نور به آسمان می‌فرستند. می‌توانید سال‌های مختلف را مقایسه کنید.</p>
+        </div>
+        <div class="ds-layer">
+          <h3>Sky Brightness</h3>
+          <p>درخشندگی تخمینی آسمان بر حسب SQM. این لایه نشان می‌دهد آسمان یک منطقه در عمل چقدر تاریک است، نه فقط چقدر نور روی زمین هست.</p>
+        </div>
+        <div class="ds-layer">
+          <h3>Find closest dark site</h3>
+          <p>در بخش Tools؛ نزدیک‌ترین نقطه‌ی تاریک‌تر از آستانه‌ای که انتخاب می‌کنید را از محل شما پیدا می‌کند. برای برنامه‌ریزی گشت رصدی مفید است.</p>
+        </div>
+        <div class="ds-layer">
+          <h3>SQM و Dark sky parks</h3>
+          <p>اندازه‌گیری‌های واقعی رصدگران در نقاط مختلف و پارک‌های آسمان تاریک ثبت‌شده. اگر در منطقه‌ی شما اندازه‌گیری ثبت شده، قابل‌اعتمادتر از تخمین ماهواره‌ای است.</p>
+        </div>
+      </div>
+
+      <h2 class="ds-sub">مقیاس بورتل و SQM یعنی چه؟</h2>
+      <p class="ds-text">SQM عددی است که تاریکی آسمان را بر حسب قدر بر ثانیه‌ی قوسی مربع می‌سنجد؛ هرچه عدد بزرگ‌تر باشد آسمان تاریک‌تر است. مقیاس بورتل (Bortle) همین را به نه رده تقسیم می‌کند.</p>
+      <div class="ds-table-scroll">
+        <table class="ds-table">
+          <thead>
+            <tr><th>رده‌ی بورتل</th><th>وضعیت آسمان</th><th>SQM تقریبی</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="ds-dot" style="background:#111"></span>۱ و ۲</td><td>آسمان کاملاً تاریک؛ راه شیری سایه می‌اندازد</td><td>بیش از ۲۱٫۵</td></tr>
+            <tr><td><span class="ds-dot" style="background:#2e5aa8"></span>۳</td><td>روستایی؛ فقط افق‌ها کمی روشن است</td><td>۲۱٫۳ تا ۲۱٫۵</td></tr>
+            <tr><td><span class="ds-dot" style="background:#3a9a4a"></span>۴</td><td>حومه‌ی روستایی؛ راه شیری هنوز پرجزئیات است</td><td>۲۰٫۸ تا ۲۱٫۳</td></tr>
+            <tr><td><span class="ds-dot" style="background:#d6c636"></span>۵</td><td>حومه‌ی شهر؛ راه شیری ضعیف شده</td><td>۲۰٫۳ تا ۲۰٫۸</td></tr>
+            <tr><td><span class="ds-dot" style="background:#e08a1e"></span>۶</td><td>حومه‌ی روشن؛ راه شیری فقط نزدیک سرسو دیده می‌شود</td><td>۱۹٫۵ تا ۲۰٫۳</td></tr>
+            <tr><td><span class="ds-dot" style="background:#d63a2e"></span>۷</td><td>مرز شهر و حومه؛ آسمان خاکستری</td><td>۱۸٫۹ تا ۱۹٫۵</td></tr>
+            <tr><td><span class="ds-dot" style="background:#fff"></span>۸ و ۹</td><td>آسمان شهر؛ فقط روشن‌ترین ستاره‌ها دیده می‌شوند</td><td>کمتر از ۱۸٫۹</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ds-note">این بازه‌ها تقریبی است و در منابع مختلف کمی تفاوت دارد. رنگ‌های ستون اول فقط برای شناسایی آسان ردیف‌هاست و ممکن است با رنگ لایه‌های نقشه یکی نباشد.</p>
+
+      <div class="ds-soon">
+        <h2>مقاله‌های آسمان تاریک در دست تهیه است</h2>
+        <p class="ds-text" style="margin-bottom:0;">در حال جمع‌آوری و نوشتن مقاله‌هایی هستیم که به این موضوع‌ها می‌پردازند:</p>
+        <ul>
+          <li>دلایل گسترش آلودگی نوری</li>
+          <li>راهکارهای کاهش آلودگی نوری</li>
+          <li>آلودگی نوری و محیط زیست</li>
+          <li>آلودگی نوری و اقتصاد</li>
+        </ul>
+        <p class="ds-text" style="margin-bottom:0;">هر مقاله که آماده شد در <a href="news.html">بخش اخبار</a> منتشر و از همین صفحه لینک می‌شود. برای اطلاع از انتشار می‌توانید ما را در <a href="https://t.me/kavoshAstronomy" target="_blank" rel="noopener">تلگرام</a> و <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a> دنبال کنید.</p>
+      </div>
+
+      <p class="ds-credit">منبع نقشه و داده‌ها: lightpollutionmap.info (ساخته‌ی یوری استاره)، داده‌ی شبانه‌ی ماهواره‌ای VIIRS از NASA و NOAA و اطلس جهانی درخشندگی مصنوعی آسمان شب (Falchi و همکاران، ۲۰۱۶). گروه نجوم کاوش مالک این داده‌ها نیست و فقط آن‌ها را معرفی می‌کند.</p>
+
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-links">
+      <a href="index.html">خانه</a>
+      <a href="news.html">اخبار</a>
+      <a href="team.html">اعضا</a>
+      <a href="about.html">درباره</a>
+      <a href="https://instagram.com/kavosh.space" target="_blank" rel="noopener">اینستاگرام</a>
+    </div>
+    <p class="footer-copyright">© ۱۴۰۵ گروه نجوم کاوش — تمامی حقوق محفوظ است.</p>
+  </div>
+</footer>
+
+<script src="kavosh.js"></script>
 
 </body>
 </html>
