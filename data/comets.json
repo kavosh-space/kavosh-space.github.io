@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-13T00:23:01Z",
+  "fetched_at": "2026-10-13T13:52:51Z",
   "location": {
     "name": "Crni Vrh",
     "lat": 45.945905,
@@ -47,7 +47,7 @@
       "name": "161P",
       "fullname": "161P/Hartley-IRAS",
       "mpc_name": "0161P",
-      "magnitude": 11.3,
+      "magnitude": 11.4,
       "constellation": "Equuleus",
       "best_time": "2026-10-13 20:55",
       "best_alt": 49.5,
@@ -62,7 +62,7 @@
       "name": "C/2026 A2",
       "fullname": "C/2026 A2 (Bok)",
       "mpc_name": "CK26A020",
-      "magnitude": 13.0,
+      "magnitude": 13.1,
       "constellation": "Draco",
       "best_time": "2026-10-13 19:27",
       "best_alt": 69.8,
@@ -77,7 +77,7 @@
       "name": "220P",
       "fullname": "220P/McNaught",
       "mpc_name": "0220P",
-      "magnitude": 13.6,
+      "magnitude": 13.5,
       "constellation": "Taurus",
       "best_time": "2026-10-14 03:02",
       "best_alt": 48.4,
