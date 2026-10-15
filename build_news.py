@@ -185,24 +185,41 @@ PAGE_TMPL = """<!DOCTYPE html>
 
 def render_body_block(p):
     """Render one item of a news 'body' array.
-    - plain string -> a paragraph, exactly as before (old articles are unaffected).
-    - {"type": "image", "src": "...", "alt": "...", "caption": "..."} -> an inline figure.
+    - plain string -> a paragraph
+    - {"type": "heading", "text": "..."} -> an inner section heading
+    - {"type": "image", "src": "...", "alt": "...", "caption": "..."} -> figure (+ optional caption)
+    - {"type": "link", "url": "...", "text": "..."} -> a clickable source link (text optional)
     """
-    if isinstance(p, dict) and p.get("type") == "image":
-        src = esc(p["src"])
-        alt = esc(p.get("alt", ""))
-        figcaption = ""
-        if p.get("caption"):
-            figcaption = (
-                f"<figcaption style='margin-top:10px; font-size:13px; "
-                f"color:var(--star-500); text-align:center;'>{esc(p['caption'])}</figcaption>"
+    if isinstance(p, dict):
+        t = p.get("type")
+        if t == "heading":
+            return (
+                f"<h2 style='font-size:clamp(22px,3vw,30px); margin:48px 0 20px; "
+                f"line-height:1.6;'>{esc(p['text'])}</h2>"
             )
-        return (
-            f"<figure style='margin:32px 0;'>"
-            f"<img src='../{src}' alt='{alt}' loading='lazy' "
-            f"style='width:100%; border-radius:12px; display:block;'>"
-            f"{figcaption}</figure>"
-        )
+        if t == "image":
+            src = esc(p["src"])
+            alt = esc(p.get("alt", ""))
+            figcaption = ""
+            if p.get("caption"):
+                figcaption = (
+                    f"<figcaption style='margin-top:10px; font-size:13px; line-height:1.9; "
+                    f"color:var(--star-500); text-align:center;'>{esc(p['caption'])}</figcaption>"
+                )
+            return (
+                f"<figure style='margin:32px 0;'>"
+                f"<img src='../{src}' alt='{alt}' loading='lazy' "
+                f"style='width:100%; border-radius:12px; display:block;'>"
+                f"{figcaption}</figure>"
+            )
+        if t == "link":
+            url = esc(p["url"])
+            label = esc(p.get("text") or p["url"])
+            return (
+                f"<p style='margin-bottom:12px; direction:ltr; text-align:left; "
+                f"font-size:14px; word-break:break-all;'>"
+                f"<a href='{url}' target='_blank' rel='noopener'>{label}</a></p>"
+            )
     return f"<p style='margin-bottom:20px;'>{esc(p)}</p>"
 
 NEWS_DEFAULT_IMG = "perseids.jpg"
