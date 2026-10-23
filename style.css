@@ -438,7 +438,8 @@ h2{font-size:clamp(24px, 3vw, 32px); font-weight:700; color:var(--star-100); mar
 .member-links{display:flex; gap:14px; font-family:var(--font-data); font-size:12.5px;}
 .member-links a{color:var(--star-300); border-bottom:1px solid var(--night-500); padding-bottom:2px;}
 .member-links a:hover{color:var(--star-100); border-color:var(--ember-500);}
-
+.ig-link{display:inline-flex; align-items:center; gap:8px;}
+.ig-icon{flex-shrink:0;}
 /* ---------- Contact ---------- */
 .contact-section{border-top:1px solid var(--night-700); background:var(--night-800);}
 .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
