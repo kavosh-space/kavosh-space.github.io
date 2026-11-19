@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-19T00:03:58Z",
+  "fetched_at": "2026-11-19T15:29:42Z",
   "location": {
     "name": "Crni Vrh",
     "lat": 45.945905,
@@ -59,21 +59,6 @@
     },
     {
       "type": "P",
-      "name": "10P",
-      "fullname": "10P/Tempel",
-      "mpc_name": "0010P",
-      "magnitude": 12.7,
-      "constellation": "Aquarius",
-      "best_time": "2026-11-19 19:57",
-      "best_alt": 23.2,
-      "rise_time": "2026-11-19 17:39",
-      "set_time": "2026-11-20 00:28",
-      "sun_elongation": 110.0,
-      "moon_elongation": 20.0,
-      "trend": "fade"
-    },
-    {
-      "type": "P",
       "name": "29P",
       "fullname": "29P/Schwassmann-Wachmann",
       "mpc_name": "0029P",
@@ -86,6 +71,21 @@
       "sun_elongation": 45.0,
       "moon_elongation": 165.0,
       "trend": "steady"
+    },
+    {
+      "type": "P",
+      "name": "10P",
+      "fullname": "10P/Tempel",
+      "mpc_name": "0010P",
+      "magnitude": 12.8,
+      "constellation": "Aquarius",
+      "best_time": "2026-11-19 19:57",
+      "best_alt": 23.2,
+      "rise_time": "2026-11-19 17:39",
+      "set_time": "2026-11-20 00:28",
+      "sun_elongation": 110.0,
+      "moon_elongation": 20.0,
+      "trend": "fade"
     },
     {
       "type": "C",
@@ -107,7 +107,7 @@
       "name": "220P",
       "fullname": "220P/McNaught",
       "mpc_name": "0220P",
-      "magnitude": 13.9,
+      "magnitude": 14.0,
       "constellation": "Cetus",
       "best_time": "2026-11-19 23:05",
       "best_alt": 45.7,
@@ -161,6 +161,21 @@
       "sun_elongation": 115.0,
       "moon_elongation": 124.0,
       "trend": "steady"
+    },
+    {
+      "type": "P",
+      "name": "88P",
+      "fullname": "88P/Howell",
+      "mpc_name": "0088P",
+      "magnitude": 14.9,
+      "constellation": "Aries",
+      "best_time": "2026-11-19 22:27",
+      "best_alt": 56.4,
+      "rise_time": "2026-11-19 17:39",
+      "set_time": "2026-11-20 05:21",
+      "sun_elongation": 159.0,
+      "moon_elongation": 42.0,
+      "trend": "fade"
     }
   ],
   "source": {
