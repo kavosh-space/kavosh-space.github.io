@@ -61,7 +61,7 @@ def fa_date(iso):
     return f"{jd} {FA_MONTHS[jm-1]} {jy}"
 
 def esc(s):
-    return html.escape(s, quote=True)
+    return html.escape(str(s), quote=True)
 
 PAGE_TMPL = """<!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -185,24 +185,48 @@ PAGE_TMPL = """<!DOCTYPE html>
 
 def render_body_block(p):
     """Render one item of a news 'body' array.
-    - plain string -> a paragraph, exactly as before (old articles are unaffected).
-    - {"type": "image", "src": "...", "alt": "...", "caption": "..."} -> an inline figure.
+    - plain string -> a paragraph.
+    - {"type": "image", "src", "alt", "caption"} -> an inline figure.
+    - {"type": "heading", "text"} -> a section heading.
+    - {"type": "link", "url", "text"(optional)} -> a source link.
+    - any other dict -> ignored, so an unknown block never breaks the build.
     """
-    if isinstance(p, dict) and p.get("type") == "image":
-        src = esc(p["src"])
-        alt = esc(p.get("alt", ""))
-        figcaption = ""
-        if p.get("caption"):
-            figcaption = (
-                f"<figcaption style='margin-top:10px; font-size:13px; "
-                f"color:var(--star-500); text-align:center;'>{esc(p['caption'])}</figcaption>"
+    if isinstance(p, dict):
+        t = p.get("type")
+
+        if t == "image":
+            src = esc(p["src"])
+            alt = esc(p.get("alt", ""))
+            figcaption = ""
+            if p.get("caption"):
+                figcaption = (
+                    f"<figcaption style='margin-top:10px; font-size:13px; "
+                    f"color:var(--star-500); text-align:center;'>{esc(p['caption'])}</figcaption>"
+                )
+            return (
+                f"<figure style='margin:32px 0;'>"
+                f"<img src='../{src}' alt='{alt}' loading='lazy' "
+                f"style='width:100%; border-radius:12px; display:block;'>"
+                f"{figcaption}</figure>"
             )
-        return (
-            f"<figure style='margin:32px 0;'>"
-            f"<img src='../{src}' alt='{alt}' loading='lazy' "
-            f"style='width:100%; border-radius:12px; display:block;'>"
-            f"{figcaption}</figure>"
-        )
+
+        if t == "heading":
+            return (
+                f"<h2 style='font-size:clamp(20px,3vw,28px); "
+                f"margin:44px 0 18px;'>{esc(p.get('text', ''))}</h2>"
+            )
+
+        if t == "link":
+            url = esc(p["url"])
+            label = esc(p.get("text") or p["url"])
+            return (
+                f"<p style='margin-bottom:8px; font-size:14px;'>"
+                f"منبع: <a href='{url}' target='_blank' rel='noopener' dir='ltr' "
+                f"style='word-break:break-all;'>{label}</a></p>"
+            )
+
+        return ""  # unknown block type: skip instead of crashing
+
     return f"<p style='margin-bottom:20px;'>{esc(p)}</p>"
 
 NEWS_DEFAULT_IMG = "perseids.jpg"
